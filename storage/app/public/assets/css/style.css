@@ -1,0 +1,129 @@
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background-color: #f8f9fa;
+}
+
+.login-with-news-feed {
+  display: flex;
+  height: 100vh;
+}
+
+.news-feed {
+  flex: 1;
+  position: relative;
+  background: url('storage/assets/img/smk.jpg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+  padding: 40px;
+}
+
+.news-caption {
+   background-color: rgba(255, 255, 255, 0.1); /* transparan putih */
+  backdrop-filter: blur(5px); /* efek blur */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.news-caption h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.news-caption p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.right-content {
+  flex: 0 0 450px;
+  background: #fff;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: -1px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.login-header .brand {
+  font-size: 50px;
+  font-weight: bold;
+  color: #1d9a96;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'poppins', sans-serif;
+  margin-bottom: 20px;
+}
+
+.login-header .icon {
+  font-size: 28px;
+  color: #888;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #327eff;
+}
+
+.login-buttons .btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background-color: #d5ad71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-buttons .btn:hover {
+  background-color: #2668d8;
+}
+
+.text-inverse {
+  text-align: center;
+  color: #666;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.text-grey-darker {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+hr {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid #000000;
+}
