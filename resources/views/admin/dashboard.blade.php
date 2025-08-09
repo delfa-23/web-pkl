@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="sidebar">
-    <h4>SyifaPKL</h4>
+    <h4>SYIFAPKL</h4>
     <hr style="border-color: white;">
     <a href="#">🏠 Dashboard</a>
     <a href="#">👤 Tambah User Baru</a>
