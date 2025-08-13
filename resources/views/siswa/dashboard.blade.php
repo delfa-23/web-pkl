@@ -4,7 +4,7 @@
     <title>Siswa Dashboard</title>
 </head>
 <body>
-    <h1>Selamat Datang, Siswa!</h1>
+    <h1>Selamat Datang, {{ $siswa->nama }}!</h1>
     <p>Ini adalah halaman dashboard khusus siswa.</p>
 
     <h3>Menu:</h3>

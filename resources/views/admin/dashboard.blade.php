@@ -10,11 +10,9 @@
     <div class="sidebar">
     <h4>SYIFAPKL</h4>
     <hr style="border-color: white;">
-    <a href="#">🏠 Dashboard</a>
-    <a href="#">👤 Tambah User Baru</a>
-    <a href="#">📚 Kelola Data Guru</a>
-    <a href="#">👨‍🎓 Kelola Data Siswa</a>
-    <a href="#">📑 Kelola Data PKL</a>
+    <a href="{{ route('admin.dashboard') }}">🏠 Dashboard</a>
+    <a href="{{ route('admin.guru.index') }}">📚 Kelola Data Guru</a>
+    <a href="{{ route('admin.siswa.index') }}">👨‍🎓 Kelola Data Siswa</a>
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
@@ -29,7 +27,7 @@
         <div class="card shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Jumlah Guru</h5>
-            <p class="card-text">10 Guru</p>
+            <p class="card-text">{{ $jumlahGuru }}</p>
           </div>
         </div>
       </div>
@@ -37,7 +35,7 @@
         <div class="card shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Jumlah Siswa</h5>
-            <p class="card-text">25 Siswa</p>
+            <p class="card-text">{{ $jumlahSiswa }}</p>
           </div>
         </div>
       </div>

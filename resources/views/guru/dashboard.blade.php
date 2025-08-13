@@ -4,7 +4,7 @@
     <title>Guru Dashboard</title>
 </head>
 <body>
-    <h1>Selamat Datang, Guru!</h1>
+    <h1>Selamat Datang, {{ $guru->nama }}!</h1>
     <p>Ini adalah halaman dashboard khusus guru.</p>
 
     <h3>Menu:</h3>
