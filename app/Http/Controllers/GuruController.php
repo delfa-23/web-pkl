@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\Login;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Siswa;
 
 class GuruController extends Controller
 {
@@ -108,18 +109,41 @@ class GuruController extends Controller
 
         return redirect()->route('admin.guru.index')->with('success', 'Data guru berhasil dihapus.');
     }
-
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $loginId = session('login_id');  // ini harus id integer dari logins.id
-
-        $guru = Guru::where('login_id', $loginId)->first();
+        // Ambil guru berdasarkan login_id dari session
+        $login_id = session('login_id');
+        $guru = Guru::with('login')
+            ->where('login_id', session('login_id'))  // pakai id integer
+            ->first();
 
         if (!$guru) {
-            abort(404, 'Data guru tidak ditemukan');
+            return redirect('/')->with('error', 'Guru tidak ditemukan.');
         }
 
-        return view('guru.dashboard', compact('guru'));
+        // Ambil semua siswa beserta relasinya
+        $query = Siswa::with(['login', 'tempatPKL', 'activities']);
+
+        if ($request->has('jurusan') && $request->jurusan != '') {
+            $query->where('jurusan', $request->jurusan);
+        }
+        if ($request->has('nama') && $request->nama != '') {
+            $query->where('nama', 'like', '%' . $request->nama . '%');
+        }
+
+        $semuaSiswa = $query->get();
+
+        return view('guru.dashboard', compact('guru', 'semuaSiswa'));
     }
+    public function showTempat($id) {
+        $siswa = Siswa::with('tempatPKL')->findOrFail($id);
+        return view('guru.siswa.tempat', compact('siswa'));
+    }
+
+    public function showActivity($id) {
+        $siswa = Siswa::with('activities')->findOrFail($id);
+        return view('guru.siswa.activity', compact('siswa'));
+    }
+
 
 }

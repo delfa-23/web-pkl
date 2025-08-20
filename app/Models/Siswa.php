@@ -15,4 +15,13 @@ class siswa extends Model
     {
         return $this->belongsTo(Login::class, 'login_id');
     }
+    public function tempatPKL()
+    {
+        return $this->hasOne(TempatPKL::class, 'login_id', 'login_id');
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(DailyActivity::class, 'login_id', 'login_id');
+    }
 }

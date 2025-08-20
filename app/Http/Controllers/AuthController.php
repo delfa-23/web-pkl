@@ -27,8 +27,10 @@ class AuthController extends Controller
         $user = Login::where('id_login', $request->id_login)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            session(['login_id' => $user->id, 'role' => $user->role]);
-
+            session([
+                'login_id' => $user->id,  // logins.id (integer)
+                'role' => $user->role
+            ]);
             return redirect("/{$user->role}/dashboard");
         }
 

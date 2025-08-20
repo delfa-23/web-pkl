@@ -7,6 +7,8 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\AdminController;
 use App\Models\Login;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\DailyActivityController;
+use App\Http\Controllers\TempatPklController;
 
 // Buat akun testing
 Route::get('/buat-admin', function () {
@@ -28,7 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin routes
-Route::middleware(['role:admin'])->group(function () {
+Route::middleware(['cekrole:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])
         ->name('admin.dashboard');
 
@@ -52,9 +54,28 @@ Route::middleware(['role:admin'])->group(function () {
 
 Route::middleware(['cekrole:guru'])->group(function () {
     Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+    Route::get('/guru/siswa/{id}', [GuruController::class, 'showSiswa'])->name('guru.siswa.show');
+
+    Route::get('/guru/siswa/{id}/tempat', [GuruController::class, 'showTempat'])->name('guru.siswa.tempat');
+    Route::get('/guru/siswa/{id}/activity', [GuruController::class, 'showActivity'])->name('guru.siswa.activity');
 });
 
 Route::middleware(['cekrole:siswa'])->group(function () {
     Route::get('/siswa/dashboard', [SiswaController::class, 'dashboard'])->name('siswa.dashboard');
 });
 
+Route::prefix('siswa/tempat')->group(function() {
+    Route::get('/', [TempatPKLController::class, 'index'])->name('siswa.tempat.index');
+    Route::get('/create', [TempatPKLController::class, 'create'])->name('siswa.tempat.create');
+    Route::post('/store', [TempatPKLController::class, 'store'])->name('siswa.tempat.store');
+    Route::get('/{id}/edit', [TempatPKLController::class, 'edit'])->name('siswa.tempat.edit');
+    Route::put('/{id}/update', [TempatPKLController::class, 'update'])->name('siswa.tempat.update');
+});
+Route::prefix('siswa/activity')->group(function() {
+    Route::get('/', [DailyActivityController::class, 'index'])->name('siswa.activity.index');
+    Route::get('/create', [DailyActivityController::class, 'create'])->name('siswa.activity.create');
+    Route::post('/store', [DailyActivityController::class, 'store'])->name('siswa.activity.store');
+    Route::get('/{id}/edit', [DailyActivityController::class,'edit'])->name('siswa.activity.edit');
+    Route::put('/{id}/update', [DailyActivityController::class,'update'])->name('siswa.activity.update');
+    Route::delete('/{id}/destroy', [DailyActivityController::class, 'destroy'])->name('siswa.activity.destroy');
+});
