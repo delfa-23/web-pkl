@@ -5,21 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah Siswa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+<body class="bg-gray-50 text-gray-800">
+  <div class="container mx-auto p-6 max-w-lg">
 
-  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tambah Data Siswa</h1>
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-semibold text-[#1d9a96]">
+        <i class="fas fa-user-graduate"></i> Tambah Data Siswa
+      </h1>
+      <a href="{{ route('admin.siswa.index') }}"
+         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </a>
+    </div>
 
-    <form action="{{ route('admin.siswa.store') }}" method="POST" class="space-y-4">
-      @csrf
+    <!-- Card Form -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <form action="{{ route('admin.siswa.store') }}" method="POST" class="space-y-4">
+        @csrf
 
-      <!-- Nama Lengkap -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-        <input type="text" name="nama" placeholder="Nama Lengkap Siswa"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-      </div>
+        <div>
+          <label class="block font-medium">Nama Lengkap</label>
+          <input type="text" name="nama" placeholder="Nama Lengkap Siswa" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
       <!-- NIS -->
       <div>
@@ -34,71 +46,90 @@
         <input type="text" name="nisn" placeholder="Nomor Induk Siswa Nasional"
           class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" >
       </div>
+        <div>
+          <label class="block font-medium">NIS</label>
+          <input type="text" name="nis" placeholder="Nomor Induk Siswa" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
-      <!-- Nomor Telepon -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
-        <input type="text" name="telepon" placeholder="08xxxxxxxxxx"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-      </div>
+        <div>
+          <label class="block font-medium">NISN</label>
+          <input type="text" name="nisn" placeholder="Nomor Induk Siswa Nasional" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
-      <!-- Jenis Kelamin -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
-        <select name="jenis_kelamin" class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-          <option value="">-- Pilih Jenis Kelamin --</option>
-          <option value="Laki-laki">Laki-laki</option>
-          <option value="Perempuan">Perempuan</option>
-        </select>
-      </div>
+        <div>
+          <label class="block font-medium">Nomor Telepon</label>
+          <input type="text" name="telepon" placeholder="08xxxxxxxxxx" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
-      <!-- Kelas -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Kelas</label>
-        <input type="text" name="kelas" placeholder="Contoh: XI-RPL"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-      </div>
+        <div>
+          <label class="block font-medium">Jenis Kelamin</label>
+          <select name="jenis_kelamin" required
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+            <option value="" disabled selected hidden>-- Pilih Jenis Kelamin --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+          </select>
+        </div>
 
-      <!-- Status -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Status</label>
-        <select name="status" class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-          <option value="" disabled selected hidden>-- Pilih Status --</option>
-          <option value="Aktif">Aktif</option>
-          <option value="Nonaktif">Nonaktif</option>
-        </select>
-      </div>
+        <div>
+          <label class="block font-medium">Kelas</label>
+          <input type="text" name="kelas" placeholder="Contoh: XI-RPL" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
-      <!-- Kehadiran -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Kehadiran</label>
-        <input type="number" name="kehadiran" placeholder="Masukkan jumlah kehadiran"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-      </div>
+        <div>
+          <label class="block font-medium">Status</label>
+          <select name="status" required
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+            <option value="" disabled selected hidden>-- Pilih Status --</option>
+            <option value="Aktif">Terverifikasi</option>
+            <option value="Nonaktif">Tidak Terverifikasi</option>
+          </select>
+        </div>
 
+        <div>
+          <label class="block font-medium">Kehadiran</label>
+          <input type="number" name="kehadiran" placeholder="Masukkan jumlah kehadiran" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
+
+<<<<<<< HEAD
       <!-- ID Login -->
       <div>
         <label class="block text-sm font-medium text-gray-700">ID Login</label>
         <input type="text" name="login_id" placeholder="ID Login"
           class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
       </div>
+=======
+        <div>
+          <label class="block font-medium">ID Login</label>
+          <input type="text" name="id_login" placeholder="ID Login" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
+>>>>>>> 64e1499d82bfa29414ab99491bac5452261e11c8
 
-      <!-- Password -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" name="password" placeholder="Password"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
-      </div>
+        <div>
+          <label class="block font-medium">Password</label>
+          <input type="password" name="password" placeholder="Password" required
+                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+        </div>
 
-      <!-- Tombol -->
-      <div class="flex justify-between mt-6">
-        <a href="{{ route('admin.siswa.index') }}"
-           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Kembali</a>
-        <button type="submit"
-           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Simpan</button>
-      </div>
-    </form>
+        <!-- Tombol -->
+        <div class="flex justify-end gap-3">
+          <button type="reset"
+                  class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button type="submit"
+                  class="px-4 py-2 bg-[#1d9a96] text-white rounded-lg shadow hover:bg-[#17807c]">
+            <i class="fas fa-save"></i> Simpan
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-
 </body>
 </html>
