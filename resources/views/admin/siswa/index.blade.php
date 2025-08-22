@@ -36,55 +36,51 @@
 
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow">
-      <table class="w-full text-left border-collapse">
+    <table class="w-full text-left border-collapse">
         <thead class="bg-gray-100 text-brand">
-          <tr>
+        <tr>
             <th class="px-4 py-3 border-b">No</th>
             <th class="px-4 py-3 border-b">Nama Lengkap</th>
             <th class="px-4 py-3 border-b">NIS</th>
-            <th class="px-4 py-3 border-b">Jenis Kelamin</th>
             <th class="px-4 py-3 border-b">Kelas</th>
+            <th class="px-4 py-3 border-b">Jurusan</th>
+            <th class="px-4 py-3 border-b">Telepon</th>
+            <th class="px-4 py-3 border-b">ID Login</th>
             <th class="px-4 py-3 border-b text-center">Aksi</th>
-          </tr>
+        </tr>
         </thead>
         <tbody>
-          @forelse($siswas as $index => $siswa)
-          <tr class="hover:bg-gray-50">
+        @forelse($siswas as $index => $siswa)
+        <tr class="hover:bg-gray-50">
             <td class="px-4 py-3 border-b">{{ $index+1 }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->nama }}</td>
+            <td class="px-4 py-3 border-b">{{ $siswa->nis ?? '-' }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->kelas }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->jurusan }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->login->login_id }}</td>
+            <td class="px-4 py-3 border-b">{{ $siswa->telepon ?? '-' }}</td>
+            <td class="px-4 py-3 border-b">{{ $siswa->login->id_login }}</td>
             <td class="px-4 py-3 border-b text-center">
-              <div class="flex items-center justify-center gap-2">
-                <!-- Edit -->
-                <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
-                   class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <!-- Delete -->
-                <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit"
-                          class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                          title="Hapus">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              </div>
+            <!-- tombol edit & delete -->
+            <a href="{{ route('admin.siswa.edit', $siswa->id) }}" class="text-blue-500 hover:underline">Edit</a> |
+            <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-500 hover:underline"
+                onclick="return confirm('Yakin hapus siswa ini?')">Hapus</button>
+            </form>
             </td>
-          </tr>
-          @empty
-          <tr>
-            <td colspan="14" class="px-4 py-6 text-center text-gray-500">
-              <i class="fas fa-info-circle"></i> Tidak ada data siswa.
+        </tr>
+        @empty
+        <tr>
+            <td colspan="8" class="px-4 py-6 text-center text-gray-500">
+            <i class="fas fa-info-circle"></i> Tidak ada data siswa.
             </td>
-          </tr>
-          @endforelse
+        </tr>
+        @endforelse
         </tbody>
-      </table>
+    </table>
     </div>
+
 
     <!-- Tombol kembali -->
     <div class="mt-6">

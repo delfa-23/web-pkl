@@ -345,7 +345,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Siswa</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlahSiswa}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
@@ -362,8 +362,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Pembimbing</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                                Guru</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlahGuru }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>

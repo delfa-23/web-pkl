@@ -9,12 +9,23 @@ class siswa extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['login_id', 'nama', 'kelas', 'jurusan'];
+    protected $fillable = [
+        'login_id',
+        'nama',
+        'nis',
+        'nisn',
+        'telepon',
+        'kelas',
+        'jurusan',
+        'status',
+        'kehadiran',
+    ];
 
     public function login()
     {
         return $this->belongsTo(Login::class, 'login_id');
     }
+
     public function tempatPKL()
     {
         return $this->hasOne(TempatPKL::class, 'login_id', 'login_id');

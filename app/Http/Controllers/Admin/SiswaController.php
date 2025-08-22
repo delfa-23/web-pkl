@@ -24,24 +24,28 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama'     => 'required',
             'id_login' => 'required|unique:logins',
             'password' => 'required',
-            'kelas' => 'required',
-            'jurusan' => 'required',
+            'kelas'    => 'required',
+            'jurusan'  => 'required',
+            'nis'      => 'nullable|numeric',
+            'telepon'  => 'required',
         ]);
 
         $login = Login::create([
             'id_login' => $request->id_login,
             'password' => Hash::make($request->password),
-            'role' => 'siswa',
+            'role'     => 'siswa',
         ]);
 
         Siswa::create([
             'login_id' => $login->id,
-            'nama' => $request->nama,
-            'kelas' => $request->kelas,
-            'jurusan' => $request->jurusan,
+            'nama'     => $request->nama,
+            'nis'      => $request->nis,
+            'kelas'    => $request->kelas,
+            'jurusan'  => $request->jurusan,
+            'telepon'  => $request->telepon,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil ditambahkan');
@@ -55,13 +59,15 @@ class SiswaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $siswa = Siswa::findOrFail($id);
+        $siswa = Siswa::with('login')->findOrFail($id);
 
         $request->validate([
-            'nama' => 'required',
-            'id_login' => 'required|unique:logins,id_login,' . $siswa->login_id,
-            'kelas' => 'required',
-            'jurusan' => 'required',
+            'nama'     => 'required',
+            'id_login' => 'required|unique:logins,id_login,' . $siswa->login->id,
+            'kelas'    => 'required',
+            'jurusan'  => 'required',
+            'nis'      => 'nullable|numeric',
+            'telepon'  => 'required',
         ]);
 
         $siswa->login->update([
@@ -70,13 +76,16 @@ class SiswaController extends Controller
         ]);
 
         $siswa->update([
-            'nama' => $request->nama,
-            'kelas' => $request->kelas,
+            'nama'    => $request->nama,
+            'nis'     => $request->nis,
+            'kelas'   => $request->kelas,
             'jurusan' => $request->jurusan,
+            'telepon' => $request->telepon,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui');
     }
+
 
     public function destroy($id)
     {
