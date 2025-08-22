@@ -42,13 +42,8 @@
             <th class="px-4 py-3 border-b">No</th>
             <th class="px-4 py-3 border-b">Nama Lengkap</th>
             <th class="px-4 py-3 border-b">NIS</th>
-            <th class="px-4 py-3 border-b">NISN</th>
-            <th class="px-4 py-3 border-b">Nomor Telepon</th>
             <th class="px-4 py-3 border-b">Jenis Kelamin</th>
             <th class="px-4 py-3 border-b">Kelas</th>
-            <th class="px-4 py-3 border-b">Status</th>
-            <th class="px-4 py-3 border-b">Kehadiran</th>
-            <th class="px-4 py-3 border-b">ID Login</th>
             <th class="px-4 py-3 border-b text-center">Aksi</th>
           </tr>
         </thead>
