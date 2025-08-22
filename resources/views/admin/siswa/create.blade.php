@@ -1,33 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tambah Siswa</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Siswa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Tambah Siswa</h1>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
 
-    <form action="{{ route('admin.siswa.store') }}" method="POST">
-        @csrf
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tambah Data Siswa</h1>
 
-        <label>ID Login:</label><br>
-        <input type="text" name="id_login" placeholder="ID Login" required><br><br>
+    <form action="{{ route('admin.siswa.store') }}" method="POST" class="space-y-4">
+      @csrf
 
-        <label>Password:</label><br>
-        <input type="password" name="password" placeholder="Password" required><br><br>
+      <!-- Nama Lengkap -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+        <input type="text" name="nama" placeholder="Nama Lengkap Siswa"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
 
-        <label>Nama:</label><br>
-        <input type="text" name="nama" placeholder="Nama Siswa" required><br><br>
+      <!-- NIS -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">NIS</label>
+        <input type="text" name="nis" placeholder="Nomor Induk Siswa"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
 
-        <label>Kelas:</label><br>
-        <input type="text" name="kelas" placeholder="Contoh: XI-RPL" required><br><br>
+      <!-- NISN -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">NISN</label>
+        <input type="text" name="nisn" placeholder="Nomor Induk Siswa Nasional"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
 
-        <label>Jurusan:</label><br>
-        <input type="text" name="jurusan" placeholder="Contoh: RPL" required><br><br>
+      <!-- Nomor Telepon -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
+        <input type="text" name="telepon" placeholder="08xxxxxxxxxx"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
 
-        <button type="submit">Simpan</button>
+      <!-- Jenis Kelamin -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
+        <select name="jenis_kelamin" class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+          <option value="">-- Pilih Jenis Kelamin --</option>
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+      </div>
+
+      <!-- Kelas -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Kelas</label>
+        <input type="text" name="kelas" placeholder="Contoh: XI-RPL"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Status</label>
+        <select name="status" class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+          <option value="" disabled selected hidden>-- Pilih Status --</option>
+          <option value="Aktif">Aktif</option>
+          <option value="Nonaktif">Nonaktif</option>
+        </select>
+      </div>
+
+      <!-- Kehadiran -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Kehadiran</label>
+        <input type="number" name="kehadiran" placeholder="Masukkan jumlah kehadiran"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
+
+      <!-- ID Login -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">ID Login</label>
+        <input type="text" name="id_login" placeholder="ID Login"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" name="password" placeholder="Password"
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+      </div>
+
+      <!-- Tombol -->
+      <div class="flex justify-between mt-6">
+        <a href="{{ route('admin.siswa.index') }}"
+           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Kembali</a>
+        <button type="submit"
+           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Simpan</button>
+      </div>
     </form>
+  </div>
 
-    <br>
-    <a href="{{ route('admin.siswa.index') }}">Kembali</a>
 </body>
 </html>

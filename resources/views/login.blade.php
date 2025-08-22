@@ -27,8 +27,7 @@
 				<!-- begin login-header -->
 				<div class="login-header">
 					<div class="brand">
-					</span> <b>Login</b>
-						<small></small>
+					</span><b>LOGIN</b>
 					</div>
 					<div class="icon">
 						<i class="fa fa-sign-in-alt"></i>
