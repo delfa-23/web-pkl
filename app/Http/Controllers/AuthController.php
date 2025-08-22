@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Login;
-use Illuminate\Support\Facades\hash;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {

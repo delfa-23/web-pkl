@@ -53,8 +53,8 @@
         </div>
 
         <div>
-          <label class="block font-medium">ID Login</label>
-          <input type="text" name="id_login" value="{{ $guru->login->id_login }}" required
+          <label class="block font-medium">ID Login <span class="text-sm text-gray-500">(kosongkan jika tidak diubah)</span></label>
+          <input type="text" name="login_id" value="{{ $guru->login->login_id }}" 
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 

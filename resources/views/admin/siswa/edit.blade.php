@@ -83,7 +83,7 @@
             @method('PUT')
 
             <label>ID Login:</label>
-            <input type="text" name="id_login" value="{{ $siswa->login->id_login }}" required>
+            <input type="text" name="login_id" value="{{ $siswa->login->login_id }}" required>
 
             <label>Password (Kosongkan jika tidak ingin diubah):</label>
             <input type="password" name="password" placeholder="Password baru">

@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
             $table->string('nama');
+            $table->string('nis')->nullable();
+            $table->string('nisn')->nullable();
+            $table->string('telepon');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->string('kelas');
-            $table->string('jurusan');
+            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            $table->integer('kehadiran')->default(0);
+            $table->string('login_id')->unique();
+            $table->string('password');
             $table->timestamps();
         });
 

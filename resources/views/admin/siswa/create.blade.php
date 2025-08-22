@@ -25,14 +25,14 @@
       <div>
         <label class="block text-sm font-medium text-gray-700">NIS</label>
         <input type="text" name="nis" placeholder="Nomor Induk Siswa"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" >
       </div>
 
       <!-- NISN -->
       <div>
         <label class="block text-sm font-medium text-gray-700">NISN</label>
         <input type="text" name="nisn" placeholder="Nomor Induk Siswa Nasional"
-          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
+          class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" >
       </div>
 
       <!-- Nomor Telepon -->
@@ -79,7 +79,7 @@
       <!-- ID Login -->
       <div>
         <label class="block text-sm font-medium text-gray-700">ID Login</label>
-        <input type="text" name="id_login" placeholder="ID Login"
+        <input type="text" name="login_id" placeholder="ID Login"
           class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-200" required>
       </div>
 

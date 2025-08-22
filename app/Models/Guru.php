@@ -9,7 +9,13 @@ class Guru extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['login_id', 'nama', 'mapel'];
+    protected $fillable = [
+        'nama',
+        'nip',
+        'nuptk',
+        'jabatan',
+        'login_id',
+    ];
 
     public function login()
     {

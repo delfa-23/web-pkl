@@ -9,6 +9,7 @@ use App\Models\Login;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\TempatPklController;
+use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 
 // Buat akun testing
 Route::get('/buat-admin', function () {
@@ -35,12 +36,12 @@ Route::middleware(['cekrole:admin'])->group(function () {
         ->name('admin.dashboard');
 
     // CRUD Guru
-    Route::get('/admin/guru', [GuruController::class, 'index'])->name('admin.guru.index');
-    Route::get('/admin/guru/create', [GuruController::class, 'create'])->name('admin.guru.create');
-    Route::post('/admin/guru', [GuruController::class, 'store'])->name('admin.guru.store');
-    Route::get('/admin/guru/{guru}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
-    Route::put('/admin/guru/{guru}', [GuruController::class, 'update'])->name('admin.guru.update');
-    Route::delete('/admin/guru/{guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+    Route::get('/admin/guru', [AdminGuruController::class, 'index'])->name('admin.guru.index');
+    Route::get('/admin/guru/create', [AdminGuruController::class, 'create'])->name('admin.guru.create');
+    Route::post('/admin/guru', [AdminGuruController::class, 'store'])->name('admin.guru.store');
+    Route::get('/admin/guru/{guru}/edit', [AdminGuruController::class, 'edit'])->name('admin.guru.edit');
+    Route::put('/admin/guru/{guru}', [AdminGuruController::class, 'update'])->name('admin.guru.update');
+    Route::delete('/admin/guru/{guru}', [AdminGuruController::class, 'destroy'])->name('admin.guru.destroy');
 
 
     // CRUD Siswa

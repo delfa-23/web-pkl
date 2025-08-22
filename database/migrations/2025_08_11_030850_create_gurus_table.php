@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
             $table->string('nama');
-            $table->string('mapel');
+            $table->string('nip')->nullable();      // bisa kosong
+            $table->string('nuptk')->nullable();    // bisa kosong
+            $table->string('jabatan');
+            $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -39,9 +39,17 @@
 
     <!-- Search -->
     <div class="mb-4">
-      <input type="text" placeholder="Search Data"
-             class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-brand">
-    </div>
+  <form action="{{ route('admin.guru.index') }}" method="GET" class="flex gap-2">
+    <input type="text" name="search" value="{{ request('search') }}"
+           placeholder="Search Data"
+           class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-brand">
+
+    <button type="submit"
+            class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brand/90 flex items-center gap-2">
+      <i class="fas fa-search"></i> Cari
+    </button>
+  </form>
+</div>
 
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow">

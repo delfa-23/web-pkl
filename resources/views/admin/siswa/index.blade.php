@@ -59,7 +59,7 @@
             <td class="px-4 py-3 border-b">{{ $siswa->nama }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->kelas }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->jurusan }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->login->id_login }}</td>
+            <td class="px-4 py-3 border-b">{{ $siswa->login->login_id }}</td>
             <td class="px-4 py-3 border-b text-center">
               <div class="flex items-center justify-center gap-2">
                 <!-- Edit -->
