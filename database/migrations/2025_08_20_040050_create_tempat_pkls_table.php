@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('tempat_pkls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
-            $table->string('nama');
-            $table->string('jurusan');
-            $table->string('nama_perusahaan');
+            $table->string('nama_siswa');
+            $table->string('kelas');
+            $table->string('program_keahlian');
             $table->string('tempat_pkl');
+            $table->enum('status', ['Menunggu Verifikasi', 'Diterima', 'Ditolak'])->default('Menunggu Verifikasi');
             $table->timestamps();
         });
     }

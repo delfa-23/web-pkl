@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tempat PKL Siswa</title>
+    <title>Detail Tempat PKL Siswa</title>
 </head>
 <body>
-    <h1>Tempat PKL - {{ $siswa->nama }}</h1>
+    <h1>Detail Tempat PKL - {{ $siswa->nama_siswa }}</h1>
 
     @if($siswa->tempatPKL)
-        <p><b>Nama:</b> {{ $siswa->tempatPKL->nama }}</p>
-        <p><b>Jurusan:</b> {{ $siswa->tempatPKL->jurusan }}</p>
-        <p><b>Perusahaan:</b> {{ $siswa->tempatPKL->nama_perusahaan }}</p>
+        <p><b>Nama Siswa:</b> {{ $siswa->tempatPKL->nama_siswa }}</p>
+        <p><b>Kelas:</b> {{ $siswa->tempatPKL->kelas }}</p>
+        <p><b>Program Keahlian:</b> {{ $siswa->tempatPKL->program_keahlian }}</p>
         <p><b>Tempat PKL:</b> {{ $siswa->tempatPKL->tempat_pkl }}</p>
+        <p><b>Status:</b> {{ $siswa->tempatPKL->status }}</p>
     @else
-        <p>Belum ada data tempat PKL.</p>
+        <p>Belum ada data tempat PKL untuk siswa ini.</p>
     @endif
 
-    <a href="{{ route('guru.dashboard') }}">Kembali ke Dashboard</a>
+    <a href="{{ route('guru.dashboard') }}">⬅ Kembali ke Dashboard</a>
 </body>
 </html>

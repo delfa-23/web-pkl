@@ -1,14 +1,29 @@
 <h2>Edit Tempat PKL</h2>
-<form action="{{ route('siswa.tempat.update', $tempat->id) }}" method="POST">
+<form method="POST" action="{{ route('siswa.tempat.update', $tempat->id) }}">
     @csrf
     @method('PUT')
 
-    Nama: <input type="text" name="nama" value="{{ $tempat->nama }}" required><br>
-    Jurusan: <input type="text" name="jurusan" value="{{ $tempat->jurusan }}" required><br>
-    Nama Perusahaan: <input type="text" name="nama_perusahaan" value="{{ $tempat->nama_perusahaan }}" required><br>
-    Tempat PKL: <input type="text" name="tempat_pkl" value="{{ $tempat->tempat_pkl }}" required><br>
+    <label>Nama Siswa:</label>
+    <input type="text" name="nama_siswa" value="{{ $tempat->nama_siswa }}" required><br>
+
+    <label>Kelas:</label>
+    <select name="kelas" required>
+        <option value="XI RPL" {{ $tempat->kelas == 'XI RPL' ? 'selected' : '' }}>XI RPL</option>
+        <option value="XI DKV" {{ $tempat->kelas == 'XI DKV' ? 'selected' : '' }}>XI DKV</option>
+    </select><br>
+
+    <label>Program Keahlian:</label>
+    <select name="program_keahlian" required>
+        <option value="RPL" {{ $tempat->program_keahlian == 'RPL' ? 'selected' : '' }}>RPL</option>
+        <option value="DKV" {{ $tempat->program_keahlian == 'DKV' ? 'selected' : '' }}>DKV</option>
+    </select><br>
+
+    <label>Tempat PKL:</label>
+    <input type="text" name="tempat_pkl" value="{{ $tempat->tempat_pkl }}" required><br>
+
+    <label>Status:</label>
+    <input type="text" value="Menunggu" disabled><br><br>
 
     <button type="submit">Update</button>
 </form>
-
-<a href="{{ route('siswa.tempat.index') }}">Back</a>
+<a href="{{route('siswa.dashboard')}}">back</a>

@@ -9,7 +9,14 @@ class TempatPkl extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['login_id', 'nama', 'jurusan', 'nama_perusahaan', 'tempat_pkl'];
+    protected $fillable = [
+        'login_id',
+        'nama_siswa',
+        'kelas',
+        'program_keahlian',
+        'tempat_pkl',
+        'status'
+    ];
 
     public function login()
     {
