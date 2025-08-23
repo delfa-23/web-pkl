@@ -27,7 +27,8 @@
 				<!-- begin login-header -->
 				<div class="login-header">
 					<div class="brand">
-					</span><b>LOGIN</b>
+					<h3>LOGIN</h3>
+                    <img src="{{ asset('storage/assets/img/undraw_login_weas.svg') }}" alt="Login" class="svglogin">
 					</div>
 					<div class="icon">
 						<i class="fa fa-sign-in-alt"></i>
@@ -47,9 +48,9 @@
 						<div class="login-buttons">
 							<button type="submit" name="login" class="btn btn-primary btn-block btn-lg">Login</button>
 						</div>
-						<div class="text-inverse" style="color: #000000; font-weight: 600;">
+						{{-- <div class="text-inverse" style="color: #000000; font-weight: 600;">
 							Forgot your ID / Password? <a href=""></a>
-						</div>
+						</div> --}}
 						<hr />
 						<p class="text-grey-darker" style="color: rgb(0, 0, 0);">
 							&copy; 2025

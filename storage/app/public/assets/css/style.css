@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'poppins', sans-serif;
 }
 
 body, html {
@@ -69,6 +69,10 @@ body, html {
   margin-bottom: 20px;
 }
 
+.svglogin{
+    width: 50%;
+}
+
 .login-header .icon {
   font-size: 28px;
   color: #888;
@@ -90,7 +94,7 @@ input[type="password"] {
 }
 
 input:focus {
-  border-color: #327eff;
+  border-color: #1d9a96;
 }
 
 .login-buttons .btn {
@@ -107,7 +111,7 @@ input:focus {
 }
 
 .login-buttons .btn:hover {
-  background-color: #2668d8;
+  background-color: #1d9a96;
 }
 
 .text-inverse {
