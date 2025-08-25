@@ -76,16 +76,17 @@
                     <span>Surat</span>
                 </a>
                 <div id="collapseSurat" class="collapse" aria-labelledby="headingSurat" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
+                    <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
                         <a class="collapse-item" href="#">Data Surat</a>
-                        <a class="collapse-item" href="#">Template Izin Orang Tua</a>
-                        <a class="collapse-item" href="#">Template Pengantar Pencarian Tempat PKL</a>
-                        <a class="collapse-item" href="#">Template Pengantar Pemberangkatan</a>
-                        <a class="collapse-item" href="#">Template Surat Keterangan Melaksanakan PKL/OJT</a>
-                        <a class="collapse-item" href="#">Download Surat Pengantar Per Peminatan</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_izin') }}">Template Izin Orang Tua</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_keterangan') }}">Template Surat Keterangan Melaksanakan PKL/OJT</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_peminatan') }}">Download Surat Pengantar Per Peminatan</a>
                     </div>
                 </div>
             </li>
+
 
             {{-- <!-- Nav Item - Charts -->
             <li class="nav-item">

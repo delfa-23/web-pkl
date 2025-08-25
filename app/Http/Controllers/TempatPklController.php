@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TempatPkl;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class TempatPklController extends Controller
@@ -10,7 +11,9 @@ class TempatPklController extends Controller
     public function index()
     {
         $login_id = session('login_id');
-        $tempat = TempatPkl::where('login_id', $login_id)->get();
+        $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
+        $tempat = TempatPkl::where('siswa_id', $siswa->id)->get();
+
         return view('siswa.tempat.index', compact('tempat'));
     }
 
@@ -22,55 +25,52 @@ class TempatPklController extends Controller
     public function store(Request $request)
     {
         $login_id = session('login_id');
+        $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
 
         $request->validate([
-            'nama_siswa' => 'required',
-            'kelas' => 'required',
-            'program_keahlian' => 'required',
-            'tempat_pkl' => 'required',
+            'nama_perusahaan' => 'required|string',
+            'alamat_perusahaan' => 'required|string',
+            'telepon_perusahaan' => 'nullable|string',
+            'pembimbing_perusahaan' => 'nullable|string',
         ]);
 
         TempatPkl::create([
-            'login_id' => $login_id,
-            'nama_siswa' => $request->nama_siswa,
-            'kelas' => $request->kelas,
-            'program_keahlian' => $request->program_keahlian,
-            'tempat_pkl' => $request->tempat_pkl,
-            'status' => 'Menunggu Verifikasi'
+            'siswa_id' => $siswa->id,
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat_perusahaan' => $request->alamat_perusahaan,
+            'telepon_perusahaan' => $request->telepon_perusahaan,
+            'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
+            'status' => 'Menunggu Verifikasi',
         ]);
 
-        return redirect()->route('siswa.tempat.index');
+        return redirect()->route('siswa.tempat.index')->with('success', 'Data tempat PKL berhasil ditambahkan');
     }
+
     public function edit($id)
     {
-        $tempat = TempatPKL::findOrFail($id);
+        $tempat = TempatPkl::findOrFail($id);
         return view('siswa.tempat.edit', compact('tempat'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'no' => 'nullable|string',
-            'nama_siswa' => 'required|string',
-            'kelas' => 'required|string',
-            'program_keahlian' => 'required|string',
-            'tempat_pkl' => 'required|string',
-            'status' => 'nullable|in:Menunggu Verifikasi,Aktif,Nonaktif',
-        ]);
+        $tempat = TempatPkl::findOrFail($id);
 
-        $tempat = TempatPKL::findOrFail($id);
+        $request->validate([
+            'nama_perusahaan' => 'required|string',
+            'alamat_perusahaan' => 'required|string',
+            'telepon_perusahaan' => 'nullable|string',
+            'pembimbing_perusahaan' => 'nullable|string',
+        ]);
 
         $tempat->update([
-            'no' => $request->no,
-            'nama_siswa' => $request->nama_siswa,
-            'kelas' => $request->kelas,
-            'program_keahlian' => $request->program_keahlian,
-            'tempat_pkl' => $request->tempat_pkl,
-            'status' => 'Menunggu Verifikasi'
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat_perusahaan' => $request->alamat_perusahaan,
+            'telepon_perusahaan' => $request->telepon_perusahaan,
+            'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
+            'status' => 'Menunggu Verifikasi',
         ]);
 
-        return redirect()->route('siswa.tempat.index')->with('success', 'Data berhasil diperbarui');
+        return redirect()->route('siswa.tempat.index')->with('success', 'Data tempat PKL berhasil diperbarui');
     }
-
 }
-

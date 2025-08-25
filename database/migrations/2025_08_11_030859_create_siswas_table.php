@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('login_id'); // foreign key ke logins.id
+            $table->unsignedBigInteger('login_id');
             $table->string('nama');
             $table->string('nis')->nullable();
             $table->string('nisn')->nullable();
@@ -22,6 +22,14 @@ return new class extends Migration
             $table->string('jurusan');
             $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
             $table->integer('kehadiran')->default(0);
+
+            // tambahan untuk surat
+            $table->string('nama_orangtua')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('telepon_orangtua')->nullable();
+
             $table->timestamps();
 
             $table->foreign('login_id')->references('id')->on('logins')->onDelete('cascade');

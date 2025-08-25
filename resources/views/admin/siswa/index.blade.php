@@ -42,6 +42,7 @@
             <th class="px-4 py-3 border-b">No</th>
             <th class="px-4 py-3 border-b">Nama Lengkap</th>
             <th class="px-4 py-3 border-b">NIS</th>
+            <th class="px-4 py-3 border-b">NISN</th>
             <th class="px-4 py-3 border-b">Kelas</th>
             <th class="px-4 py-3 border-b">Jurusan</th>
             <th class="px-4 py-3 border-b">Telepon</th>
@@ -55,6 +56,7 @@
             <td class="px-4 py-3 border-b">{{ $index+1 }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->nama }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->nis ?? '-' }}</td>
+            <td class="px-4 py-3 border-b">{{ $siswa->nisn ?? '-' }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->kelas }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->jurusan }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->telepon ?? '-' }}</td>

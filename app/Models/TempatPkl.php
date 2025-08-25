@@ -10,12 +10,12 @@ class TempatPkl extends Model
     use HasFactory;
 
     protected $fillable = [
-        'login_id',
-        'nama_siswa',
-        'kelas',
-        'program_keahlian',
-        'tempat_pkl',
-        'status'
+        'siswa_id',
+        'nama_perusahaan',
+        'alamat_perusahaan',
+        'telepon_perusahaan',
+        'pembimbing_perusahaan',
+        'status',
     ];
 
     public function login()
@@ -24,6 +24,6 @@ class TempatPkl extends Model
     }
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'login_id', 'login_id');
+        return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
     }
 }

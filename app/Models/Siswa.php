@@ -19,6 +19,11 @@ class siswa extends Model
         'jurusan',
         'status',
         'kehadiran',
+        'telepon_orangtua',
+        'nama_orangtua',
+        'alamat',
+        'tempat_lahir',
+        'tanggal_lahir',
     ];
 
     public function login()
@@ -26,9 +31,9 @@ class siswa extends Model
         return $this->belongsTo(Login::class, 'login_id');
     }
 
-    public function tempatPKL()
+    public function tempatPkl()
     {
-        return $this->hasOne(TempatPKL::class, 'login_id', 'login_id');
+        return $this->hasOne(TempatPKL::class, 'siswa_id', 'id');
     }
 
     public function activities()

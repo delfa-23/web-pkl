@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('tempat_pkls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
-            $table->string('nama_siswa');
-            $table->string('kelas');
-            $table->string('program_keahlian');
-            $table->string('tempat_pkl');
+            $table->foreignId('siswa_id')->constrained('siswas')->onDelete('cascade');
+            $table->string('nama_perusahaan');   // nama tempat PKL
+            $table->string('alamat_perusahaan'); // alamat tempat PKL
+            $table->string('telepon_perusahaan')->nullable();
+            $table->string('pembimbing_perusahaan')->nullable(); // opsional
             $table->enum('status', ['Menunggu Verifikasi', 'Diterima', 'Ditolak'])->default('Menunggu Verifikasi');
             $table->timestamps();
         });
