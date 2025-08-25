@@ -34,6 +34,10 @@
             </a>
 
             <!-- Divider -->
+            <span class="block text-white-300 text-xs font-semibold tracking-widest px-4 mt-4 mb-2">
+                MENU
+            </span>
+
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
@@ -78,11 +82,19 @@
                 <div id="collapseSurat" class="collapse" aria-labelledby="headingSurat" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
                         <a class="collapse-item" href="#">Data Surat</a>
+<<<<<<< HEAD
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_izin') }}">Template Izin Orang Tua</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_keterangan') }}">Template Surat Keterangan Melaksanakan PKL/OJT</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_peminatan') }}">Download Surat Pengantar Per Peminatan</a>
+=======
+                        <a class="collapse-item" href="">Template Izin Orang Tua</a>
+                        <a class="collapse-item" href="#">Template Pengantar Pencarian Tempat PKL</a>
+                        <a class="collapse-item" href="#">Template Pengantar Pemberangkatan</a>
+                        <a class="collapse-item" href="#">Template Surat Keterangan Melaksanakan PKL/OJT</a>
+                        <a class="collapse-item" href="#">Download Surat Pengantar Per Peminatan</a>
+>>>>>>> 26a341d (p)
                     </div>
                 </div>
             </li>
@@ -293,7 +305,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hi, <span style="font-weight: bold">ADMIN</span></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -349,7 +361,7 @@
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlahSiswa}}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                            <i class="fas fa-users fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -367,7 +379,7 @@
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlahGuru }}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -407,7 +419,7 @@
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                            <i class="fas fa-school fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>

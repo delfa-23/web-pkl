@@ -62,14 +62,23 @@
             <td class="px-4 py-3 border-b">{{ $siswa->telepon ?? '-' }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->login->id_login }}</td>
             <td class="px-4 py-3 border-b text-center">
-            <!-- tombol edit & delete -->
-            <a href="{{ route('admin.siswa.edit', $siswa->id) }}" class="text-blue-500 hover:underline">Edit</a> |
-            <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-red-500 hover:underline"
-                onclick="return confirm('Yakin hapus siswa ini?')">Hapus</button>
-            </form>
+            <div class="flex items-center justify-center gap-2">
+                <!-- Edit -->
+                <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
+                   class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <!-- Delete -->
+                <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit"
+                          class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
+                          title="Hapus">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </div>
             </td>
         </tr>
         @empty
