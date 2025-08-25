@@ -31,7 +31,7 @@
             color: #333;
             font-weight: bold;
         }
-        input {
+        input, select, textarea {
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 15px;
@@ -40,7 +40,7 @@
             font-size: 14px;
             transition: border-color 0.3s;
         }
-        input:focus {
+        input:focus, select:focus, textarea:focus {
             border-color: #1d9a96;
             outline: none;
             box-shadow: 0px 0px 5px rgba(29,154,150,0.3);
@@ -82,20 +82,52 @@
             @csrf
             @method('PUT')
 
+            <label>Nama Lengkap:</label>
+            <input type="text" name="nama" value="{{ $siswa->nama }}" required>
+
+            <label>NIS:</label>
+            <input type="text" name="nis" value="{{ $siswa->nis }}">
+
+            <label>NISN:</label>
+            <input type="text" name="nisn" value="{{ $siswa->nisn }}">
+
             <label>ID Login:</label>
-            <input type="text" name="login_id" value="{{ $siswa->login->login_id }}" required>
+            <input type="text" name="id_login" value="{{ $siswa->login->id_login }}" required>
 
             <label>Password (Kosongkan jika tidak ingin diubah):</label>
             <input type="password" name="password" placeholder="Password baru">
 
-            <label>Nama:</label>
-            <input type="text" name="nama" value="{{ $siswa->nama }}" required>
-
             <label>Kelas:</label>
-            <input type="text" name="kelas" value="{{ $siswa->kelas }}" required>
+            <select name="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option value="XI - RPL" {{ $siswa->kelas == 'XI - RPL' ? 'selected' : '' }}>XI - RPL</option>
+                <option value="XI - DKV" {{ $siswa->kelas == 'XI - DKV' ? 'selected' : '' }}>XI - DKV</option>
+            </select>
 
             <label>Jurusan:</label>
-            <input type="text" name="jurusan" value="{{ $siswa->jurusan }}" required>
+            <select name="jurusan" required>
+                <option value="">-- Pilih Jurusan --</option>
+                <option value="RPL" {{ $siswa->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
+                <option value="TKJ" {{ $siswa->jurusan == 'DKV' ? 'selected' : '' }}>DKV</option>
+            </select>
+
+            <label>No Telepon:</label>
+            <input type="text" name="telepon" value="{{ $siswa->telepon }}">
+
+            <label>Alamat:</label>
+            <textarea name="alamat">{{ $siswa->alamat }}</textarea>
+
+            <label>Tempat Lahir:</label>
+            <input type="text" name="tempat_lahir" value="{{ $siswa->tempat_lahir }}">
+
+            <label>Tanggal Lahir:</label>
+            <input type="date" name="tanggal_lahir" value="{{ $siswa->tanggal_lahir }}">
+
+            <label>Nama Orang Tua/Wali:</label>
+            <input type="text" name="nama_orangtua" value="{{ $siswa->nama_orangtua }}">
+
+            <label>No Telepon Orang Tua:</label>
+            <input type="text" name="telepon_orangtua" value="{{ $siswa->telepon_orangtua }}">
 
             <button type="submit" class="btn-submit">Update</button>
         </form>
