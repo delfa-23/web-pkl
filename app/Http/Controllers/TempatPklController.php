@@ -62,19 +62,31 @@ class TempatPklController extends Controller
             'alamat_perusahaan' => 'required|string',
             'telepon_perusahaan' => 'nullable|string',
             'pembimbing_perusahaan' => 'nullable|string',
+            'status' => 'nullable|in:belum_terverifikasi,proses,diterima,ditolak',
         ]);
 
-        $tempat->update([
+        $data = [
             'nama_perusahaan' => $request->nama_perusahaan,
             'alamat_perusahaan' => $request->alamat_perusahaan,
             'telepon_perusahaan' => $request->telepon_perusahaan,
             'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
-            'status' => 'belum_terverifikasi',
-        ]);
+        ];
 
+        // kalau admin, boleh ubah status
+        if (session('role') === 'admin' && $request->filled('status')) {
+            $data['status'] = $request->status;
+        }
 
-        return redirect()->route('siswa.tempat.index')->with('success', 'Data tempat PKL berhasil diperbarui');
+        $tempat->update($data);
+
+        // redirect sesuai role
+        return redirect(
+            session('role') === 'admin'
+                ? route('admin.tempat.index')
+                : route('siswa.tempat.index')
+        )->with('success', 'Data tempat PKL berhasil diperbarui');
     }
+
 
     public function adminIndex()
     {

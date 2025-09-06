@@ -40,6 +40,10 @@
                         <option value="ditolak" {{ $tempat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                     </select>
                 </form>
+                 <a href="{{ route('siswa.tempat.edit', $tempat->id) }}"
+                    style="margin-left:5px; color: blue; text-decoration: underline;">
+                    Edit
+                </a>
             </td>
         </tr>
         @endforeach
