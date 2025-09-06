@@ -16,7 +16,7 @@
             <td>{{ $t->alamat_perusahaan }}</td>
             <td>{{ $t->telepon_perusahaan }}</td>
             <td>{{ $t->pembimbing_perusahaan }}</td>
-            <td>{{ $t->status }}</td>
+            <td>{{ $t->status_label }}</td>
             <td>
                 <a href="{{ route('siswa.tempat.edit', $t->id) }}">Edit</a>
             </td>

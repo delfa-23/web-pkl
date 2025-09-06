@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('alamat_perusahaan'); // alamat tempat PKL
             $table->string('telepon_perusahaan')->nullable();
             $table->string('pembimbing_perusahaan')->nullable(); // opsional
-            $table->enum('status', ['Menunggu Verifikasi', 'Diterima', 'Ditolak'])->default('Menunggu Verifikasi');
+            $table->enum('status', ['belum_terverifikasi', 'proses', 'diterima', 'ditolak'])
+                ->default('belum_terverifikasi');
             $table->timestamps();
         });
     }

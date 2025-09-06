@@ -40,8 +40,9 @@ class TempatPklController extends Controller
             'alamat_perusahaan' => $request->alamat_perusahaan,
             'telepon_perusahaan' => $request->telepon_perusahaan,
             'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
-            'status' => 'Menunggu Verifikasi',
+            'status' => 'belum_terverifikasi',
         ]);
+
 
         return redirect()->route('siswa.tempat.index')->with('success', 'Data tempat PKL berhasil ditambahkan');
     }
@@ -68,9 +69,36 @@ class TempatPklController extends Controller
             'alamat_perusahaan' => $request->alamat_perusahaan,
             'telepon_perusahaan' => $request->telepon_perusahaan,
             'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
-            'status' => 'Menunggu Verifikasi',
+            'status' => 'belum_terverifikasi',
         ]);
+
 
         return redirect()->route('siswa.tempat.index')->with('success', 'Data tempat PKL berhasil diperbarui');
     }
+
+    public function adminIndex()
+    {
+        $tempats = TempatPKL::with('siswa')->get();
+        return view('admin.tempat.index', compact('tempats'));
+    }
+
+    public function adminEdit($id)
+    {
+        $tempat = TempatPKL::with('siswa')->findOrFail($id);
+        return view('admin.tempat.edit', compact('tempat'));
+    }
+
+    public function adminUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:belum_terverifikasi,proses,diterima,ditolak',
+        ]);
+
+        $tempat = TempatPKL::findOrFail($id);
+        $tempat->status = $request->status;
+        $tempat->save();
+
+        return redirect()->route('admin.tempat.index')->with('success', 'Status berhasil diperbarui!');
+    }
+
 }

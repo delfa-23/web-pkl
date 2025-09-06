@@ -1,21 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detail Tempat PKL Siswa</title>
-</head>
-<body>
-    <h1>Detail Tempat PKL - {{ $siswa->nama_siswa }}</h1>
+<h2>Tempat PKL</h2>
 
-    @if($siswa->tempatPKL)
-        <p><b>Nama Siswa:</b> {{ $siswa->tempatPKL->nama_siswa }}</p>
-        <p><b>Kelas:</b> {{ $siswa->tempatPKL->kelas }}</p>
-        <p><b>Program Keahlian:</b> {{ $siswa->tempatPKL->program_keahlian }}</p>
-        <p><b>Tempat PKL:</b> {{ $siswa->tempatPKL->tempat_pkl }}</p>
-        <p><b>Status:</b> {{ $siswa->tempatPKL->status }}</p>
-    @else
-        <p>Belum ada data tempat PKL untuk siswa ini.</p>
-    @endif
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Nama Siswa</th>
+            <th>Jurusan</th>
+            <th>Nama Perusahaan</th>
+            <th>Alamat Perusahaan</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>{{ $siswa->nama }}</td>
+            <td>{{ $siswa->jurusan }}</td>
+            <td>{{ $siswa->tempatPKL->nama_perusahaan }}</td>
+            <td>{{ $siswa->tempatPKL->alamat_perusahaan }}</td>
+            <td>{{ $siswa->tempatPKL->status_label }}</td>
+        </tr>
+    </table>
 
-    <a href="{{ route('guru.dashboard') }}">⬅ Kembali ke Dashboard</a>
-</body>
-</html>
+<br>
+<a href="{{ route('siswa.dashboard') }}">Back</a>

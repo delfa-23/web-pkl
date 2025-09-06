@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class siswa extends Model
+class Siswa extends Model
 {
     use HasFactory;
+
+    protected $table = 'siswas';
 
     protected $fillable = [
         'login_id',
@@ -19,8 +21,8 @@ class siswa extends Model
         'jurusan',
         'status',
         'kehadiran',
-        'telepon_orangtua',
         'nama_orangtua',
+        'telepon_orangtua',
         'alamat',
         'tempat_lahir',
         'tanggal_lahir',

@@ -47,6 +47,7 @@
             <th class="px-4 py-3 border-b">Jurusan</th>
             <th class="px-4 py-3 border-b">Telepon</th>
             <th class="px-4 py-3 border-b">ID Login</th>
+            <th class="px-4 py-3 border-b">Status</th> <!-- 🔹 Tambahan -->
             <th class="px-4 py-3 border-b text-center">Aksi</th>
         </tr>
         </thead>
@@ -61,29 +62,40 @@
             <td class="px-4 py-3 border-b">{{ $siswa->jurusan }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->telepon ?? '-' }}</td>
             <td class="px-4 py-3 border-b">{{ $siswa->login->id_login }}</td>
+            <td class="px-4 py-3 border-b">
+                @if($siswa->status == 'Aktif')
+                    <span class="px-2 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
+                        Aktif
+                    </span>
+                @else
+                    <span class="px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-700">
+                        Nonaktif
+                    </span>
+                @endif
+            </td>
             <td class="px-4 py-3 border-b text-center">
-            <div class="flex items-center justify-center gap-2">
-                <!-- Edit -->
-                <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
-                   class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <!-- Delete -->
-                <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit"
-                          class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                          title="Hapus">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              </div>
+                <div class="flex items-center justify-center gap-2">
+                    <!-- Edit -->
+                    <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
+                    class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20" title="Edit">
+                    <i class="fas fa-edit"></i>
+                    </a>
+                    <!-- Delete -->
+                    <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
+                            title="Hapus">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    </form>
+                </div>
             </td>
         </tr>
         @empty
         <tr>
-            <td colspan="8" class="px-4 py-6 text-center text-gray-500">
+            <td colspan="10" class="px-4 py-6 text-center text-gray-500">
             <i class="fas fa-info-circle"></i> Tidak ada data siswa.
             </td>
         </tr>
@@ -91,6 +103,7 @@
         </tbody>
     </table>
     </div>
+
 
 
     <!-- Tombol kembali -->

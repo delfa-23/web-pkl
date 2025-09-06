@@ -81,7 +81,7 @@ class SiswaController extends Controller
         // Validasi input
         $request->validate([
             'nama'             => 'required|string|max:255',
-            'id_login'         => 'required|string|unique:logins,id_login,' . $siswa->login->id,
+            'id_login'         => 'required|string|unique:logins,id_login,' . $siswa->login->id . ',id',
             'password'         => 'nullable|string|min:3', // password bisa diubah, boleh kosong
             'kelas'            => 'required|string',
             'jurusan'          => 'required|string',

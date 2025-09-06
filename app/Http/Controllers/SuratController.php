@@ -39,9 +39,18 @@ class SuratController extends Controller
         return view('surat.daftar_siswa_pencarian', compact('siswas'));
     }
 
-    // tambahin show + download Pencarian kalau mau dipakai
-    // public function showPencarian($id) { ... }
-    // public function downloadPencarian($id) { ... }
+    public function showPencarian($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        return view('surat.pencarian', compact('siswa'));
+    }
+
+    public function downloadPencarian($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $pdf = \PDF::loadView('surat.pencarian', compact('siswa'));
+        return $pdf->download('pencarian_' . $siswa->nama . '.pdf');
+    }
 
     // ========================
     // Surat Pemberangkatan

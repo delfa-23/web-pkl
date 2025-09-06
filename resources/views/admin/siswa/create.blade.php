@@ -51,29 +51,21 @@
         </div>
 
         <div>
-        <label class="block text-sm font-medium">Kelas</label>
-        <select name="kelas" class="w-full border rounded-lg px-3 py-2" required>
-            <option value="">-- Pilih Kelas --</option>
-            <option value="XI - RPL">XI - RPL</option>
-            <option value="XI - DKV">XI - DKV</option>
-        </select>
-        </div>
+  <label class="block text-sm font-medium">Kelas</label>
+  <select name="kelas" id="kelas" class="w-full border rounded-lg px-3 py-2" required>
+      <option value="">-- Pilih Kelas --</option>
+      <option value="XI - RPL">XI - RPL</option>
+      <option value="XI - DKV">XI - DKV</option>
+  </select>
+</div>
 
-        <div>
-        <label class="block text-sm font-medium">Jurusan</label>
-        <select name="jurusan" class="w-full border rounded-lg px-3 py-2" required>
-            <option value="">-- Pilih Jurusan --</option>
-            <option value="RPL">RPL</option>
-            <option value="DKV">DKV</option>
-        </select>
-        </div>
+<!-- Hidden jurusan -->
+<input type="hidden" name="jurusan" id="jurusan">
 
         <div>
         <label class="block text-sm font-medium">No Telepon</label>
         <input type="text" name="telepon" class="w-full border rounded-lg px-3 py-2">
         </div>
-
-
 
         <div>
             <label class="block text-sm font-medium">Alamat</label>
@@ -111,5 +103,20 @@
 
 
   </div>
+  <script>
+  document.getElementById("kelas").addEventListener("change", function() {
+      let val = this.value;
+      let jurusanInput = document.getElementById("jurusan");
+
+      if (val === "XI - RPL") {
+          jurusanInput.value = "RPL";
+      } else if (val === "XI - DKV") {
+          jurusanInput.value = "DKV";
+      } else {
+          jurusanInput.value = "";
+      }
+  });
+</script>
+
 </body>
 </html>

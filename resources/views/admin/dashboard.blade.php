@@ -81,7 +81,7 @@
                 </a>
                 <div id="collapseSurat" class="collapse" aria-labelledby="headingSurat" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
-                        <a class="collapse-item" href="#">Data Surat</a>
+                        <a class="collapse-item" href="{{ route('admin.tempat.index') }}">Data PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_izin') }}">Template Izin Orang Tua</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>

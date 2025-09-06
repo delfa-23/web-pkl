@@ -66,6 +66,13 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
     });
 
+    Route::prefix('admin/tempat')->middleware(['cekrole:admin'])->group(function () {
+        Route::get('/', [TempatPKLController::class, 'adminIndex'])->name('admin.tempat.index');
+        Route::get('/{id}/edit', [TempatPKLController::class, 'adminEdit'])->name('admin.tempat.edit');
+        Route::put('/{id}/update', [TempatPKLController::class, 'adminUpdate'])->name('admin.tempat.update');
+    });
+
+
     /*
     |--------------------------------------------------------------------------
     | Surat Routes (khusus Admin)

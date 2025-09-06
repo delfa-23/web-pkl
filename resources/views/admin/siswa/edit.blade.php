@@ -97,19 +97,16 @@
             <label>Password (Kosongkan jika tidak ingin diubah):</label>
             <input type="password" name="password" placeholder="Password baru">
 
-            <label>Kelas:</label>
-            <select name="kelas" required>
-                <option value="">-- Pilih Kelas --</option>
-                <option value="XI - RPL" {{ $siswa->kelas == 'XI - RPL' ? 'selected' : '' }}>XI - RPL</option>
-                <option value="XI - DKV" {{ $siswa->kelas == 'XI - DKV' ? 'selected' : '' }}>XI - DKV</option>
-            </select>
+            <div>
+  <label class="block text-sm font-medium">Kelas</label>
+  <select name="kelas" id="kelas" class="w-full border rounded-lg px-3 py-2" required>
+      <option value="XI - RPL" {{ $siswa->kelas == 'XI - RPL' ? 'selected' : '' }}>XI - RPL</option>
+      <option value="XI - DKV" {{ $siswa->kelas == 'XI - DKV' ? 'selected' : '' }}>XI - DKV</option>
+  </select>
+</div>
 
-            <label>Jurusan:</label>
-            <select name="jurusan" required>
-                <option value="">-- Pilih Jurusan --</option>
-                <option value="RPL" {{ $siswa->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
-                <option value="TKJ" {{ $siswa->jurusan == 'DKV' ? 'selected' : '' }}>DKV</option>
-            </select>
+<input type="hidden" name="jurusan" id="jurusan" value="{{ $siswa->jurusan }}">
+
 
             <label>No Telepon:</label>
             <input type="text" name="telepon" value="{{ $siswa->telepon }}">
@@ -123,6 +120,12 @@
             <label>Tanggal Lahir:</label>
             <input type="date" name="tanggal_lahir" value="{{ $siswa->tanggal_lahir }}">
 
+            <label>Status Siswa:</label>
+            <select name="status" required>
+                <option value="Aktif" {{ $siswa->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="Nonaktif" {{ $siswa->status == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+            </select>
+
             <label>Nama Orang Tua/Wali:</label>
             <input type="text" name="nama_orangtua" value="{{ $siswa->nama_orangtua }}">
 
@@ -134,5 +137,26 @@
 
         <a href="{{ route('admin.siswa.index') }}" class="btn-back">Kembali</a>
     </div>
+    <script>
+  function setJurusan(val) {
+      let jurusanInput = document.getElementById("jurusan");
+      if (val === "XI - RPL") {
+          jurusanInput.value = "RPL";
+      } else if (val === "XI - DKV") {
+          jurusanInput.value = "DKV";
+      } else {
+          jurusanInput.value = "";
+      }
+  }
+
+  let kelasSelect = document.getElementById("kelas");
+  kelasSelect.addEventListener("change", function() {
+      setJurusan(this.value);
+  });
+
+  // jalanin sekali waktu load halaman edit
+  setJurusan(kelasSelect.value);
+</script>
+
 </body>
 </html>

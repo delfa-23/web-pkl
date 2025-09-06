@@ -26,4 +26,15 @@ class TempatPkl extends Model
     {
         return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
     }
+    public function getStatusLabelAttribute()
+    {
+        return match($this->status) {
+            'belum_terverifikasi' => 'Belum Terverifikasi',
+            'proses' => 'Proses',
+            'diterima' => 'Diterima',
+            'ditolak' => 'Ditolak',
+            default => $this->status,
+        };
+    }
+
 }
