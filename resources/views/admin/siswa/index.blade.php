@@ -34,6 +34,19 @@
       </div>
     @endif
 
+    <div class="mb-4">
+        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex gap-2">
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Search Data"
+                class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-brand">
+
+            <button type="submit"
+                    class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brand/90 flex items-center gap-2">
+            <i class="fas fa-search"></i> Cari
+            </button>
+        </form>
+    </div>
+
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow">
     <table class="w-full text-left border-collapse">
@@ -109,7 +122,7 @@
     <!-- Tombol kembali -->
     <div class="mt-6">
       <a href="{{ route('admin.dashboard')}}" class="text-brand hover:underline flex items-center gap-2">
-        <i class="fas fa-arrow-left"></i> Kembali
+        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
       </a>
     </div>
 

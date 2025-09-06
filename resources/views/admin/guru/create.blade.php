@@ -43,38 +43,38 @@
         @csrf
 
         <div>
-          <label class="block font-medium">Nama</label>
-          <input type="text" name="nama" required
+          <label class="block font-medium">Nama Lengkap</label>
+          <input type="text" name="nama" required placeholder="Nama Lengkap"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
         <div>
           <label class="block font-medium">NIP</label>
-          <input type="text" name="nip"
+          <input type="text" name="nip" placeholder="NIP"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
         <div>
           <label class="block font-medium">NUPTK</label>
-          <input type="text" name="nuptk"
+          <input type="text" name="nuptk" placeholder="NUPTK"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
         <div>
           <label class="block font-medium">Jabatan</label>
-          <input type="text" name="jabatan" required
+          <input type="text" name="jabatan" required placeholder="Jabatan"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
         <div>
           <label class="block font-medium">ID Login</label>
-          <input type="text" name="id_login" required
+          <input type="text" name="id_login" required placeholder="ID Login"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
         <div>
           <label class="block font-medium">Password</label>
-          <input type="password" name="password" required
+          <input type="password" name="password" required placeholder="Password"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 

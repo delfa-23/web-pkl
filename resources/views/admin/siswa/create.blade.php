@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambah Siswa</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800">
   <div class="container mx-auto p-6 max-w-lg">
@@ -15,8 +17,8 @@
         <i class="fas fa-user-graduate"></i> Tambah Data Siswa
       </h1>
       <a href="{{ route('admin.siswa.index') }}"
-         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300">
-        Kembali
+         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i> Kembali
       </a>
     </div>
 
@@ -27,27 +29,27 @@
 
         <div>
         <label class="block text-sm font-medium">Nama Lengkap</label>
-        <input type="text" name="nama" class="w-full border rounded-lg px-3 py-2" required>
+        <input type="text" name="nama" class="w-full border rounded-lg px-3 py-2" required placeholder="Nama Lengkap">
         </div>
 
         <div>
         <label class="block text-sm font-medium">NIS</label>
-        <input type="text" name="nis" class="w-full border rounded-lg px-3 py-2">
+        <input type="text" name="nis" class="w-full border rounded-lg px-3 py-2" placeholder="NIS">
         </div>
 
         <div>
         <label class="block text-sm font-medium">NISN</label>
-        <input type="text" name="nisn" class="w-full border rounded-lg px-3 py-2">
+        <input type="text" name="nisn" class="w-full border rounded-lg px-3 py-2" placeholder="NISN">
         </div>
 
         <div>
         <label class="block text-sm font-medium">ID Login</label>
-        <input type="text" name="id_login" class="w-full border rounded-lg px-3 py-2" required>
+        <input type="text" name="id_login" class="w-full border rounded-lg px-3 py-2" required placeholder="ID Login">
         </div>
 
         <div>
         <label class="block text-sm font-medium">Password</label>
-        <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" required>
+        <input type="password" name="password" class="w-full border rounded-lg px-3 py-2" required placeholder="Password">
         </div>
 
         <div>
@@ -64,17 +66,17 @@
 
         <div>
         <label class="block text-sm font-medium">No Telepon</label>
-        <input type="text" name="telepon" class="w-full border rounded-lg px-3 py-2">
+        <input type="text" name="telepon" class="w-full border rounded-lg px-3 py-2" placeholder="No. Telepon">
         </div>
 
         <div>
             <label class="block text-sm font-medium">Alamat</label>
-            <textarea name="alamat" class="w-full border rounded-lg px-3 py-2"></textarea>
+            <textarea name="alamat" class="w-full border rounded-lg px-3 py-2" placeholder="Alamat"></textarea>
         </div>
 
         <div>
             <label class="block text-sm font-medium">Tempat Lahir</label>
-            <input type="text" name="tempat_lahir" class="w-full border rounded-lg px-3 py-2">
+            <input type="text" name="tempat_lahir" class="w-full border rounded-lg px-3 py-2" placeholder="Tempat Lahir">
         </div>
 
         <div>
@@ -84,20 +86,23 @@
 
         <div>
         <label class="block text-sm font-medium">Nama Orang Tua/Wali</label>
-        <input type="text" name="nama_orangtua" class="w-full border rounded-lg px-3 py-2">
+        <input type="text" name="nama_orangtua" class="w-full border rounded-lg px-3 py-2" placeholder="Nama Orang Tua/Wali">
         </div>
 
         <div>
         <label class="block text-sm font-medium">No Telepon Orang Tua</label>
-        <input type="text" name="telepon_orangtua" class="w-full border rounded-lg px-3 py-2">
+        <input type="text" name="telepon_orangtua" class="w-full border rounded-lg px-3 py-2" placeholder="No. Telepon Orang Tua">
         </div>
 
-        <div class="pt-4">
-            <button type="submit"
-            class="w-full bg-[#1d9a96] text-white py-2 rounded-lg shadow hover:bg-[#16817a]">
+        <div class="flex justify-end gap-3">
+          <button type="reset"
+                  class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+          <button type="submit"
+                  class="px-4 py-2 bg-[#1d9a96] text-white rounded-lg shadow hover:bg-[#17807c]">
             <i class="fas fa-save"></i> Simpan
-        </button>
-        </div>
+          </button>
     </form>
     </div>
 

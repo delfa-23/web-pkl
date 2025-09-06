@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\Admin\GuruController as AdminGuruController;
+use App\Http\Controllers\admin\JurusanController;
 use App\Http\Controllers\SuratController;
 
 /*
@@ -66,6 +67,7 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
     });
 
+<<<<<<< HEAD
     Route::prefix('admin/tempat')->middleware(['cekrole:admin'])->group(function () {
         Route::get('/', [TempatPKLController::class, 'adminIndex'])->name('admin.tempat.index');
         Route::get('/{id}/edit', [TempatPKLController::class, 'adminEdit'])->name('admin.tempat.edit');
@@ -74,6 +76,18 @@ Route::middleware(['cekrole:admin'])->group(function () {
 
 
 
+=======
+    // CRUD Program Keahlian
+    Route::prefix('admin/jurusan')->group(function () {
+        Route::get('/', [JurusanController::class, 'index'])->name('admin.jurusan.index');
+        Route::get('/create', [JurusanController::class, 'create'])->name('admin.jurusan.create');
+        Route::post('/', [JurusanController::class, 'store'])->name('admin.jurusan.store');
+        Route::get('/{id}/edit', [JurusanController::class, 'edit'])->name('admin.jurusan.edit');
+        Route::put('/{id}', [JurusanController::class, 'update'])->name('admin.jurusan.update');
+        Route::delete('/{id}', [JurusanController::class, 'destroy'])->name('admin.jurusan.destroy');
+    });
+
+>>>>>>> 38be53c (Crud Jurusan)
     /*
     |--------------------------------------------------------------------------
     | Surat Routes (khusus Admin)

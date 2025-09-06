@@ -42,7 +42,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -52,8 +52,15 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="/admin/guru">
-                    <i class="fas fa-fw fa-chalkboard-teacher"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Guru</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/guru">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>Data PKL</span>
                 </a>
             </li>
 
@@ -61,12 +68,12 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-user-graduate"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Data Siswa</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Program Keahlian</a>
+                        <a class="collapse-item" href="{{ route('admin.jurusan.index') }}">Program Keahlian</a>
                         <a class="collapse-item" href="register.html">Kelas</a>
                         <a class="collapse-item" href="{{ route('admin.siswa.index') }}">Siswa</a>
                     </div>
@@ -141,7 +148,7 @@
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn text-white" type="button" style="background-color:#1d9a96;">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -300,7 +307,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hi, <span style="font-weight: bold">ADMIN</span></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{ asset('storage/assets/img/undraw_developer-avatar_f6ac.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -334,11 +341,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div> --}}
+                    </div>
+
+
 
                     <!-- Content Row -->
                     <div class="row">
@@ -689,12 +696,12 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Klik <span style="font-style:italic;">'Logout'</span> di bawah untuk keluar dari akun Admin.</div>
                 <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="btn btn-primary" type="submit">Logout</button>
+                        <button class="btn text-white" type="submit" style="background-color:#1d9a96;">Logout</button>
                     </form>
                 </div>
             </div>
