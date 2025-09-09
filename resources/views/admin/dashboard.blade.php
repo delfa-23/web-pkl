@@ -58,7 +58,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/admin/guru">
+                <a class="nav-link" href="{{ route('admin.tempat.index') }}">
                     <i class="fas fa-fw fa-building"></i>
                     <span>Data PKL</span>
                 </a>
@@ -88,7 +88,6 @@
                 </a>
                 <div id="collapseSurat" class="collapse" aria-labelledby="headingSurat" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
-                        <a class="collapse-item" href="{{ route('admin.tempat.index') }}">Data PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_izin') }}">Template Izin Orang Tua</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>

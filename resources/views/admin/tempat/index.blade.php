@@ -14,11 +14,22 @@
     <tbody>
         @foreach($tempats as $tempat)
         <tr>
-            <td>{{ $tempat->siswa->nama }}</td>
-            <td>{{ $tempat->siswa->jurusan }}</td>
+            <td>
+                @foreach($tempat->siswas as $siswa)
+                    <li>{{ $siswa->nama }}</li>
+                @endforeach
+            </td>
+            <td>
+                <ul style="padding-left:15px; margin:0;">
+                    @foreach($tempat->siswas as $anggota)
+                        <li>{{ $anggota->jurusan }}</li>
+                    @endforeach
+                </ul>
+            </td>
             <td>{{ $tempat->nama_perusahaan }}</td>
             <td>{{ $tempat->alamat_perusahaan }}</td>
             <td>
+                {{-- Status warna --}}
                 @if($tempat->status == 'belum_terverifikasi')
                     <span style="color: gray">Belum Terverifikasi</span>
                 @elseif($tempat->status == 'proses')
@@ -30,18 +41,25 @@
                 @endif
             </td>
             <td>
-                <form action="{{ route('admin.tempat.update', $tempat->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <select name="status" onchange="this.form.submit()">
-                        <option value="belum_terverifikasi" {{ $tempat->status == 'belum_terverifikasi' ? 'selected' : '' }}>Belum Terverifikasi</option>
-                        <option value="proses" {{ $tempat->status == 'proses' ? 'selected' : '' }}>Proses</option>
-                        <option value="diterima" {{ $tempat->status == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                        <option value="ditolak" {{ $tempat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                    </select>
-                </form>
-                 <a href="{{ route('siswa.tempat.edit', $tempat->id) }}"
-                    style="margin-left:5px; color: blue; text-decoration: underline;">
+                {{-- Dropdown khusus admin --}}
+                @if(session('role') == 'admin')
+                    <form action="{{ route('admin.tempat.update', $tempat->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PUT')
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="belum_terverifikasi" {{ $tempat->status == 'belum_terverifikasi' ? 'selected' : '' }}>Belum Terverifikasi</option>
+                            <option value="proses" {{ $tempat->status == 'proses' ? 'selected' : '' }}>Proses</option>
+                            <option value="diterima" {{ $tempat->status == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                            <option value="ditolak" {{ $tempat->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                    </form>
+                @endif
+
+                {{-- Tombol edit data perusahaan --}}
+                <a href="{{ session('role') == 'admin'
+                            ? route('siswa.tempat.edit', $tempat->id)
+                            : route('siswa.tempat.edit', $tempat->id) }}"
+                   style="margin-left:5px; color: blue; text-decoration: underline;">
                     Edit
                 </a>
             </td>

@@ -20,11 +20,15 @@ class TempatPkl extends Model
 
     public function login()
     {
-        return $this->belongsTo(Login::class, 'login_id');
+        return $this->belongsTo(Login::class, 'login_id', 'id');
     }
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'siswa_id', 'id');
+        return $this->belongsTo(Siswa::class, 'login_id', 'id');
+    }
+    public function siswas()
+    {
+        return $this->belongsToMany(Siswa::class, 'siswa_tempat', 'tempat_pkl_id', 'siswa_id')->withTimestamps();
     }
     public function getStatusLabelAttribute()
     {

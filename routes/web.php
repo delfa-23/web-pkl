@@ -12,6 +12,7 @@ use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\admin\JurusanController;
 use App\Http\Controllers\SuratController;
+use App\Models\Siswa;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,16 +68,14 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
     });
 
-<<<<<<< HEAD
     Route::prefix('admin/tempat')->middleware(['cekrole:admin'])->group(function () {
         Route::get('/', [TempatPKLController::class, 'adminIndex'])->name('admin.tempat.index');
         Route::get('/{id}/edit', [TempatPKLController::class, 'adminEdit'])->name('admin.tempat.edit');
-        Route::put('/{id}/update', [TempatPKLController::class, 'update'])->name('admin.tempat.update');
+        Route::put('/{id}/update', [TempatPKLController::class, 'adminUpdate'])->name('admin.tempat.update');
     });
 
 
 
-=======
     // CRUD Program Keahlian
     Route::prefix('admin/jurusan')->group(function () {
         Route::get('/', [JurusanController::class, 'index'])->name('admin.jurusan.index');
@@ -87,7 +86,6 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::delete('/{id}', [JurusanController::class, 'destroy'])->name('admin.jurusan.destroy');
     });
 
->>>>>>> 38be53c (Crud Jurusan)
     /*
     |--------------------------------------------------------------------------
     | Surat Routes (khusus Admin)

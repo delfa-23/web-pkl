@@ -30,12 +30,17 @@ class Siswa extends Model
 
     public function login()
     {
-        return $this->belongsTo(Login::class, 'login_id');
+        return $this->belongsTo(Login::class, 'login_id', 'id');
     }
 
     public function tempatPkl()
     {
         return $this->hasOne(TempatPKL::class, 'siswa_id', 'id');
+    }
+
+    public function tempats()
+    {
+        return $this->belongsToMany(TempatPkl::class, 'siswa_tempat', 'siswa_id', 'tempat_pkl_id')->withTimestamps();
     }
 
     public function activities()

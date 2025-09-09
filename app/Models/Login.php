@@ -13,4 +13,8 @@ class Login extends Model
         'password',
         'role'
     ];
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'login_id', 'id');
+    }
 }
