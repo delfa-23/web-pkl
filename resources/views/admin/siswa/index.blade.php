@@ -4,128 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Siswa | SyifaPKL</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
   <style>
     .bg-brand { background-color: #1d9a96; }
+    .bg-brand:hover { background-color: #17807c; }
     .text-brand { color: #1d9a96; }
-    .hover\:bg-brand-dark:hover { background-color: #157872; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <div class="container mx-auto p-6">
+<body class="bg-light">
+  <div class="container py-4">
 
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-brand">
-        <i class="fas fa-users text-brand"></i> Data Siswa
-      </h1>
-      <a href="{{ route('admin.siswa.create') }}"
-         class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brand-dark flex items-center gap-2">
-        <i class="fas fa-plus"></i> Tambah Siswa
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-semibold text-brand mb-0">
+        <i class="fas fa-users me-2"></i> Data Siswa
+      </h2>
+      <a href="{{ route('admin.siswa.create') }}" class="btn bg-brand text-white shadow">
+        <i class="fas fa-plus me-2"></i> Tambah Siswa
       </a>
     </div>
 
     <!-- Pesan sukses -->
     @if(session('success'))
-      <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-        {{ session('success') }}
+      <div class="alert alert-success">
+        <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
       </div>
     @endif
 
-    <div class="mb-4">
-        <form action="{{ route('admin.siswa.index') }}" method="GET" class="flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Search Data"
-                class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-brand">
-
-            <button type="submit"
-                    class="px-4 py-2 bg-brand text-white rounded-lg shadow hover:bg-brand/90 flex items-center gap-2">
-            <i class="fas fa-search"></i> Cari
-            </button>
-        </form>
-    </div>
+    <!-- Form Search -->
+    <form action="{{ route('admin.siswa.index') }}" method="GET" class="row g-2 mb-3">
+      <div class="col-md-4">
+        <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+               placeholder="Cari siswa...">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn bg-brand text-white">
+          <i class="fas fa-search me-1"></i> Cari
+        </button>
+      </div>
+    </form>
 
     <!-- Tabel -->
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-    <table class="w-full text-left border-collapse">
-        <thead class="bg-gray-100 text-brand">
-        <tr>
-            <th class="px-4 py-3 border-b">No</th>
-            <th class="px-4 py-3 border-b">Nama Lengkap</th>
-            <th class="px-4 py-3 border-b">NIS</th>
-            <th class="px-4 py-3 border-b">NISN</th>
-            <th class="px-4 py-3 border-b">Kelas</th>
-            <th class="px-4 py-3 border-b">Jurusan</th>
-            <th class="px-4 py-3 border-b">Telepon</th>
-            <th class="px-4 py-3 border-b">ID Login</th>
-            <th class="px-4 py-3 border-b">Status</th> <!-- 🔹 Tambahan -->
-            <th class="px-4 py-3 border-b text-center">Aksi</th>
-        </tr>
+    <div class="table-responsive bg-white shadow rounded">
+      <table class="table table-striped align-middle mb-0">
+        <thead class="table-light text-brand">
+          <tr>
+            <th>No</th>
+            <th>Nama Lengkap</th>
+            <th>NIS</th>
+            <th>NISN</th>
+            <th>Kelas</th>
+            <th>Jurusan</th>
+            <th>Telepon</th>
+            <th>ID Login</th>
+            <th>Status</th>
+            <th class="text-center">Aksi</th>
+          </tr>
         </thead>
         <tbody>
-        @forelse($siswas as $index => $siswa)
-        <tr class="hover:bg-gray-50">
-            <td class="px-4 py-3 border-b">{{ $index+1 }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->nama }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->nis ?? '-' }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->nisn ?? '-' }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->kelas }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->jurusan }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->telepon ?? '-' }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->login->id_login }}</td>
-            <td class="px-4 py-3 border-b">
-                @if($siswa->status == 'Aktif')
-                    <span class="px-2 py-1 text-xs font-medium rounded bg-green-100 text-green-700">
-                        Aktif
-                    </span>
-                @else
-                    <span class="px-2 py-1 text-xs font-medium rounded bg-red-100 text-red-700">
-                        Nonaktif
-                    </span>
-                @endif
+          @forelse($siswas as $index => $siswa)
+          <tr>
+            <td>{{ $index+1 }}</td>
+            <td>{{ $siswa->nama }}</td>
+            <td>{{ $siswa->nis ?? '-' }}</td>
+            <td>{{ $siswa->nisn ?? '-' }}</td>
+            <td>{{ $siswa->kelas }}</td>
+            <td>{{ $siswa->jurusan }}</td>
+            <td>{{ $siswa->telepon ?? '-' }}</td>
+            <td>{{ $siswa->login->id_login }}</td>
+            <td>
+              @if($siswa->status == 'Aktif')
+                <span class="badge bg-success">Aktif</span>
+              @else
+                <span class="badge bg-danger">Nonaktif</span>
+              @endif
             </td>
-            <td class="px-4 py-3 border-b text-center">
-                <div class="flex items-center justify-center gap-2">
-                    <!-- Edit -->
-                    <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
-                    class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20" title="Edit">
-                    <i class="fas fa-edit"></i>
-                    </a>
-                    <!-- Delete -->
-                    <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                            class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                            title="Hapus">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    </form>
-                </div>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <!-- Edit -->
+                <a href="{{ route('admin.siswa.edit', $siswa->id) }}"
+                   class="btn btn-sm btn-outline-primary" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <!-- Delete -->
+                <form action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus?')">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </div>
             </td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="10" class="px-4 py-6 text-center text-gray-500">
-            <i class="fas fa-info-circle"></i> Tidak ada data siswa.
+          </tr>
+          @empty
+          <tr>
+            <td colspan="10" class="text-center text-muted py-4">
+              <i class="fas fa-info-circle me-1"></i> Tidak ada data siswa.
             </td>
-        </tr>
-        @endforelse
+          </tr>
+          @endforelse
         </tbody>
-    </table>
+      </table>
     </div>
-
-
 
     <!-- Tombol kembali -->
-    <div class="mt-6">
-      <a href="{{ route('admin.dashboard')}}" class="text-brand hover:underline flex items-center gap-2">
-        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+    <div class="mt-4">
+      <a href="{{ route('admin.dashboard')}}" class="text-brand text-decoration-none">
+        <i class="fas fa-arrow-left me-1"></i> Kembali ke Dashboard
       </a>
     </div>
-
   </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

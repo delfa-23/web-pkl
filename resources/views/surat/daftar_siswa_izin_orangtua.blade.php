@@ -3,74 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Siswa | SyifaPKL</title>
+  <title>Daftar Siswa - Surat Izin Orang Tua | SyifaPKL</title>
 
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     .bg-brand { background-color: #1d9a96; }
+    .bg-brand:hover { background-color: #17807c; }
     .text-brand { color: #1d9a96; }
-    .hover\:bg-brand-dark:hover { background-color: #157872; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <div class="container mx-auto p-6">
-
+<body class="bg-light">
+  <div class="container py-4">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-brand flex items-center gap-2">
-        <i class="fas fa-users text-brand"></i> Daftar Siswa
-      </h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-semibold text-brand">
+        <i class="fas fa-users me-2"></i> Daftar Siswa - Surat Izin Orang Tua
+      </h2>
     </div>
 
-    <!-- Tabel -->
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-gray-100 text-brand">
+    <!-- Pesan sukses -->
+    @if(session('success'))
+      <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    {{-- <!-- Search -->
+    <form action="{{ route('admin.siswa.index') }}" method="GET" class="row g-2 mb-3">
+      <div class="col-md-4">
+        <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+               placeholder="Cari Siswa...">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn bg-brand text-white">
+          <i class="fas fa-search me-1"></i> Cari
+        </button>
+      </div>
+    </form> --}}
+
+    <!-- Table -->
+    <div class="table-responsive bg-white shadow rounded">
+      <table class="table table-striped align-middle mb-0">
+        <thead class="table-light text-brand">
           <tr>
-            <th class="px-4 py-3 border-b">Nama</th>
-            <th class="px-4 py-3 border-b">Kelas / Jurusan</th>
-            <th class="px-4 py-3 border-b text-center">Aksi</th>
+            <th>Nama</th>
+            <th>Kelas / Jurusan</th>
+            <th class="text-center">Aksi</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($siswas as $siswa)
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-3 border-b">{{ $siswa->nama }}</td>
-            <td class="px-4 py-3 border-b">{{ $siswa->kelas }} / {{ $siswa->jurusan }}</td>
-            <td class="px-4 py-3 border-b">
-              <div class="flex items-center justify-center gap-2">
+          @forelse($siswas as $siswa)
+          <tr>
+            <td>{{ $siswa->nama }}</td>
+            <td>{{ $siswa->kelas }} / {{ $siswa->jurusan }}</td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
                 <a href="{{ route('surat.izin_orangtua', $siswa->id) }}"
-                   class="p-2 rounded-lg bg-brand/10 text-brand hover:bg-brand/20"
-                   title="Lihat Template">
+                   class="btn btn-sm btn-outline-success" title="Lihat Template">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->
                 <a href="{{ route('surat.download_izin', $siswa->id) }}"
-                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-white shadow text-sm font-medium"
-                    style="background-color:#d5ad71;"
-                    title="Download PDF">
-                    <i class="fa-solid fa-file-pdf text-[#1d9a96]"></i>
-                    Download PDF
+                   class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">
+                  <i class="fa-solid fa-file-pdf me-1"></i> Download PDF
                 </a>
               </div>
             </td>
           </tr>
-          @endforeach
+          @empty
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">
+              <i class="fas fa-info-circle"></i> Tidak Ada Data
+            </td>
+          </tr>
+          @endforelse
         </tbody>
       </table>
     </div>
 
     <!-- Tombol kembali -->
-    <div class="mt-6">
-      <a href="{{ route('admin.dashboard')}}" class="text-brand hover:underline flex items-center gap-2">
-        <i class="fas fa-arrow-left"></i> Kembali
+    <div class="mt-4">
+      <a href="{{ route('admin.dashboard')}}" class="text-brand text-decoration-none">
+        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
       </a>
     </div>
-
   </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

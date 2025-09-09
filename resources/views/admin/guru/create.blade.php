@@ -84,9 +84,9 @@
             <i class="fas fa-undo"></i> Reset
           </button>
           <button type="submit"
-                  class="px-4 py-2 bg-[#1d9a96] text-white rounded-lg shadow hover:bg-[#17807c]">
+                class="px-4 py-2 bg-[#1d9a96] text-white rounded-lg shadow hover:bg-[#17807c] flex items-center gap-2">
             <i class="fas fa-save"></i> Simpan
-          </button>
+        </button>
         </div>
       </form>
     </div>
