@@ -64,7 +64,6 @@ class JurusanController extends Controller
     public function destroy($id)
     {
         $jurusan = Jurusan::findOrFail($id);
-        $jurusan->login->delete(); // hapus akun login juga
         $jurusan->delete();
 
         return redirect()->route('admin.jurusan.index')->with('success', 'Data jurusan berhasil dihapus');

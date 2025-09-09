@@ -93,7 +93,6 @@
         <label class="block text-sm font-medium">No Telepon Orang Tua</label>
         <input type="text" name="telepon_orangtua" class="w-full border rounded-lg px-3 py-2" placeholder="No. Telepon Orang Tua">
         </div>
-
         <div class="flex justify-end gap-3">
           <button type="reset"
                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
