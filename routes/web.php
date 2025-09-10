@@ -156,9 +156,9 @@ Route::middleware(['cekrole:siswa'])->group(function () {
 Route::prefix('siswa/tempat')->group(function() {
     Route::get('/', [TempatPKLController::class, 'index'])->name('siswa.tempat.index');
     Route::get('/create', [TempatPKLController::class, 'create'])->name('siswa.tempat.create');
-    Route::post('/store', [TempatPKLController::class, 'store'])->name('siswa.tempat.store');
+    Route::post('/', [TempatPKLController::class, 'store'])->name('siswa.tempat.store');
     Route::get('/{id}/edit', [TempatPKLController::class, 'edit'])->name('siswa.tempat.edit');
-    Route::put('/{id}/update', [TempatPKLController::class, 'update'])->name('siswa.tempat.update');
+    Route::put('/{id}', [TempatPKLController::class, 'update'])->name('siswa.tempat.update');
 });
 
 // Daily Activity

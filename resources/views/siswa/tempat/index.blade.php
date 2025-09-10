@@ -50,43 +50,33 @@
             <th>Pembimbing</th>
             <th>Anggota</th>
             <th>Status</th>
-<<<<<<< HEAD
-            <th>Aksi</th>
-        </tr>
-        @foreach($tempat as $t)
-        <tr>
-=======
             <th class="text-center">Aksi</th>
           </tr>
         </thead>
         <tbody>
           @foreach($tempat as $t)
           <tr>
->>>>>>> 89fc3e49124202f1e366491a1b5f8d0da753d93f
             <td>{{ $t->nama_perusahaan }}</td>
             <td>{{ $t->alamat_perusahaan }}</td>
             <td>{{ $t->telepon_perusahaan }}</td>
             <td>{{ $t->pembimbing_perusahaan }}</td>
-<<<<<<< HEAD
             <td>
-                <ul style="padding-left:15px; margin:0;">
-                    @foreach($t->siswas as $anggota)
-                        <li>{{ $anggota->nama }} ({{ $anggota->jurusan }})</li>
-                    @endforeach
-                </ul>
+              <ul class="mb-0 ps-3">
+                @foreach($t->siswas as $anggota)
+                  <li>{{ $anggota->nama }} ({{ $anggota->jurusan }})</li>
+                @endforeach
+              </ul>
             </td>
-            <td>{{ $t->status_label }}</td>
-=======
->>>>>>> 89fc3e49124202f1e366491a1b5f8d0da753d93f
             <td>
-              <span class="badge
-                @if($t->status_label == 'Belum Terverifikasi') bg-secondary
-                @elseif($t->status_label == 'Proses') bg-warning text-dark
-                @elseif($t->status_label == 'Diterima') bg-success
-                @elseif($t->status_label == 'Ditolak') bg-danger
-                @endif">
-                {{ $t->status_label }}
-              </span>
+              @if($t->status == 'belum_terverifikasi')
+                <span class="badge bg-secondary">Belum Terverifikasi</span>
+              @elseif($t->status == 'proses')
+                <span class="badge bg-warning text-dark">Proses</span>
+              @elseif($t->status == 'diterima')
+                <span class="badge bg-success">Diterima</span>
+              @elseif($t->status == 'ditolak')
+                <span class="badge bg-danger">Ditolak</span>
+              @endif
             </td>
             <td class="text-center">
               <a href="{{ route('siswa.tempat.edit', $t->id) }}"

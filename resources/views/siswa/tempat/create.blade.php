@@ -1,58 +1,3 @@
-
-<h2>Input Tempat PKL</h2>
-
-<form action="{{ route('siswa.tempat.store') }}" method="POST">
-    @csrf
-
-    <label>Nama Perusahaan:</label>
-    <input type="text" name="nama_perusahaan" required>
-
-    <label>Alamat Perusahaan:</label>
-    <input type="text" name="alamat_perusahaan" required>
-
-    <label>Telepon Perusahaan:</label>
-    <input type="text" name="telepon_perusahaan">
-
-    <label>Pembimbing Perusahaan:</label>
-    <input type="text" name="pembimbing_perusahaan">
-
-    <hr>
-    <h4>Anggota PKL</h4>
-
-    {{-- Siswa yang login --}}
-    <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}">
-    <p>{{ $siswaLogin->nama }} (Anda)</p>
-
-    {{-- Container untuk anggota tambahan --}}
-    <div id="anggota-container"></div>
-    <button type="button" onclick="tambahAnggota()">+ Tambah Anggota</button>
-
-    <br><br>
-    <button type="submit">Simpan</button>
-</form>
-
-<script>
-    // Template opsi siswa lain
-    const siswasOptions = `
-        <option value="">-- Pilih Siswa --</option>
-        @foreach($siswas as $s)
-            <option value="{{ $s->id }}">{{ $s->nama }}</option>
-        @endforeach
-    `;
-
-    function tambahAnggota() {
-        const container = document.getElementById('anggota-container');
-        const wrap = document.createElement('div');
-        wrap.style.marginTop = '5px';
-        wrap.innerHTML = `
-            <select name="anggota[]">
-                ${siswasOptions}
-            </select>
-            <button type="button" onclick="this.parentNode.remove()">Hapus</button>
-        `;
-        container.appendChild(wrap);
-    }
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Input Tempat PKL</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -99,6 +43,7 @@
       <form method="POST" action="{{ route('siswa.tempat.store') }}" class="space-y-4">
         @csrf
 
+        <!-- Perusahaan -->
         <div>
           <label class="block font-medium">Nama Perusahaan</label>
           <input type="text" name="nama_perusahaan" required placeholder="Masukkan nama perusahaan"
@@ -123,8 +68,27 @@
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 
+        <!-- Anggota PKL -->
+        <div class="pt-4 border-t">
+          <h3 class="text-lg font-semibold text-[#1d9a96] mb-2">Anggota PKL</h3>
+
+          <!-- Siswa yang login -->
+          <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}">
+          <p class="text-sm text-gray-700 mb-2">
+            <i class="fas fa-user"></i> {{ $siswaLogin->nama }} <span class="text-gray-500">(Anda)</span>
+          </p>
+
+          <!-- Container anggota tambahan -->
+          <div id="anggota-container" class="space-y-2"></div>
+
+          <button type="button" onclick="tambahAnggota()"
+                  class="mt-2 px-3 py-1 bg-[#1d9a96] text-white rounded-lg text-sm hover:bg-[#17807c]">
+            <i class="fas fa-plus"></i> Tambah Anggota
+          </button>
+        </div>
+
         <!-- Tombol -->
-        <div class="flex justify-end gap-3">
+        <div class="flex justify-end gap-3 pt-4 border-t">
           <button type="reset"
                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
             <i class="fas fa-undo"></i> Reset
@@ -137,5 +101,30 @@
       </form>
     </div>
   </div>
+
+  <script>
+    const siswasOptions = `
+      <option value="">-- Pilih Siswa --</option>
+      @foreach($siswas as $s)
+        <option value="{{ $s->id }}">{{ $s->nama }} ({{ $s->jurusan }})</option>
+      @endforeach
+    `;
+
+    function tambahAnggota() {
+      const container = document.getElementById('anggota-container');
+      const wrap = document.createElement('div');
+      wrap.className = "flex items-center gap-2";
+      wrap.innerHTML = `
+        <select name="anggota[]" class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#1d9a96]">
+          ${siswasOptions}
+        </select>
+        <button type="button" onclick="this.parentNode.remove()"
+                class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
+          Hapus
+        </button>
+      `;
+      container.appendChild(wrap);
+    }
+  </script>
 </body>
 </html>

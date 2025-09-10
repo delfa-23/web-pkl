@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Login;
 use App\Models\TempatPkl;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -12,23 +13,25 @@ class TempatPklController extends Controller
     {
         $login_id = session('login_id');
         $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
-        $tempat = TempatPkl::where('siswa_id', $siswa->id)->get();
 
-        return view('siswa.tempat.index', compact('tempat'));
+        // load tempat + relasi siswas
+        $tempat = TempatPkl::with('siswas')
+                    ->where('siswa_id', $siswa->id)
+                    ->get();
+
+        // ambil semua siswa buat dropdown anggota
+        $siswas = Siswa::orderBy('nama')->get();
+
+        return view('siswa.tempat.index', compact('tempat', 'siswas'));
     }
 
     public function create()
     {
-        // Ambil login_id dari session
         $login_id = session('login_id');
-
-        // Ambil data siswa yang login
         $siswaLogin = Siswa::where('login_id', $login_id)->firstOrFail();
 
-        // Ambil daftar siswa lain untuk dropdown anggota
         $siswas = Siswa::where('id', '!=', $siswaLogin->id)->get();
 
-        // Kirim ke view
         return view('siswa.tempat.create', compact('siswaLogin', 'siswas'));
     }
 
@@ -37,13 +40,13 @@ class TempatPklController extends Controller
         $request->validate([
             'nama_perusahaan' => 'required',
             'alamat_perusahaan' => 'required',
-            'anggota.*' => 'exists:siswas,id', // validasi anggota
+            'anggota.*' => 'exists:siswas,id',
         ]);
 
         $login_id = session('login_id');
         $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
 
-        $tempat = TempatPKL::create([
+        $tempat = TempatPkl::create([
             'siswa_id' => $siswa->id,
             'nama_perusahaan' => $request->nama_perusahaan,
             'alamat_perusahaan' => $request->alamat_perusahaan,
@@ -52,31 +55,26 @@ class TempatPklController extends Controller
             'status' => 'belum_terverifikasi',
         ]);
 
-        // pastikan array unik
-        $anggota = array_unique($request->anggota);
+        $anggota = array_unique($request->anggota ?? []);
         $tempat->siswas()->attach($anggota);
 
-        return redirect()->route('siswa.dashboard')->with('success', 'Tempat PKL berhasil ditambahkan!');
+        return redirect()->route('siswa.tempat.index')
+            ->with('success', 'Tempat PKL berhasil ditambahkan!');
     }
-
-
 
     public function edit($id)
     {
-        $tempat = TempatPkl::findOrFail($id);
+        $tempat = TempatPkl::with('siswas')->findOrFail($id);
 
-        $login_id = session('login_id');
-        $siswaLogin = Siswa::where('login_id', $login_id)->first();
+        // Ambil semua siswa yang bisa dipilih (urut nama)
+        $siswas = Siswa::orderBy('nama')->get();
 
-        if(!$siswaLogin){
-            return redirect()->back()->with('error', 'Data siswa login tidak ditemukan.');
-        }
-
-        $siswas = Siswa::where('id', '!=', $siswaLogin->id)->get();
+        // Ambil siswa yang login (sesuaikan penggunaan session/auth di aplikasi kamu)
+        $loginId = session('login_id') ?? (auth()->check() ? auth()->id() : null);
+        $siswaLogin = $loginId ? Siswa::where('login_id', $loginId)->first() : null;
 
         return view('siswa.tempat.edit', compact('tempat', 'siswas', 'siswaLogin'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -88,24 +86,31 @@ class TempatPklController extends Controller
             'telepon_perusahaan' => 'nullable|string',
             'pembimbing_perusahaan' => 'nullable|string',
             'status' => 'nullable|in:belum_terverifikasi,proses,diterima,ditolak',
-            'anggota.*' => 'exists:siswas,id',
+            'anggota.*' => 'nullable|exists:siswas,id',
         ]);
 
-        $data = [
+        $tempat->update([
             'nama_perusahaan' => $request->nama_perusahaan,
             'alamat_perusahaan' => $request->alamat_perusahaan,
             'telepon_perusahaan' => $request->telepon_perusahaan,
             'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
-        ];
+        ]);
 
-        if (session('role') === 'admin' && $request->filled('status')) {
-            $data['status'] = $request->status;
+        // Pastikan ambil siswa login dengan cara yang aman
+        $loginId = session('login_id') ?? (auth()->check() ? auth()->id() : null);
+        $siswaLogin = $loginId ? Siswa::where('login_id', $loginId)->first() : null;
+
+        // Ambil anggota dari request (buang empty string)
+        $anggota = array_filter($request->anggota ?? [], function($v) { return $v !== null && $v !== ''; });
+
+        // Force siswa login selalu ada di anggota (aman jika user mengutak-atik form)
+        if ($siswaLogin) {
+            if (!in_array($siswaLogin->id, $anggota)) {
+                $anggota[] = $siswaLogin->id;
+            }
         }
 
-        $tempat->update($data);
-
-        // update pivot anggota
-        $tempat->siswas()->sync($request->anggota ?? []);
+        $tempat->siswas()->sync(array_values(array_unique($anggota)));
 
         return redirect(
             session('role') === 'admin'
@@ -116,31 +121,72 @@ class TempatPklController extends Controller
 
 
 
-    public function adminIndex()
+     public function adminIndex()
     {
-        $tempats = TempatPKL::with('siswa')->get();
-        return view('admin.tempat.index', compact('tempats'));
+        $tempats = TempatPkl::with(['siswa', 'siswas'])->get();
+        $siswas  = Siswa::orderBy('nama')->get();
+
+        return view('admin.tempat.index', compact('tempats', 'siswas'));
     }
 
+    // Untuk admin
     public function adminEdit($id)
     {
-        $tempat = TempatPKL::with('siswa')->findOrFail($id);
-        return view('admin.tempat.edit', compact('tempat'));
+        $tempat = TempatPKL::with('siswas')->findOrFail($id);
+        $siswas = Siswa::all();
+
+        $userLoginId = session('login_id'); // atau auth()->id() jika pakai auth
+        $user = Login::where('id_login', $userLoginId)->first();
+
+        return view('edit-tempat', compact('tempat', 'siswas', 'user'));
     }
+
+
 
     public function adminUpdate(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|in:belum_terverifikasi,proses,diterima,ditolak',
-        ]);
-
         $tempat = TempatPkl::findOrFail($id);
-        $tempat->update([
-            'status' => $request->status
+
+        $request->validate([
+            'nama_perusahaan' => 'required|string|max:255',
+            'alamat_perusahaan' => 'required|string',
+            'telepon_perusahaan' => 'nullable|string|max:20',
+            'pembimbing_perusahaan' => 'nullable|string|max:255',
+            'status' => 'required|in:belum_terverifikasi,proses,diterima,ditolak',
+            'anggota.*' => 'nullable|exists:siswas,id',
+            'jurusan.*' => 'nullable|string|max:255',
         ]);
 
-        return redirect()->route('admin.tempat.index')->with('success', 'Status berhasil diperbarui!');
+        // Update data utama
+        $tempat->update([
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat_perusahaan' => $request->alamat_perusahaan,
+            'telepon_perusahaan' => $request->telepon_perusahaan,
+            'pembimbing_perusahaan' => $request->pembimbing_perusahaan,
+            'status' => $request->status,
+        ]);
+
+        // Ambil data anggota + jurusan dari request
+        $anggotaIds = $request->input('anggota', []);
+        $jurusans   = $request->input('jurusan', []);
+
+        // Siapkan array untuk sync pivot (siswa_id => ['jurusan' => ...])
+        $syncData = [];
+        foreach ($anggotaIds as $index => $siswaId) {
+            if ($siswaId) {
+                $syncData[$siswaId] = [
+                    'jurusan' => $jurusans[$index] ?? null,
+                ];
+            }
+        }
+
+        // Sync pivot table
+        $tempat->siswas()->sync($syncData);
+
+        return redirect()->route('admin.tempat.index')
+                 ->with('success', 'Data tempat PKL berhasil diperbarui!');
     }
+
 
 
 }
