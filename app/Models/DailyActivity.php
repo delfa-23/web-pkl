@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DailyActivity extends Model
 {
     use HasFactory;
-    protected $fillable = ['login_id', 'tanggal', 'kegiatan'];
+    protected $fillable = ['login_id', 'tanggal', 'kegiatan', 'foto'];
 
     public function login()
     {

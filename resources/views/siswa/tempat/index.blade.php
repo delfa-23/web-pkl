@@ -38,12 +38,11 @@
       </div>
     </form>
 
-    <!-- Table / Empty -->
     <div class="table-responsive bg-white shadow rounded">
-      @if($tempat->count() > 0)
-      <table class="table table-striped align-middle mb-0">
+    @if($tempat->count() > 0)
+        <table class="table table-striped align-middle mb-0">
         <thead class="table-light text-brand">
-          <tr>
+            <tr>
             <th>Nama Perusahaan</th>
             <th>Alamat</th>
             <th>Telepon</th>
@@ -51,52 +50,64 @@
             <th>Anggota</th>
             <th>Status</th>
             <th class="text-center">Aksi</th>
-          </tr>
+            </tr>
         </thead>
         <tbody>
-          @foreach($tempat as $t)
-          <tr>
+            @foreach($tempat as $t)
+            <tr>
             <td>{{ $t->nama_perusahaan }}</td>
             <td>{{ $t->alamat_perusahaan }}</td>
             <td>{{ $t->telepon_perusahaan }}</td>
             <td>{{ $t->pembimbing_perusahaan }}</td>
             <td>
-              <ul class="mb-0 ps-3">
+                <ul class="mb-0 ps-3">
                 @foreach($t->siswas as $anggota)
-                  <li>{{ $anggota->nama }} ({{ $anggota->jurusan }})</li>
+                    <li>{{ $anggota->nama }} ({{ $anggota->jurusan }})</li>
                 @endforeach
-              </ul>
+                </ul>
             </td>
             <td>
-              @if($t->status == 'belum_terverifikasi')
+                @if($t->status == 'belum_terverifikasi')
                 <span class="badge bg-secondary">Belum Terverifikasi</span>
-              @elseif($t->status == 'proses')
+                @elseif($t->status == 'proses')
                 <span class="badge bg-warning text-dark">Proses</span>
-              @elseif($t->status == 'diterima')
+                @elseif($t->status == 'diterima')
                 <span class="badge bg-success">Diterima</span>
-              @elseif($t->status == 'ditolak')
+                @elseif($t->status == 'ditolak')
                 <span class="badge bg-danger">Ditolak</span>
-              @endif
+                @endif
             </td>
-            <td class="text-center">
-              <a href="{{ route('siswa.tempat.edit', $t->id) }}"
-                 class="btn btn-sm btn-outline-primary" title="Edit">
+            <td class="text-center d-flex justify-content-center gap-1">
+                <!-- Tombol Edit -->
+                <a href="{{ route('siswa.tempat.edit', $t->id) }}"
+                class="btn btn-sm btn-outline-primary" title="Edit">
                 <i class="fas fa-edit"></i>
-              </a>
+                </a>
+                <!-- Tombol Hapus -->
+                <form action="{{ route('siswa.tempat.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus tempat PKL ini?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                    <i class="fas fa-trash"></i>
+                </button>
+                </form>
             </td>
-          </tr>
-          @endforeach
+            </tr>
+            @endforeach
         </tbody>
-      </table>
-      @else
-      <div class="text-center py-5">
+        </table>
+    @else
+        <!-- Kalau belum punya tempat PKL -->
+        <div class="text-center py-5">
         <a href="{{ route('siswa.tempat.create') }}"
-           class="btn bg-brand text-white shadow">
-          <i class="fas fa-plus me-1"></i> Input Tempat PKL
+            class="btn bg-brand text-white shadow">
+            <i class="fas fa-plus me-1"></i> Input Tempat PKL
         </a>
-      </div>
-      @endif
+        </div>
+    @endif
     </div>
+
+
 
     <!-- Tombol kembali -->
     <div class="mt-4">

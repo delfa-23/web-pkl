@@ -1,4 +1,4 @@
-{{-- <h1>Selamat Datang, {{ $guru->nama }}!</h1>
+{{-- {{-- <h1>Selamat Datang, {{ $guru->nama }}!</h1>
 
 <h3>Filter Siswa</h3>
 <form method="GET" action="{{ route('guru.dashboard') }}">
@@ -251,4 +251,4 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
 </body>
-</html>
+</html> --}}

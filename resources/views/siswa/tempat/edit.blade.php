@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Edit Tempat PKL</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
   <style>
     .bg-brand { background-color:#1d9a96; color:#fff; }
     .anggota-row .form-select { max-width: 200px; }
@@ -68,30 +70,32 @@
     <h5 class="mb-3">Anggota PKL</h5>
 
     <div id="anggota-container">
-      {{-- Siswa login --}}
-      @if(isset($siswaLogin))
+    {{-- Siswa login --}}
+    @if(isset($siswaLogin))
         <div class="d-flex align-items-center gap-2 mb-2 anggota-row">
-          <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}" data-fixed="1">
-          <span class="badge bg-secondary p-2">{{ $siswaLogin->nama }} (Anda)</span>
+        <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}" data-fixed="1">
+        <span class="badge bg-secondary p-2">{{ $siswaLogin->nama }} (Anda)</span>
         </div>
-      @endif
+    @endif
 
-      {{-- Anggota lain --}}
-      @foreach($tempat->siswas as $angg)
+    {{-- Anggota lama --}}
+    @foreach($tempat->siswas as $angg)
         @if(!isset($siswaLogin) || $angg->id != $siswaLogin->id)
-          <div class="d-flex align-items-center gap-2 mb-2 anggota-row">
+        <div class="d-flex align-items-center gap-2 mb-2 anggota-row">
             <select name="anggota[]" class="form-select form-select-sm w-auto anggota-select">
-              <option value="">-- Pilih Siswa --</option>
-              @foreach($siswas as $s)
+            <option value="">-- Pilih Siswa --</option>
+            @foreach($siswas as $s)
                 @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
-                  <option value="{{ $s->id }}" {{ $s->id == $angg->id ? 'selected' : '' }}>{{ $s->nama }}</option>
+                <option value="{{ $s->id }}" {{ $s->id == $angg->id ? 'selected' : '' }}>
+                    {{ $s->nama }}
+                </option>
                 @endif
-              @endforeach
+            @endforeach
             </select>
             <button type="button" class="btn btn-danger btn-sm remove-anggota">Hapus</button>
-          </div>
+        </div>
         @endif
-      @endforeach
+    @endforeach
     </div>
 
     <button type="button" id="add-anggota-btn" class="btn btn-outline-secondary btn-sm mb-3">+ Tambah Anggota</button>
@@ -104,22 +108,39 @@
 </div>
 
 <script>
-const siswasOptions = `@foreach($siswas as $s)@if(!isset($siswaLogin) || $s->id != $siswaLogin->id)<option value="{{ $s->id }}">{{ addslashes($s->nama) }}</option>@endif @endforeach`;
+const siswasOptions = `@foreach($siswas as $s)
+  @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
+    <option value="{{ $s->id }}">{{ addslashes($s->nama) }}</option>
+  @endif
+@endforeach`;
+
+function initTomSelect(el){
+  let ts = new TomSelect(el, {
+    create: false,
+    allowEmptyOption: true,
+    sortField: { field: "text", direction: "asc" },
+    onChange: function(){
+      refreshOptionStates();
+    }
+  });
+  return ts;
+}
 
 document.getElementById('add-anggota-btn').addEventListener('click', function(){
   const container = document.getElementById('anggota-container');
   const div = document.createElement('div');
   div.className = 'd-flex align-items-center gap-2 mb-2 anggota-row';
   div.innerHTML = `
-    <select name="anggota[]" class="form-select form-select-sm w-auto anggota-select">
+    <select name="anggota[]" class="form-select anggota-select">
       <option value="">-- Pilih Siswa --</option>
       ${siswasOptions}
     </select>
     <button type="button" class="btn btn-danger btn-sm remove-anggota">Hapus</button>
   `;
   container.appendChild(div);
+
   attachRemove(div.querySelector('.remove-anggota'));
-  attachSelectListener(div.querySelector('.anggota-select'));
+  initTomSelect(div.querySelector('.anggota-select'));
   refreshOptionStates();
 });
 
@@ -131,23 +152,45 @@ function attachRemove(btn){
 }
 document.querySelectorAll('.remove-anggota').forEach(attachRemove);
 
-function attachSelectListener(sel){
-  sel.addEventListener('change', refreshOptionStates);
-}
-document.querySelectorAll('.anggota-select').forEach(attachSelectListener);
-
 function refreshOptionStates(){
   const selects = Array.from(document.querySelectorAll('.anggota-select'));
-  const chosen = selects.map(s => s.value).filter(v => v && v !== '');
+  const hidden = Array.from(document.querySelectorAll('input[name="anggota[]"][data-fixed]'));
+
+  // ambil semua siswa yg sudah dipilih (termasuk "Anda")
+  const chosen = [
+    ...hidden.map(h => h.value),
+    ...selects.map(s => s.value).filter(v => v && v !== '')
+  ];
+
   selects.forEach(sel => {
-    Array.from(sel.options).forEach(opt => {
-      if(opt.value === '') { opt.disabled = false; return; }
-      if(opt.value === sel.value) { opt.disabled = false; return; }
-      opt.disabled = chosen.includes(opt.value);
+    const control = sel.tomselect;
+    if(!control) return;
+
+    // Loop semua opsi
+    Object.keys(control.options).forEach(v => {
+      const optionData = control.options[v];
+
+      if(chosen.includes(v) && v !== sel.value){
+        // kasih tanda disabled biar keliatan abu-abu
+        control.updateOption(v, {
+          ...optionData,
+          disabled: true
+        });
+      } else {
+        control.updateOption(v, {
+          ...optionData,
+          disabled: false
+        });
+      }
     });
   });
 }
 
+
+// init tomselect untuk anggota lama
+document.querySelectorAll('.anggota-select').forEach(initTomSelect);
+
+// jalankan pertama kali
 refreshOptionStates();
 </script>
 

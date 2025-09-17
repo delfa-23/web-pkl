@@ -6,6 +6,8 @@
   <title>Input Tempat PKL</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800">
   <div class="container mx-auto p-6 max-w-lg">
@@ -102,29 +104,80 @@
     </div>
   </div>
 
-  <script>
-    const siswasOptions = `
-      <option value="">-- Pilih Siswa --</option>
-      @foreach($siswas as $s)
-        <option value="{{ $s->id }}">{{ $s->nama }} ({{ $s->jurusan }})</option>
-      @endforeach
-    `;
+<script>
+  // Data siswa dari backend
+  const siswaData = [
+    @foreach($siswas as $s)
+      { value: "{{ $s->id }}", text: "{{ $s->nama }} ({{ $s->jurusan }})" },
+    @endforeach
+  ];
 
-    function tambahAnggota() {
-      const container = document.getElementById('anggota-container');
-      const wrap = document.createElement('div');
-      wrap.className = "flex items-center gap-2";
-      wrap.innerHTML = `
-        <select name="anggota[]" class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#1d9a96]">
-          ${siswasOptions}
-        </select>
-        <button type="button" onclick="this.parentNode.remove()"
-                class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
-          Hapus
-        </button>
-      `;
-      container.appendChild(wrap);
+  // Refresh semua dropdown agar siswa yg sudah dipilih hilang dari pilihan lain
+  function refreshDropdowns() {
+    let selectedValues = [];
+    document.querySelectorAll('.anggota-select').forEach(select => {
+      if (select.tomselect) {
+        const val = select.tomselect.getValue();
+        if (val) selectedValues.push(val);
+      }
+    });
+
+    document.querySelectorAll('.anggota-select').forEach(select => {
+      if (select.tomselect) {
+        const currentValue = select.tomselect.getValue();
+        select.tomselect.clearOptions();
+        siswaData.forEach(opt => {
+          // hanya tambahkan opsi jika belum dipilih di dropdown lain, atau itu opsi yg sekarang
+          if (!selectedValues.includes(opt.value) || opt.value === currentValue) {
+            select.tomselect.addOption(opt);
+          }
+        });
+        select.tomselect.refreshOptions(false);
+        if (currentValue) {
+          select.tomselect.setValue(currentValue, true);
+        }
+      }
+    });
+  }
+
+  // Tambah dropdown anggota
+  function tambahAnggota() {
+    const container = document.getElementById('anggota-container');
+    const wrap = document.createElement('div');
+    wrap.className = "flex items-center gap-2 mt-2";
+    wrap.innerHTML = `
+      <select name="anggota[]" class="anggota-select w-full"></select>
+      <button type="button" onclick="hapusDropdown(this)"
+              class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
+        Hapus
+      </button>
+    `;
+    container.appendChild(wrap);
+
+    // Inisialisasi TomSelect
+    let select = wrap.querySelector('.anggota-select');
+    let ts = new TomSelect(select, {
+      placeholder: 'Pilih siswa...',
+      maxItems: 1,
+      allowEmptyOption: true,
+      onChange: function() { refreshDropdowns(); }
+    });
+
+    refreshDropdowns();
+  }
+
+  // Hapus dropdown anggota
+  function hapusDropdown(btn) {
+    let select = btn.parentNode.querySelector('.anggota-select');
+    if (select.tomselect) {
+      select.tomselect.destroy();
     }
-  </script>
+    btn.parentNode.remove();
+    refreshDropdowns();
+  }
+</script>
+
+
+
 </body>
 </html>

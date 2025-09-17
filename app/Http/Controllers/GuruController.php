@@ -29,14 +29,15 @@ class GuruController extends Controller
             $query->where('nama', 'like', '%' . $request->nama . '%');
         }
 
-        $semuaSiswa = $query->get();
+        $semuaSiswa = Siswa::with(['login', 'tempats', 'activities'])->get();
 
         return view('guru.dashboard', compact('guru', 'semuaSiswa'));
     }
 
     public function showTempat($id)
     {
-        $siswa = Siswa::with('tempatPKL')->findOrFail($id);
+        $siswa = Siswa::with('tempats')->findOrFail($id);
+
         return view('guru.siswa.tempat', compact('siswa'));
     }
 

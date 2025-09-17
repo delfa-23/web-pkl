@@ -64,19 +64,16 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>
-                        <ul class="mb-0 ps-3">
-                            @foreach($tempat->siswas as $siswa)
-                                <li>{{ $siswa->nama }}</li>
-                            @endforeach
-                        </ul>
+                        @foreach($tempat->siswas as $siswa)
+                            <div>{{ $siswa->nama }}</div>
+                        @endforeach
                     </td>
                     <td>
-                        <ul class="mb-0 ps-3">
-                            @foreach($tempat->siswas as $siswa)
-                                <li>{{ $siswa->jurusan }}</li>
-                            @endforeach
-                        </ul>
+                        @foreach($tempat->siswas as $siswa)
+                            <div>{{ $siswa->jurusan }}</div>
+                        @endforeach
                     </td>
+
                     <td>{{ $tempat->nama_perusahaan }}</td>
                     <td>{{ $tempat->alamat_perusahaan }}</td>
                     <td>{{ $tempat->telepon_perusahaan ?? '-' }}</td>

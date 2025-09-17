@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Siswa - Surat Izin Orang Tua | SyifaPKL</title>
+  <title>Daftar Siswa - Surat Pemberangkatan PKL | SyifaPKL</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,14 +21,9 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-        <i class="fas fa-users me-2"></i> Daftar Siswa - Surat Izin Orang Tua
+        <i class="fas fa-user-graduate me-2"></i> Daftar Siswa - Surat Pemberangkatan PKL
       </h2>
     </div>
-
-    <!-- Pesan sukses -->
-    @if(session('success'))
-      <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
 
     <!-- Table -->
     <div class="table-responsive bg-white shadow rounded">
@@ -48,12 +43,12 @@
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
-                <a href="{{ route('surat.izin_orangtua', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-success" title="Lihat Template">
+                <a href="{{ route('surat.pemberangkatan', $siswa->id) }}"
+                   class="btn btn-sm btn-outline-primary" title="Lihat Template">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->
-                <a href="{{ route('surat.download_izin', $siswa->id) }}"
+                <a href="{{ route('surat.download_pemberangkatan', $siswa->id) }}"
                    class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">
                   <i class="fa-solid fa-file-pdf me-1"></i> Download PDF
                 </a>
@@ -63,7 +58,7 @@
           @empty
           <tr>
             <td colspan="3" class="text-center text-muted py-4">
-              <i class="fas fa-info-circle"></i> Tidak ada siswa dengan status sesuai.
+              <i class="fas fa-info-circle"></i> Tidak ada data siswa untuk pemberangkatan.
             </td>
           </tr>
           @endforelse
@@ -74,7 +69,7 @@
     <!-- Tombol kembali -->
     <div class="mt-4">
       <a href="{{ route('admin.dashboard')}}" class="text-brand text-decoration-none">
-        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+        <i class="fas fa-arrow-left me-1"></i> Kembali ke Dashboard
       </a>
     </div>
   </div>

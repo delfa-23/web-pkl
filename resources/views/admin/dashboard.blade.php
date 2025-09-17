@@ -92,13 +92,9 @@
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_keterangan') }}">Template Surat Keterangan Melaksanakan PKL/OJT</a>
-                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_peminatan') }}">Download Surat Pengantar Per Peminatan</a>
-
                     </div>
                 </div>
             </li>
-
-
             {{-- <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
@@ -391,16 +387,13 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Perusahaan</div>
-    <div class="row no-gutters align-items-center">
-        <div class="col-auto">
-            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                {{ $siswa->tempat ? $siswa->tempat->nama_perusahaan : '-' }}
-            </div>
-        </div>
-    </div>
-</div>
-
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Perusahaan</div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $jumlahPerusahaan }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <div class="col-auto">
                                             <i class="fas fa-building fa-2x text-gray-300"></i>
                                         </div>

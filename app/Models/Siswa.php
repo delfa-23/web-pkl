@@ -40,7 +40,19 @@ class Siswa extends Model
 
     public function tempats()
     {
-        return $this->belongsToMany(TempatPkl::class, 'siswa_tempat', 'siswa_id', 'tempat_pkl_id')->withTimestamps();
+        return $this->belongsToMany(TempatPkl::class, 'siswa_tempat', 'siswa_id', 'tempat_pkl_id')
+                    ->withPivot('status', 'jurusan')
+                    ->withTimestamps();
+    }
+
+    public function tempatAktif()
+    {
+        return $this->tempats()->wherePivot('status', 'proses')->first();
+    }
+
+    public function tempat()
+    {
+        return $this->hasOne(TempatPkl::class, 'siswa_id');
     }
 
     public function activities()

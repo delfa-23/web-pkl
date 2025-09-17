@@ -1,23 +1,31 @@
-<h1>Detail Siswa: {{ $siswa->nama }}</h1>
-<p><b>Jurusan:</b> {{ $siswa->jurusan }}</p>
+<div class="container">
+    <h1 class="mb-4">Daftar Tempat PKL</h1>
 
-<h3>Tempat PKL</h3>
-@if($siswa->tempatPKL)
-    <p><b>Nama Perusahaan:</b> {{ $siswa->tempatPKL->nama_perusahaan }}</p>
-    <p><b>Tempat PKL:</b> {{ $siswa->tempatPKL->tempat_pkl }}</p>
-@else
-    <p>Belum mengisi Tempat PKL</p>
-@endif
-
-<h3>Daily Activity</h3>
-@if($siswa->activities->count() > 0)
-    <ul>
-        @foreach($siswa->activities as $a)
-            <li>{{ date('d-m-Y H:i', strtotime($a->tanggal)) }} : {{ $a->kegiatan }}</li>
-        @endforeach
-    </ul>
-@else
-    <p>Belum ada aktivitas</p>
-@endif
-
-<a href="{{ route('guru.dashboard') }}">Kembali ke Dashboard</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nama Perusahaan</th>
+                <th>Alamat</th>
+                <th>Status</th>
+                <th>Jumlah Siswa</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($tempats as $tempat)
+                <tr>
+                    <td>{{ $tempat->nama_perusahaan }}</td>
+                    <td>{{ $tempat->alamat_perusahaan }}</td>
+                    <td>{{ $tempat->status_label }}</td>
+                    <td>{{ $tempat->siswas->count() }}</td>
+                    <td>
+                        <a href="{{ route('guru.tempat.show', $tempat->id) }}" class="btn btn-sm btn-info">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <a href="{{ route('guru.siswa.tempat') }}" class="btn btn-secondary mt-3">Kembali ke Daftar PKL Siswa</a>
+</div>

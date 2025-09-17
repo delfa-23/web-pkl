@@ -14,16 +14,15 @@ class TempatPklController extends Controller
         $login_id = session('login_id');
         $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
 
-        // load tempat + relasi siswas
-        $tempat = TempatPkl::with('siswas')
-                    ->where('siswa_id', $siswa->id)
-                    ->get();
+        // Ambil semua tempat PKL yang diikuti siswa login + siswanya
+        $tempat = $siswa->tempats()->with('siswas')->get();
 
         // ambil semua siswa buat dropdown anggota
         $siswas = Siswa::orderBy('nama')->get();
 
         return view('siswa.tempat.index', compact('tempat', 'siswas'));
     }
+
 
     public function create()
     {
@@ -47,7 +46,6 @@ class TempatPklController extends Controller
         $siswa = Siswa::where('login_id', $login_id)->firstOrFail();
 
         $tempat = TempatPkl::create([
-            'siswa_id' => $siswa->id,
             'nama_perusahaan' => $request->nama_perusahaan,
             'alamat_perusahaan' => $request->alamat_perusahaan,
             'telepon_perusahaan' => $request->telepon_perusahaan,
@@ -55,12 +53,16 @@ class TempatPklController extends Controller
             'status' => 'belum_terverifikasi',
         ]);
 
-        $anggota = array_unique($request->anggota ?? []);
+        // gabungkan anggota tambahan + siswa pembuat
+        $anggota = array_unique(array_merge([$siswa->id], $request->anggota ?? []));
+
+        // simpan ke pivot
         $tempat->siswas()->attach($anggota);
 
         return redirect()->route('siswa.tempat.index')
             ->with('success', 'Tempat PKL berhasil ditambahkan!');
     }
+
 
     public function edit($id)
     {
@@ -101,7 +103,9 @@ class TempatPklController extends Controller
         $siswaLogin = $loginId ? Siswa::where('login_id', $loginId)->first() : null;
 
         // Ambil anggota dari request (buang empty string)
-        $anggota = array_filter($request->anggota ?? [], function($v) { return $v !== null && $v !== ''; });
+        $anggota = array_filter($request->anggota ?? [], function ($v) {
+            return $v !== null && $v !== '';
+        });
 
         // Force siswa login selalu ada di anggota (aman jika user mengutak-atik form)
         if ($siswaLogin) {
@@ -118,10 +122,30 @@ class TempatPklController extends Controller
                 : route('siswa.tempat.index')
         )->with('success', 'Data tempat PKL berhasil diperbarui');
     }
+    public function destroy($id)
+    {
+        $tempat = TempatPkl::findOrFail($id);
+        $tempat->delete();
+
+        return redirect()->route('siswa.tempat.index')->with('success', 'Tempat PKL berhasil dihapus.');
+    }
+
+    public function responUndangan($id, $status)
+    {
+        $siswaId = auth()->user()->siswa->id;
+
+        $tempat = TempatPkl::findOrFail($id);
+        $tempat->siswas()->updateExistingPivot($siswaId, [
+            'status' => $status
+        ]);
+
+        return redirect()->route('siswa.tempat.index')->with('success', 'Respon undangan berhasil.');
+    }
 
 
 
-     public function adminIndex()
+
+    public function adminIndex()
     {
         $tempats = TempatPkl::with(['siswa', 'siswas'])->get();
         $siswas  = Siswa::orderBy('nama')->get();
@@ -166,27 +190,37 @@ class TempatPklController extends Controller
             'status' => $request->status,
         ]);
 
-        // Ambil data anggota + jurusan dari request
+        // Ambil data anggota + jurusan
         $anggotaIds = $request->input('anggota', []);
         $jurusans   = $request->input('jurusan', []);
 
-        // Siapkan array untuk sync pivot (siswa_id => ['jurusan' => ...])
+        // Sync pivot (isi jurusan + status pivot)
         $syncData = [];
         foreach ($anggotaIds as $index => $siswaId) {
             if ($siswaId) {
                 $syncData[$siswaId] = [
                     'jurusan' => $jurusans[$index] ?? null,
+                    'status'  => $request->status, // isi status yang sama
                 ];
             }
         }
 
-        // Sync pivot table
         $tempat->siswas()->sync($syncData);
 
         return redirect()->route('admin.tempat.index')
-                 ->with('success', 'Data tempat PKL berhasil diperbarui!');
+            ->with('success', 'Data tempat PKL berhasil diperbarui!');
     }
 
+    public function guruIndex()
+    {
+        // Guru hanya bisa lihat, tidak bisa edit
+        $tempats = TempatPkl::with('siswas')->get();
+        return view('guru.tempat.index', compact('tempats'));
+    }
 
-
+    public function guruShow($id)
+    {
+        $tempat = TempatPkl::with('siswas')->findOrFail($id);
+        return view('guru.tempat.show', compact('tempat'));
+    }
 }

@@ -36,6 +36,7 @@
           <tr>
             <th>Tanggal & Waktu</th>
             <th>Kegiatan</th>
+            <th>Foto</th>
             <th class="text-center">Aksi</th>
           </tr>
         </thead>
@@ -44,6 +45,13 @@
           <tr>
             <td>{{ date('d-m-Y H:i', strtotime($a->tanggal)) }}</td>
             <td>{{ $a->kegiatan }}</td>
+            <td class="text-center">
+              @if($a->foto)
+                <img src="{{ asset('storage/' . $a->foto) }}" alt="Foto Aktivitas" class="img-thumbnail" style="max-width: 100px;">
+              @else
+                <span class="text-muted">Tidak ada foto</span>
+              @endif
+            </td>
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
                 <!-- Edit -->
@@ -65,7 +73,7 @@
           </tr>
           @empty
           <tr>
-            <td colspan="3" class="text-center text-muted py-4">
+            <td colspan="4" class="text-center text-muted py-4">
               <i class="fas fa-info-circle"></i> Belum ada aktivitas.
             </td>
           </tr>

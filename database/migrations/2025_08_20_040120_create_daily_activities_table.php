@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('login_id')->constrained('logins')->onDelete('cascade');
             $table->dateTime('tanggal');
             $table->text('kegiatan');
+            $table->string('foto');
             $table->timestamps();
         });
     }

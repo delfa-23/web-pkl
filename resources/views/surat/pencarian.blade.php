@@ -25,13 +25,16 @@
                 <th>Nama Perusahaan</th>
                 <th>Alamat Perusahaan</th>
             </tr>
-            <tr>
-                <td>{{ $siswa->nama }}</td>
-                <td>{{ $siswa->jurusan }}</td>
-                <td>{{ $siswa->tempatPKL->nama_perusahaan ?? '-' }}</td>
-                <td>{{ $siswa->tempatPKL->alamat_perusahaan ?? '-' }}</td>
-            </tr>
+            @foreach ($siswa->tempats as $tempat)
+                <tr>
+                    <td>{{ $siswa->nama }}</td>
+                    <td>{{ $siswa->jurusan }}</td>
+                    <td>{{ $tempat->nama_perusahaan }}</td>
+                    <td>{{ $tempat->alamat_perusahaan }}</td>
+                </tr>
+            @endforeach
         </table>
+
 
         <br>
         <a href="{{ route('surat.daftar_siswa_pencarian') }}">Kembali</a>

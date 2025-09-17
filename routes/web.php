@@ -19,6 +19,7 @@ use App\Models\Siswa;
 | Akun Testing
 |--------------------------------------------------------------------------
 */
+
 Route::get('/buat-admin', function () {
     if (!Login::where('id_login', 'admin')->exists()) {
         Login::create([
@@ -76,6 +77,7 @@ Route::middleware(['cekrole:admin'])->group(function () {
 
 
 
+
     // CRUD Program Keahlian
     Route::prefix('admin/jurusan')->group(function () {
         Route::get('/', [JurusanController::class, 'index'])->name('admin.jurusan.index');
@@ -123,11 +125,6 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::get('/keterangan', [SuratController::class, 'daftarSiswaKeterangan'])->name('surat.daftar_siswa_keterangan');
         Route::get('/keterangan/{id}', [SuratController::class, 'showKeterangan'])->name('surat.keterangan');
         Route::get('/keterangan/{id}/download', [SuratController::class, 'downloadKeterangan'])->name('surat.download_keterangan');
-
-        // Surat Peminatan
-        Route::get('/peminatan', [SuratController::class, 'daftarSiswaPeminatan'])->name('surat.daftar_siswa_peminatan');
-        Route::get('/peminatan/{id}', [SuratController::class, 'showPeminatan'])->name('surat.peminatan');
-        Route::get('/peminatan/{id}/download', [SuratController::class, 'downloadPeminatan'])->name('surat.download_peminatan');
     });
 });
 
@@ -141,6 +138,19 @@ Route::middleware(['cekrole:guru'])->group(function () {
     Route::get('/guru/siswa/{id}', [GuruController::class, 'showSiswa'])->name('guru.siswa.show');
     Route::get('/guru/siswa/{id}/tempat', [GuruController::class, 'showTempat'])->name('guru.siswa.tempat');
     Route::get('/guru/siswa/{id}/activity', [GuruController::class, 'showActivity'])->name('guru.siswa.activity');
+
+    // Rute khusus Guru
+    Route::prefix('guru')->middleware('role:guru')->group(function () {
+        Route::get('/tempat', [TempatPklController::class, 'guruIndex'])->name('guru.tempat.index');
+        Route::get('/tempat/{id}', [TempatPklController::class, 'guruShow'])->name('guru.tempat.show');
+    });
+
+    Route::get('/guru/activities', [\App\Http\Controllers\DailyActivityController::class, 'guruIndex'])
+        ->name('guru.activity.index');
+
+    // route yang sudah ada: lihat activity per siswa
+    Route::get('/guru/siswa/{id}/activity', [\App\Http\Controllers\GuruController::class, 'showActivity'])
+        ->name('guru.siswa.activity');
 });
 
 /*
@@ -153,20 +163,21 @@ Route::middleware(['cekrole:siswa'])->group(function () {
 });
 
 // Tempat PKL
-Route::prefix('siswa/tempat')->group(function() {
+Route::prefix('siswa/tempat')->group(function () {
     Route::get('/', [TempatPKLController::class, 'index'])->name('siswa.tempat.index');
     Route::get('/create', [TempatPKLController::class, 'create'])->name('siswa.tempat.create');
     Route::post('/', [TempatPKLController::class, 'store'])->name('siswa.tempat.store');
     Route::get('/{id}/edit', [TempatPKLController::class, 'edit'])->name('siswa.tempat.edit');
     Route::put('/{id}', [TempatPKLController::class, 'update'])->name('siswa.tempat.update');
+    Route::delete('/{id}', [TempatPKLController::class, 'destroy'])->name('siswa.tempat.destroy');
 });
 
 // Daily Activity
-Route::prefix('siswa/activity')->group(function() {
+Route::prefix('siswa/activity')->group(function () {
     Route::get('/', [DailyActivityController::class, 'index'])->name('siswa.activity.index');
     Route::get('/create', [DailyActivityController::class, 'create'])->name('siswa.activity.create');
     Route::post('/store', [DailyActivityController::class, 'store'])->name('siswa.activity.store');
-    Route::get('/{id}/edit', [DailyActivityController::class,'edit'])->name('siswa.activity.edit');
-    Route::put('/{id}/update', [DailyActivityController::class,'update'])->name('siswa.activity.update');
+    Route::get('/{id}/edit', [DailyActivityController::class, 'edit'])->name('siswa.activity.edit');
+    Route::put('/{id}/update', [DailyActivityController::class, 'update'])->name('siswa.activity.update');
     Route::delete('/{id}/destroy', [DailyActivityController::class, 'destroy'])->name('siswa.activity.destroy');
 });

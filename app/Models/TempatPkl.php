@@ -10,7 +10,6 @@ class TempatPkl extends Model
     use HasFactory;
 
     protected $fillable = [
-        'siswa_id',
         'nama_perusahaan',
         'alamat_perusahaan',
         'telepon_perusahaan',
@@ -22,14 +21,19 @@ class TempatPkl extends Model
     {
         return $this->belongsTo(Login::class, 'login_id', 'id');
     }
+
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'login_id', 'id');
     }
+
     public function siswas()
     {
-        return $this->belongsToMany(Siswa::class, 'siswa_tempat', 'tempat_pkl_id', 'siswa_id')->withTimestamps();
+        return $this->belongsToMany(Siswa::class, 'siswa_tempat', 'tempat_pkl_id', 'siswa_id')
+                    ->withPivot('status', 'jurusan')
+                    ->withTimestamps();
     }
+
     public function getStatusLabelAttribute()
     {
         return match($this->status) {
@@ -40,5 +44,5 @@ class TempatPkl extends Model
             default => $this->status,
         };
     }
-
 }
+
