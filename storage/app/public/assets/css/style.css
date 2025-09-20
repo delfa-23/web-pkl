@@ -18,7 +18,7 @@ body, html {
 .news-feed {
   flex: 1;
   position: relative;
-  background: url('http://127.0.0.1:8000/storage/assets/img/smk.jpg') no-repeat center center;
+  background: url('http://127.0.0.1:8000/storage/assets/img/a.jpg') no-repeat center center;
   background-size: cover;
   display: flex;
   align-items: flex-end;

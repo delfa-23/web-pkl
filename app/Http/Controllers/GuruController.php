@@ -20,18 +20,22 @@ class GuruController extends Controller
             return redirect('/')->with('error', 'Guru tidak ditemukan.');
         }
 
-        $query = Siswa::with(['login', 'tempatPKL', 'activities']);
+        $query = Siswa::query();
 
-        if ($request->filled('jurusan')) {
-            $query->where('jurusan', $request->jurusan);
-        }
-        if ($request->filled('nama')) {
-            $query->where('nama', 'like', '%' . $request->nama . '%');
-        }
+    if ($request->filled('nama')) {
+        $query->where('nama', 'like', '%' . $request->nama . '%');
+    }
 
-        $semuaSiswa = Siswa::with(['login', 'tempats', 'activities'])->get();
+    if ($request->filled('jurusan')) {
+        $query->where('jurusan', $request->jurusan);
+    }
 
-        return view('guru.dashboard', compact('guru', 'semuaSiswa'));
+    $semuaSiswa = $query->get();
+    $jumlahTempat = $semuaSiswa->count();
+
+    return view('guru.dashboard', compact('semuaSiswa', 'jumlahTempat', 'guru'));
+
+
     }
 
     public function showTempat($id)

@@ -21,7 +21,7 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-        <i class="fas fa-user-graduate me-2"></i> Daftar Siswa - Surat Pemberangkatan PKL
+        <i class="fas fa-users"></i> Daftar Siswa - Surat Pemberangkatan PKL
       </h2>
     </div>
 
@@ -44,7 +44,7 @@
               <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
                 <a href="{{ route('surat.pemberangkatan', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-primary" title="Lihat Template">
+                   class="btn btn-sm btn-outline-success" title="Lihat Template">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->

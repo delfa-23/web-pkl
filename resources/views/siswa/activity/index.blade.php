@@ -60,14 +60,15 @@
                   <i class="fas fa-edit"></i>
                 </a>
                 <!-- Delete -->
-                <form action="{{ route('siswa.activity.destroy', $a->id) }}" method="POST"
-                      onsubmit="return confirm('Yakin hapus?')">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                    <i class="fas fa-trash"></i>
-                  </button>
+                <form id="delete-form-{{ $a->id }}"
+                    action="{{ route('siswa.activity.destroy', $a->id) }}"
+                    method="POST" style="display:none;">
+                    @csrf
+                    @method('DELETE')
                 </form>
+                <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus" onclick="deleteUser({{ $a->id }})">
+                <i class="fas fa-trash"></i>
+                </button>
               </div>
             </td>
           </tr>
@@ -93,5 +94,45 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+  function deleteUser(id) {
+    Swal.fire({
+        title: 'Yakin?',
+        text: "Data Tidak Bisa Dikembalikan Setelah Dihapus!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Delete!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    })
+}
+</script>
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: '{{ session('success') }}',
+        timer: 2000,
+        showConfirmButton: false
+    })
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{ session('error') }}',
+    })
+</script>
+@endif
 </body>
 </html>

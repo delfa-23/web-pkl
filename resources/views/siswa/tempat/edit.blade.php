@@ -4,22 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Edit Tempat PKL</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-  <style>
-    .bg-brand { background-color:#1d9a96; color:#fff; }
-    .anggota-row .form-select { max-width: 200px; }
-    .anggota-row .badge { min-width: 120px; text-align: left; }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </head>
-<body class="bg-light">
-<div class="container py-4">
-  <h2 class="mb-4 text-brand">Edit Tempat PKL</h2>
+<body class="bg-gray-50 text-gray-800">
+<div class="container mx-auto p-6 max-w-lg">
 
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-[#1d9a96]">
+      <i class="fas fa-building"></i> Edit Tempat PKL
+    </h1>
+  </div>
+
+  <!-- Error Handling -->
   @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul class="mb-0">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+    <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+      <ul class="list-disc pl-5">
+        @foreach ($errors->all() as $e)
+          <li>{{ $e }}</li>
+        @endforeach
+      </ul>
     </div>
   @endif
 
@@ -29,171 +36,191 @@
       $isAdmin = $role === 'admin';
   @endphp
 
-  <form action="{{ $isAdmin ? route('admin.tempat.update', $tempat->id) : route('siswa.tempat.update', $tempat->id) }}" method="POST" id="form-edit-tempat">
-    @csrf
-    @method('PUT')
+  <!-- Card Form -->
+  <div class="bg-white p-6 rounded-lg shadow">
+    <form action="{{ $isAdmin ? route('admin.tempat.update', $tempat->id) : route('siswa.tempat.update', $tempat->id) }}"
+          method="POST" class="space-y-4">
+      @csrf
+      @method('PUT')
 
-    <div class="mb-3">
-      <label class="form-label">Nama Perusahaan</label>
-      <input name="nama_perusahaan" class="form-control" required value="{{ old('nama_perusahaan', $tempat->nama_perusahaan) }}">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Alamat Perusahaan</label>
-      <textarea name="alamat_perusahaan" class="form-control" required>{{ old('alamat_perusahaan', $tempat->alamat_perusahaan) }}</textarea>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Telepon Perusahaan</label>
-      <input name="telepon_perusahaan" class="form-control" value="{{ old('telepon_perusahaan', $tempat->telepon_perusahaan) }}">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Pembimbing Perusahaan</label>
-      <input name="pembimbing_perusahaan" class="form-control" value="{{ old('pembimbing_perusahaan', $tempat->pembimbing_perusahaan) }}">
-    </div>
-
-    {{-- Status hanya untuk admin --}}
-    @if($isAdmin)
-      <div class="mb-3">
-          <label class="form-label">Status</label>
-          <select name="status" class="form-select">
-              <option value="belum_terverifikasi" {{ $tempat->status=='belum_terverifikasi'?'selected':'' }}>Belum Terverifikasi</option>
-              <option value="proses" {{ $tempat->status=='proses'?'selected':'' }}>Proses</option>
-              <option value="diterima" {{ $tempat->status=='diterima'?'selected':'' }}>Diterima</option>
-              <option value="ditolak" {{ $tempat->status=='ditolak'?'selected':'' }}>Ditolak</option>
-          </select>
+      <!-- Perusahaan -->
+      <div>
+        <label class="block font-medium">Nama Perusahaan</label>
+        <input type="text" name="nama_perusahaan" required
+               value="{{ old('nama_perusahaan', $tempat->nama_perusahaan) }}"
+               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
       </div>
-    @endif
 
-    <hr>
-    <h5 class="mb-3">Anggota PKL</h5>
+      <div>
+        <label class="block font-medium">Alamat Perusahaan</label>
+        <textarea name="alamat_perusahaan" required
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">{{ old('alamat_perusahaan', $tempat->alamat_perusahaan) }}</textarea>
+      </div>
 
-    <div id="anggota-container">
-    {{-- Siswa login --}}
-    @if(isset($siswaLogin))
-        <div class="d-flex align-items-center gap-2 mb-2 anggota-row">
-        <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}" data-fixed="1">
-        <span class="badge bg-secondary p-2">{{ $siswaLogin->nama }} (Anda)</span>
+      <div>
+        <label class="block font-medium">Telepon Perusahaan</label>
+        <input type="text" name="telepon_perusahaan"
+               value="{{ old('telepon_perusahaan', $tempat->telepon_perusahaan) }}"
+               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+      </div>
+
+      <div>
+        <label class="block font-medium">Pembimbing Perusahaan</label>
+        <input type="text" name="pembimbing_perusahaan"
+               value="{{ old('pembimbing_perusahaan', $tempat->pembimbing_perusahaan) }}"
+               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+      </div>
+
+      <!-- Status hanya admin -->
+      @if($isAdmin)
+        <div>
+          <label class="block font-medium">Status</label>
+          <select name="status"
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
+            <option value="belum_terverifikasi" {{ $tempat->status=='belum_terverifikasi'?'selected':'' }}>Belum Terverifikasi</option>
+            <option value="proses" {{ $tempat->status=='proses'?'selected':'' }}>Proses</option>
+            <option value="diterima" {{ $tempat->status=='diterima'?'selected':'' }}>Diterima</option>
+            <option value="ditolak" {{ $tempat->status=='ditolak'?'selected':'' }}>Ditolak</option>
+          </select>
         </div>
-    @endif
+      @endif
 
-    {{-- Anggota lama --}}
-    @foreach($tempat->siswas as $angg)
-        @if(!isset($siswaLogin) || $angg->id != $siswaLogin->id)
-        <div class="d-flex align-items-center gap-2 mb-2 anggota-row">
-            <select name="anggota[]" class="form-select form-select-sm w-auto anggota-select">
-            <option value="">-- Pilih Siswa --</option>
-            @foreach($siswas as $s)
-                @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
-                <option value="{{ $s->id }}" {{ $s->id == $angg->id ? 'selected' : '' }}>
-                    {{ $s->nama }}
-                </option>
-                @endif
-            @endforeach
-            </select>
-            <button type="button" class="btn btn-danger btn-sm remove-anggota">Hapus</button>
-        </div>
+      <!-- Anggota PKL -->
+      <div class="pt-4 border-t">
+        <h3 class="text-lg font-semibold text-[#1d9a96] mb-2">Anggota PKL</h3>
+
+        <!-- Siswa login -->
+        @if(isset($siswaLogin))
+          <input type="hidden" name="anggota[]" value="{{ $siswaLogin->id }}" data-fixed="1">
+          <p class="text-sm text-gray-700 mb-2">
+            <i class="fas fa-user"></i> {{ $siswaLogin->nama }}
+            <span class="text-gray-500">(Anda)</span>
+          </p>
         @endif
-    @endforeach
-    </div>
 
-    <button type="button" id="add-anggota-btn" class="btn btn-outline-secondary btn-sm mb-3">+ Tambah Anggota</button>
+        <!-- Anggota lama -->
+        <div id="anggota-container" class="space-y-2">
+          @foreach($tempat->siswas as $angg)
+            @if(!isset($siswaLogin) || $angg->id != $siswaLogin->id)
+              <div class="flex items-center gap-2">
+                <select name="anggota[]" class="anggota-select w-full">
+                  <option value="">-- Pilih Siswa --</option>
+                  @foreach($siswas as $s)
+                    @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
+                      <option value="{{ $s->id }}" {{ $s->id == $angg->id ? 'selected' : '' }}>
+                        {{ $s->nama }} ({{ $s->jurusan }})
+                      </option>
+                    @endif
+                  @endforeach
+                </select>
+                <button type="button" onclick="hapusDropdown(this)"
+                        class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
+                  Hapus
+                </button>
+              </div>
+            @endif
+          @endforeach
+        </div>
 
-    <div class="d-flex justify-content-end">
-      <a href="{{ $isAdmin ? route('admin.tempat.index') : route('siswa.tempat.index') }}" class="btn btn-secondary me-2">Batal</a>
-      <button type="submit" class="btn bg-brand">Update</button>
-    </div>
-  </form>
+        <button type="button" onclick="tambahAnggota()"
+                class="mt-2 px-3 py-1 bg-[#1d9a96] text-white rounded-lg text-sm hover:bg-[#17807c]">
+          <i class="fas fa-plus"></i> Tambah Anggota
+        </button>
+      </div>
+
+      <!-- Tombol -->
+      <div class="flex justify-end gap-3 pt-4 border-t">
+        <a href="{{ $isAdmin ? route('admin.tempat.index') : route('siswa.tempat.index') }}"
+           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+          <i class="fas fa-arrow-left"></i> Batal
+        </a>
+        <button type="submit"
+                class="px-4 py-2 bg-[#1d9a96] text-white rounded-lg shadow hover:bg-[#17807c]">
+          <i class="fas fa-save"></i> Update
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
-const siswasOptions = `@foreach($siswas as $s)
-  @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
-    <option value="{{ $s->id }}">{{ addslashes($s->nama) }}</option>
-  @endif
-@endforeach`;
-
-function initTomSelect(el){
-  let ts = new TomSelect(el, {
-    create: false,
-    allowEmptyOption: true,
-    sortField: { field: "text", direction: "asc" },
-    onChange: function(){
-      refreshOptionStates();
-    }
-  });
-  return ts;
-}
-
-document.getElementById('add-anggota-btn').addEventListener('click', function(){
-  const container = document.getElementById('anggota-container');
-  const div = document.createElement('div');
-  div.className = 'd-flex align-items-center gap-2 mb-2 anggota-row';
-  div.innerHTML = `
-    <select name="anggota[]" class="form-select anggota-select">
-      <option value="">-- Pilih Siswa --</option>
-      ${siswasOptions}
-    </select>
-    <button type="button" class="btn btn-danger btn-sm remove-anggota">Hapus</button>
-  `;
-  container.appendChild(div);
-
-  attachRemove(div.querySelector('.remove-anggota'));
-  initTomSelect(div.querySelector('.anggota-select'));
-  refreshOptionStates();
-});
-
-function attachRemove(btn){
-  btn.addEventListener('click', function(){
-    this.parentNode.remove();
-    refreshOptionStates();
-  });
-}
-document.querySelectorAll('.remove-anggota').forEach(attachRemove);
-
-function refreshOptionStates(){
-  const selects = Array.from(document.querySelectorAll('.anggota-select'));
-  const hidden = Array.from(document.querySelectorAll('input[name="anggota[]"][data-fixed]'));
-
-  // ambil semua siswa yg sudah dipilih (termasuk "Anda")
-  const chosen = [
-    ...hidden.map(h => h.value),
-    ...selects.map(s => s.value).filter(v => v && v !== '')
+  const siswaData = [
+    @foreach($siswas as $s)
+      @if(!isset($siswaLogin) || $s->id != $siswaLogin->id)
+        { value: "{{ $s->id }}", text: "{{ $s->nama }} ({{ $s->jurusan }})" },
+      @endif
+    @endforeach
   ];
 
-  selects.forEach(sel => {
-    const control = sel.tomselect;
-    if(!control) return;
-
-    // Loop semua opsi
-    Object.keys(control.options).forEach(v => {
-      const optionData = control.options[v];
-
-      if(chosen.includes(v) && v !== sel.value){
-        // kasih tanda disabled biar keliatan abu-abu
-        control.updateOption(v, {
-          ...optionData,
-          disabled: true
-        });
-      } else {
-        control.updateOption(v, {
-          ...optionData,
-          disabled: false
-        });
+  function refreshDropdowns() {
+    let selectedValues = [];
+    document.querySelectorAll('.anggota-select').forEach(select => {
+      if (select.tomselect) {
+        const val = select.tomselect.getValue();
+        if (val) selectedValues.push(val);
       }
     });
+
+    document.querySelectorAll('.anggota-select').forEach(select => {
+      if (select.tomselect) {
+        const currentValue = select.tomselect.getValue();
+        select.tomselect.clearOptions();
+        siswaData.forEach(opt => {
+          if (!selectedValues.includes(opt.value) || opt.value === currentValue) {
+            select.tomselect.addOption(opt);
+          }
+        });
+        select.tomselect.refreshOptions(false);
+        if (currentValue) {
+          select.tomselect.setValue(currentValue, true);
+        }
+      }
+    });
+  }
+
+  function tambahAnggota() {
+    const container = document.getElementById('anggota-container');
+    const wrap = document.createElement('div');
+    wrap.className = "flex items-center gap-2 mt-2";
+    wrap.innerHTML = `
+      <select name="anggota[]" class="anggota-select w-full"></select>
+      <button type="button" onclick="hapusDropdown(this)"
+              class="px-3 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
+        Hapus
+      </button>
+    `;
+    container.appendChild(wrap);
+
+    let select = wrap.querySelector('.anggota-select');
+    new TomSelect(select, {
+      placeholder: 'Pilih siswa...',
+      maxItems: 1,
+      allowEmptyOption: true,
+      onChange: function() { refreshDropdowns(); }
+    });
+
+    refreshDropdowns();
+  }
+
+  function hapusDropdown(btn) {
+    let select = btn.parentNode.querySelector('.anggota-select');
+    if (select.tomselect) {
+      select.tomselect.destroy();
+    }
+    btn.parentNode.remove();
+    refreshDropdowns();
+  }
+
+  document.querySelectorAll('.anggota-select').forEach(select => {
+    new TomSelect(select, {
+      placeholder: 'Pilih siswa...',
+      maxItems: 1,
+      allowEmptyOption: true,
+      onChange: function() { refreshDropdowns(); }
+    });
   });
-}
 
-
-// init tomselect untuk anggota lama
-document.querySelectorAll('.anggota-select').forEach(initTomSelect);
-
-// jalankan pertama kali
-refreshOptionStates();
+  refreshDropdowns();
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
