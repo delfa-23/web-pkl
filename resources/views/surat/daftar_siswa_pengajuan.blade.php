@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Siswa - Surat Keterangan PKL | SyifaPKL</title>
+  <title>Daftar Siswa - Surat Pengajuan Tempat PKL | SyifaPKL</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,11 +21,10 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-        <i class="fas fa-file-alt me-2"></i> Daftar Siswa - Surat Keterangan PKL
+        <i class="fas fa-users me-2"></i> Daftar Siswa - Surat Pengajuan Tempat PKL
       </h2>
     </div>
-
-    <!-- Table -->
+    
     <div class="table-responsive bg-white shadow rounded">
       <table class="table table-striped align-middle mb-0">
         <thead class="table-light text-brand">
@@ -43,12 +42,12 @@
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
-                <a href="{{ route('surat.keterangan', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-info" title="Lihat Template">
+                <a href="{{ route('surat.pengajuan', $siswa->id) }}"
+                   class="btn btn-sm btn-outline-success" title="Lihat Template">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->
-                <a href="{{ route('surat.download_keterangan', $siswa->id) }}"
+                <a href="{{ route('surat.download_pengajuan', $siswa->id) }}"
                    class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">
                   <i class="fa-solid fa-file-pdf me-1"></i> Download PDF
                 </a>
@@ -58,7 +57,7 @@
           @empty
           <tr>
             <td colspan="3" class="text-center text-muted py-4">
-              <i class="fas fa-info-circle"></i> Tidak ada data siswa untuk surat keterangan.
+              <i class="fas fa-info-circle"></i> Tidak ada data siswa.
             </td>
           </tr>
           @endforelse

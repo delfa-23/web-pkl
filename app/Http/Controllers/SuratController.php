@@ -45,7 +45,7 @@ class SuratController extends Controller
             $q->where('siswa_tempat.status', 'proses');
         })->get();
 
-        return view('surat.daftar_siswa_pencarian', compact('siswas'));
+        return view('surat.daftar_siswa_pengajuan', compact('siswas'));
     }
 
 
@@ -53,14 +53,14 @@ class SuratController extends Controller
     public function showPencarian($id)
     {
         $siswa = Siswa::findOrFail($id);
-        return view('surat.pencarian', compact('siswa'));
+        return view('surat.pengajuan', compact('siswa'));
     }
 
     public function downloadPencarian($id)
     {
         $siswa = Siswa::findOrFail($id);
-        $pdf = PDF::loadView('surat.pencarian', compact('siswa'));
-        return $pdf->download('pencarian_' . $siswa->nama . '.pdf');
+        $pdf = PDF::loadView('surat.pengajuan', compact('siswa'));
+        return $pdf->download('pengajuan_' . $siswa->nama . '.pdf');
     }
 
     // ========================
@@ -97,19 +97,19 @@ class SuratController extends Controller
             $q->where('siswa_tempat.status', 'diterima');
         })->get();
 
-        return view('surat.daftar_siswa_keterangan', compact('siswas'));
+        return view('surat.daftar_siswa_perjanjian', compact('siswas'));
     }
 
     public function showKeterangan($id)
     {
         $siswa = Siswa::findOrFail($id);
-        return view('surat.keterangan', compact('siswa'));
+        return view('surat.perjanjian', compact('siswa'));
     }
 
     public function downloadKeterangan($id)
     {
         $siswa = Siswa::findOrFail($id);
-        $pdf = PDF::loadView('surat.keterangan', compact('siswa'));
-        return $pdf->download('keterangan_' . $siswa->nama . '.pdf');
+        $pdf = PDF::loadView('surat.perjanjian', compact('siswa'));
+        return $pdf->download('perjanjian_' . $siswa->nama . '.pdf');
     }
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Siswa - Surat Pengantar PKL | SyifaPKL</title>
+  <title>Daftar Siswa - Surat Perjanjian Kerjasama | SyifaPKL</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,22 +21,9 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-        <i class="fas fa-users me-2"></i> Daftar Siswa - Surat Pengantar PKL
+        <i class="fas fa-file-alt me-2"></i> Daftar Siswa - Surat Keterangan PKL
       </h2>
     </div>
-
-    <!-- Search -->
-    {{-- <form action="{{ route('admin.surat.pencarian') }}" method="GET" class="row g-2 mb-3">
-      <div class="col-md-4">
-        <input type="text" name="search" value="{{ request('search') }}" class="form-control"
-               placeholder="Cari Siswa...">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn bg-brand text-white">
-          <i class="fas fa-search me-1"></i> Cari
-        </button>
-      </div>
-    </form> --}}
 
     <!-- Table -->
     <div class="table-responsive bg-white shadow rounded">
@@ -56,12 +43,12 @@
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
-                <a href="{{ route('surat.pencarian', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-success" title="Lihat Template">
+                <a href="{{ route('surat.perjanjian', $siswa->id) }}"
+                   class="btn btn-sm btn-outline-info" title="Lihat Template">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->
-                <a href="{{ route('surat.download_pencarian', $siswa->id) }}"
+                <a href="{{ route('surat.download_perjanjian', $siswa->id) }}"
                    class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">
                   <i class="fa-solid fa-file-pdf me-1"></i> Download PDF
                 </a>
@@ -71,7 +58,7 @@
           @empty
           <tr>
             <td colspan="3" class="text-center text-muted py-4">
-              <i class="fas fa-info-circle"></i> Tidak ada data siswa.
+              <i class="fas fa-info-circle"></i> Tidak ada data siswa untuk surat perjanjian.
             </td>
           </tr>
           @endforelse

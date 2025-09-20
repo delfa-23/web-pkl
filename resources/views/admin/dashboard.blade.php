@@ -89,25 +89,17 @@
                 <div id="collapseSurat" class="collapse" aria-labelledby="headingSurat" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded submenu-bullet">
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_izin') }}">Template Izin Orang Tua</a>
-                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_pencarian') }}">Template Pengantar Pencarian Tempat PKL</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_pengajuan') }}">Template Pengajuan Tempat PKL</a>
                         <a class="collapse-item" href="{{ route('surat.daftar_siswa_pemberangkatan') }}">Template Pengantar Pemberangkatan</a>
-                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_keterangan') }}">Template Surat Keterangan Melaksanakan PKL/OJT</a>
+                        <a class="collapse-item" href="{{ route('surat.daftar_siswa_perjanjian') }}">Template Surat Perjanjian Kerjasama</a>
                     </div>
                 </div>
             </li>
-            {{-- <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> --}}
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-certificate"></i>
+                    <span>Sertifikat</span>
+                </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

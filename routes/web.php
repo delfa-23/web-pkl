@@ -112,9 +112,9 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::get('/pengantar/{id}/download', [SuratController::class, 'downloadPengantar'])->name('surat.download_pengantar');
 
         // Surat Pencarian
-        Route::get('/pencarian', [SuratController::class, 'daftarSiswaPencarian'])->name('surat.daftar_siswa_pencarian');
-        Route::get('/pencarian/{id}', [SuratController::class, 'showPencarian'])->name('surat.pencarian');
-        Route::get('/pencarian/{id}/download', [SuratController::class, 'downloadPencarian'])->name('surat.download_pencarian');
+        Route::get('/pengajuan', [SuratController::class, 'daftarSiswaPencarian'])->name('surat.daftar_siswa_pengajuan');
+        Route::get('/pengajuan/{id}', [SuratController::class, 'showPencarian'])->name('surat.pengajuan');
+        Route::get('/pengajuan/{id}/download', [SuratController::class, 'downloadPencarian'])->name('surat.download_pengajuan');
 
         // Surat Pemberangkatan
         Route::get('/pemberangkatan', [SuratController::class, 'daftarSiswaPemberangkatan'])->name('surat.daftar_siswa_pemberangkatan');
@@ -122,9 +122,9 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::get('/pemberangkatan/{id}/download', [SuratController::class, 'downloadPemberangkatan'])->name('surat.download_pemberangkatan');
 
         // Surat Keterangan
-        Route::get('/keterangan', [SuratController::class, 'daftarSiswaKeterangan'])->name('surat.daftar_siswa_keterangan');
-        Route::get('/keterangan/{id}', [SuratController::class, 'showKeterangan'])->name('surat.keterangan');
-        Route::get('/keterangan/{id}/download', [SuratController::class, 'downloadKeterangan'])->name('surat.download_keterangan');
+        Route::get('/perjanjian', [SuratController::class, 'daftarSiswaKeterangan'])->name('surat.daftar_siswa_perjanjian');
+        Route::get('/perjanjian/{id}', [SuratController::class, 'showKeterangan'])->name('surat.perjanjian');
+        Route::get('/perjanjian/{id}/download', [SuratController::class, 'downloadKeterangan'])->name('surat.download_perjanjian');
     });
 });
 
