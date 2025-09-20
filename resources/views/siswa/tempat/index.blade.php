@@ -25,19 +25,6 @@
       </h2>
     </div>
 
-    <!-- Search -->
-    <form action="{{ route('siswa.tempat.index') }}" method="GET" class="row g-2 mb-3">
-      <div class="col-md-4">
-        <input type="text" name="search" value="{{ request('search') }}" class="form-control"
-               placeholder="Cari Tempat PKL...">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn bg-brand text-white">
-          <i class="fas fa-search me-1"></i> Cari
-        </button>
-      </div>
-    </form>
-
     <div class="table-responsive bg-white shadow rounded">
     @if($tempat->count() > 0)
         <table class="table table-striped align-middle mb-0">
@@ -84,13 +71,15 @@
                 <i class="fas fa-edit"></i>
                 </a>
                 <!-- Tombol Hapus -->
-                <form action="{{ route('siswa.tempat.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus tempat PKL ini?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <form id="delete-form-{{ $t->id }}"
+                    action="{{ route('siswa.tempat.destroy', $t->id) }}"
+                    method="POST" style="display:none;">
+                    @csrf
+                    @method('DELETE')
                 </form>
+                <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus" onclick="deleteUser({{ $t->id }})">
+                <i class="fas fa-trash"></i>
+                </button>
             </td>
             </tr>
             @endforeach
@@ -119,5 +108,45 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+  function deleteUser(id) {
+    Swal.fire({
+        title: 'Yakin?',
+        text: "Data Tidak Bisa Dikembalikan Setelah Dihapus!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Delete!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + id).submit();
+        }
+    })
+}
+</script>
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: '{{ session('success') }}',
+        timer: 2000,
+        showConfirmButton: false
+    })
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{ session('error') }}',
+    })
+</script>
+@endif
 </body>
 </html>

@@ -48,7 +48,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Guru | SyifaPKL</title>
+    <title>DashBoard Guru | SyifaPKL</title>
 
     <!-- Fonts & Styles -->
     <link href="{{ asset('storage/assets/sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -177,9 +177,10 @@
         <option value="">Semua Jurusan</option>
         <option value="RPL" {{ request('jurusan')=='RPL' ? 'selected' : '' }}>RPL</option>
         <option value="DKV" {{ request('jurusan')=='DKV' ? 'selected' : '' }}>DKV</option>
-        <!-- Tambahkan jurusan lain sesuai db -->
     </select>
-    <button type="submit" class="btn btn-primary mb-2" >Filter</button>
+    <button type="submit" class="btn mb-2" style="background-color:#1d9a96; color:white;">
+        <i class="fas fa-filter"></i> Filter
+    </button>
 </form>
 
 <!-- Card Tabel Siswa -->
@@ -190,14 +191,13 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center" width="100%" cellspacing="0"
-                   style="border-radius: 10px; overflow:hidden;">
+            <table class="table table-bordered align-middle text-center">
                 <thead style="background-color:#1d9a96; color:white;">
                     <tr>
                         <th style="width: 50px;">No</th>
                         <th>Nama</th>
                         <th>Jurusan</th>
-                        <th style="width: 200px;">Aksi</th>
+                        <th style="width: 220px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -207,17 +207,20 @@
                             <td>{{ $siswa->nama }}</td>
                             <td>{{ $siswa->jurusan }}</td>
                             <td>
-                                <a href="{{ route('guru.siswa.tempat', $siswa->id) }}"
-                                   class="btn btn-sm me-1"
-                                   style="border:1px solid #1d9a96; color:#1d9a96;">
-                                    <i class="fas fa-building"></i> Tempat PKL
-                                </a>
-                                <a href="{{ route('guru.siswa.activity', $siswa->id) }}"
-                                   class="btn btn-sm"
-                                   style="border:1px solid #1d9a96; color:#1d9a96;">
-                                    <i class="fas fa-tasks"></i> Daily Activity
-                                </a>
-                            </td>
+    <div class="flex flex-col gap-2">
+        <a href="{{ route('guru.siswa.tempat', $siswa->id) }}"
+           class="btn btn-sm w-100"
+           style="border:1px solid #1d9a96; color:#1d9a96;">
+            <i class="fas fa-building"></i> Lihat Tempat PKL
+        </a>
+        <a href="{{ route('guru.siswa.activity', $siswa->id) }}"
+           class="btn btn-sm w-100"
+           style="border:1px solid #1d9a96; color:#1d9a96;">
+            <i class="fas fa-tasks"></i> Lihat Daily Activity
+        </a>
+    </div>
+</td>
+
                         </tr>
                     @empty
                         <tr>
@@ -251,4 +254,4 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
 </body>
-</html> --}}
+</html>

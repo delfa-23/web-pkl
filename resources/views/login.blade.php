@@ -53,7 +53,7 @@
 						</div> --}}
 						<hr />
 						<p class="text-grey-darker" style="color: rgb(0, 0, 0);">
-							&copy; 2025
+							&copy; <span style="  font-family: 'poppins', sans-serif;">2025 SyifaPKL. All rights reserved.</span>
 						</p>
 					</form>
 				</div>

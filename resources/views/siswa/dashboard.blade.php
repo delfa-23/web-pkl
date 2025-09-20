@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Siswa | SyifaPKL</title>
+    <title>DashBoard Siswa | SyifaPKL</title>
 
     <!-- Fonts & Styles -->
     <link href="{{ asset('storage/assets/sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
