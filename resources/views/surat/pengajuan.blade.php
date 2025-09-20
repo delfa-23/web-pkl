@@ -6,8 +6,9 @@
     <style>
         body {
             font-family: "Times New Roman", serif;
-            line-height: 1.5;
-            margin: 60px;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 30px;
         }
 
         .center {
@@ -89,13 +90,16 @@
 </body>
 <style>
     .footer {
-        margin-top: 60px;
-        text-align: center;
-    }
+    margin-top: 40px;
+    text-align: center;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
 
-    .footer .ttd {
-        margin-top: 60px;
-    }
+.footer .ttd {
+    margin-top: 40px;
+}
+
 </style>
 
 </html>

@@ -11,6 +11,7 @@ use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\admin\JurusanController;
+use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\SuratController;
 use App\Models\Siswa;
 
@@ -181,3 +182,6 @@ Route::prefix('siswa/activity')->group(function () {
     Route::put('/{id}/update', [DailyActivityController::class, 'update'])->name('siswa.activity.update');
     Route::delete('/{id}/destroy', [DailyActivityController::class, 'destroy'])->name('siswa.activity.destroy');
 });
+
+Route::get('/sertifikat/lihat/{id}', [SertifikatController::class, 'lihat'])->name('sertifikat.lihat');
+Route::get('/sertifikat/download/{id}', [SertifikatController::class, 'download'])->name('sertifikat.download');

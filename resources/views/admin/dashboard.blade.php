@@ -95,11 +95,6 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-certificate"></i>
-                    <span>Sertifikat</span>
-                </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

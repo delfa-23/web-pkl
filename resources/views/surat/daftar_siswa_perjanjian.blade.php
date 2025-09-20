@@ -21,7 +21,7 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-        <i class="fas fa-file-alt me-2"></i> Daftar Siswa - Surat Keterangan PKL
+        <i class="fas fa-file-alt me-2"></i> Daftar Siswa - Surat Perjanjian Kerjasama
       </h2>
     </div>
 
