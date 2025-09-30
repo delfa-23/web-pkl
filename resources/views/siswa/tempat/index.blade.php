@@ -64,23 +64,27 @@
                 <span class="badge bg-danger">Ditolak</span>
                 @endif
             </td>
-            <td class="text-center d-flex justify-content-center gap-1">
-                <!-- Tombol Edit -->
-                <a href="{{ route('siswa.tempat.edit', $t->id) }}"
-                class="btn btn-sm btn-outline-primary" title="Edit">
-                <i class="fas fa-edit"></i>
-                </a>
-                <!-- Tombol Hapus -->
-                <form id="delete-form-{{ $t->id }}"
-                    action="{{ route('siswa.tempat.destroy', $t->id) }}"
-                    method="POST" style="display:none;">
-                    @csrf
-                    @method('DELETE')
-                </form>
-                <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus" onclick="deleteUser({{ $t->id }})">
-                <i class="fas fa-trash"></i>
-                </button>
-            </td>
+            <td class="text-center">
+    <div class="d-flex justify-content-center gap-2">
+        <!-- Tombol Edit -->
+        <a href="{{ route('siswa.tempat.edit', $t->id) }}"
+           class="btn btn-sm btn-outline-primary" title="Edit">
+           <i class="fas fa-edit"></i>
+        </a>
+        <!-- Tombol Hapus -->
+        <form id="delete-form-{{ $t->id }}"
+              action="{{ route('siswa.tempat.destroy', $t->id) }}"
+              method="POST" style="display:none;">
+            @csrf
+            @method('DELETE')
+        </form>
+        <button type="button" class="btn btn-sm btn-outline-danger"
+                title="Hapus" onclick="deleteUser({{ $t->id }})">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</td>
+
             </tr>
             @endforeach
         </tbody>
