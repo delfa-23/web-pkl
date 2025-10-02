@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -80,12 +81,12 @@
                         <!-- User Info -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     Hi, <b>{{ $siswa->nama }}</b>
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                     src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
+                                    src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
                             </a>
                             <!-- Dropdown -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
@@ -118,7 +119,8 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tempat PKL</div>
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Tempat PKL</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 {{ $jumlahTempat ?? 0 }}
                                             </div>
@@ -137,7 +139,8 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Daily Activity</div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Daily
+                                                Activity</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 {{ $jumlahActivity ?? 0 }}
                                             </div>
@@ -162,4 +165,5 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
 </body>
+
 </html>

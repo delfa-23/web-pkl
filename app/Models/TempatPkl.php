@@ -34,6 +34,7 @@ class TempatPkl extends Model
                     ->withTimestamps();
     }
 
+
     public function getStatusLabelAttribute()
     {
         return match($this->status) {
