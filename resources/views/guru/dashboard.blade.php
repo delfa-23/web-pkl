@@ -210,13 +210,19 @@
     <div class="flex flex-col gap-2">
         <a href="{{ route('guru.siswa.tempat', $siswa->id) }}"
            class="btn btn-sm w-100"
-           style="border:1px solid #1d9a96; color:#1d9a96;">
-            <i class="fas fa-building"></i> Lihat Tempat PKL
+           data-bs-toggle="tooltip"
+       data-bs-placement="top"
+       title="Lihat Tempat PKL"
+       style="color: #1d9a96;">
+            <i class="fas fa-building"></i>
         </a>
         <a href="{{ route('guru.siswa.activity', $siswa->id) }}"
            class="btn btn-sm w-100"
-           style="border:1px solid #1d9a96; color:#1d9a96;">
-            <i class="fas fa-tasks"></i> Lihat Daily Activity
+           data-bs-toggle="tooltip"
+       data-bs-placement="top"
+       title="Lihat Daily Activity"
+       style="color: #1d9a96;">
+            <i class="fas fa-tasks"></i>
         </a>
     </div>
 </td>
@@ -253,5 +259,12 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
+    <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+
 </body>
 </html>
