@@ -24,7 +24,7 @@
         <i class="fas fa-users me-2"></i> Daftar Siswa - Surat Pengajuan Tempat PKL
       </h2>
     </div>
-    
+
     <div class="table-responsive bg-white shadow rounded">
       <table class="table table-striped align-middle mb-0">
         <thead class="table-light text-brand">
@@ -43,7 +43,7 @@
               <div class="d-flex justify-content-center gap-2">
                 <!-- Lihat Template -->
                 <a href="{{ route('surat.pengajuan', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-success" title="Lihat Template">
+                   class="btn btn-sm btn-outline-success" title="Lihat Template" target="_blank">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Download PDF -->
