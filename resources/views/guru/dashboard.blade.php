@@ -19,7 +19,7 @@
         <th>Jurusan</th>
         <th>Aksi</th>
     </tr>
-    @foreach($semuaSiswa as $s)
+    @foreach ($semuaSiswa as $s)
     <tr>
         <td>{{ $s->nama }}</td>
         <td>{{ $s->jurusan }}</td>
@@ -45,6 +45,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -118,12 +119,12 @@
                         <!-- User Info -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     Hi, <b>{{ $guru->nama }}</b>
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                     src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
+                                    src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
                             </a>
                             <!-- Dropdown -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
@@ -156,7 +157,8 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Siswa</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Jumlah Siswa</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 {{ $jumlahTempat ?? 0 }}
                                             </div>
@@ -170,88 +172,84 @@
                         </div>
                     </div>
                     <h3 class="mb-3">Filter Siswa</h3>
-<form method="GET" action="{{ route('guru.dashboard') }}" class="form-inline mb-4">
-    <input type="text" name="nama" class="form-control mr-2 mb-2"
-           placeholder="Cari nama siswa" value="{{ request('nama') }}">
-    <select name="jurusan" class="form-control mr-2 mb-2">
-        <option value="">Semua Jurusan</option>
-        <option value="RPL" {{ request('jurusan')=='RPL' ? 'selected' : '' }}>RPL</option>
-        <option value="DKV" {{ request('jurusan')=='DKV' ? 'selected' : '' }}>DKV</option>
-    </select>
-    <button type="submit" class="btn mb-2" style="background-color:#1d9a96; color:white;">
-        <i class="fas fa-filter"></i> Filter
-    </button>
-</form>
+                    <form method="GET" action="{{ route('guru.dashboard') }}" class="form-inline mb-4">
+                        <input type="text" name="nama" class="form-control mr-2 mb-2"
+                            placeholder="Cari nama siswa" value="{{ request('nama') }}">
+                        <select name="jurusan" class="form-control mr-2 mb-2">
+                            <option value="">Semua Jurusan</option>
+                            <option value="RPL" {{ request('jurusan') == 'RPL' ? 'selected' : '' }}>RPL</option>
+                            <option value="DKV" {{ request('jurusan') == 'DKV' ? 'selected' : '' }}>DKV</option>
+                        </select>
+                        <button type="submit" class="btn mb-2" style="background-color:#1d9a96; color:white;">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </form>
 
-<!-- Card Tabel Siswa -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold" style="color:#1d9a96;">Daftar Siswa</h6>
-    </div>
+                    <!-- Card Tabel Siswa -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold" style="color:#1d9a96;">Daftar Siswa</h6>
+                        </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center">
-                <thead style="background-color:#1d9a96; color:white;">
-                    <tr>
-                        <th style="width: 50px;">No</th>
-                        <th>Nama</th>
-                        <th>Jurusan</th>
-                        <th style="width: 220px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($semuaSiswa as $index => $siswa)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $siswa->nama }}</td>
-                            <td>{{ $siswa->jurusan }}</td>
-                            <td>
-    <div class="flex flex-col gap-2">
-        <a href="{{ route('guru.siswa.tempat', $siswa->id) }}"
-           class="btn btn-sm w-100"
-           data-bs-toggle="tooltip"
-       data-bs-placement="top"
-       title="Lihat Tempat PKL"
-       style="color: #1d9a96;">
-            <i class="fas fa-building"></i>
-        </a>
-        <a href="{{ route('guru.siswa.activity', $siswa->id) }}"
-           class="btn btn-sm w-100"
-           data-bs-toggle="tooltip"
-       data-bs-placement="top"
-       title="Lihat Daily Activity"
-       style="color: #1d9a96;">
-            <i class="fas fa-tasks"></i>
-        </a>
-    </div>
-</td>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle text-center">
+                                    <thead style="background-color:#1d9a96; color:white;">
+                                        <tr>
+                                            <th style="width: 50px;">No</th>
+                                            <th>Nama</th>
+                                            <th>Jurusan</th>
+                                            <th style="width: 220px;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($semuaSiswa as $index => $siswa)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $siswa->nama }}</td>
+                                                <td>{{ $siswa->jurusan }}</td>
+                                                <td>
+                                                    <div class="flex flex-col gap-2">
+                                                        <a href="{{ route('guru.siswa.tempat', $siswa->id) }}"
+                                                            class="btn btn-sm w-100" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" title="Lihat Tempat PKL"
+                                                            style="color: #1d9a96;">
+                                                            <i class="fas fa-building"></i>
+                                                        </a>
+                                                        <a href="{{ route('guru.siswa.activity', $siswa->id) }}"
+                                                            class="btn btn-sm w-100" data-bs-toggle="tooltip"
+                                                            data-bs-placement="top" title="Lihat Daily Activity"
+                                                            style="color: #1d9a96;">
+                                                            <i class="fas fa-tasks"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
 
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">Tidak ada data siswa</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-        </div>
-    </div>
-</div>
-
-
-        </div>
-    </div>
-</div>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4">Tidak ada data siswa yang kamu bimbing</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-                <!-- End Page Content -->
             </div>
         </div>
+
+
+    </div>
+    </div>
+    </div>
+
+    </div>
+    <!-- End Page Content -->
+    </div>
+    </div>
     </div>
 
     <!-- Scripts -->
@@ -260,11 +258,12 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
     <script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 
 </body>
+
 </html>

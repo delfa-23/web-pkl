@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DashBoard Siswa | SyifaPKL</title>
+    <title>Dashboard Siswa | SyifaPKL</title>
 
     <!-- Fonts & Styles -->
     <link href="{{ asset('storage/assets/sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -80,12 +81,12 @@
                         <!-- User Info -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     Hi, <b>{{ $siswa->nama }}</b>
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                     src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
+                                    src="{{ asset('storage/assets/img/undraw_male-avatar_zkzx.svg') }}">
                             </a>
                             <!-- Dropdown -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
@@ -143,4 +144,5 @@
     <script src="{{ asset('storage/assets/sbadmin2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('storage/assets/sbadmin2/js/sb-admin-2.min.js') }}"></script>
 </body>
+
 </html>

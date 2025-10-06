@@ -21,4 +21,8 @@ class Guru extends Model
     {
         return $this->belongsTo(Login::class, 'login_id');
     }
+    public function tempats()
+    {
+        return $this->hasMany(TempatPkl::class, 'guru_id');
+    }
 }
