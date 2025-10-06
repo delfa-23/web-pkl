@@ -11,9 +11,15 @@ class DailyActivityController extends Controller
     // Tampilkan semua activity siswa
     public function index()
     {
-        $activities = DailyActivity::where('login_id', session('login_id'))->get();
-        return view('siswa.activity.index', compact('activities'));
+        $siswa = \App\Models\Siswa::with(['tempats.guru'])
+            ->where('login_id', session('login_id'))
+            ->first();
+
+        $activities = \App\Models\DailyActivity::where('login_id', session('login_id'))->get();
+
+        return view('siswa.activity.index', compact('siswa', 'activities'));
     }
+
 
     // Form tambah activity
     public function create()
@@ -25,27 +31,35 @@ class DailyActivityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => 'required|date',
-            'kegiatan' => 'required|string',
-            'foto'     => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'tanggal'       => 'required|date',
+            'waktu_mulai'   => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'kegiatan'      => 'required|string',
+            'deskripsi'     => 'nullable|string',
+            'foto'          => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ], [
-            'tanggal.required' => 'Tanggal & waktu wajib diisi.',
-            'tanggal.date'     => 'Format tanggal tidak valid.',
-            'kegiatan.required' => 'Kegiatan wajib diisi.',
-            'foto.required'    => 'Foto wajib diupload.',
-            'foto.image'       => 'File harus berupa gambar.',
-            'foto.mimes'       => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
-            'foto.max'         => 'Ukuran foto maksimal 2MB.',
+            'tanggal.required'      => 'Tanggal wajib diisi.',
+            'waktu_mulai.required'  => 'Waktu mulai wajib diisi.',
+            'waktu_selesai.required' => 'Waktu selesai wajib diisi.',
+            'waktu_selesai.after'   => 'Waktu selesai harus setelah waktu mulai.',
+            'kegiatan.required'     => 'Kegiatan wajib diisi.',
+            'foto.required'         => 'Foto wajib diupload.',
+            'foto.image'            => 'File harus berupa gambar.',
+            'foto.mimes'            => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
+            'foto.max'              => 'Ukuran foto maksimal 2MB.',
         ]);
 
         try {
             $fotoPath = $request->file('foto')->store('daily_activities', 'public');
 
             DailyActivity::create([
-                'login_id' => session('login_id'),
-                'tanggal'  => $request->tanggal,
-                'kegiatan' => $request->kegiatan,
-                'foto'     => $fotoPath,
+                'login_id'      => session('login_id'),
+                'tanggal'       => $request->tanggal,
+                'waktu_mulai'   => $request->waktu_mulai,
+                'waktu_selesai' => $request->waktu_selesai,
+                'kegiatan'      => $request->kegiatan,
+                'deskripsi'     => $request->deskripsi,
+                'foto'          => $fotoPath,
             ]);
 
             return redirect()->route('siswa.activity.index')
@@ -54,6 +68,7 @@ class DailyActivityController extends Controller
             return redirect()->back()->with('error', 'Gagal menyimpan foto: ' . $e->getMessage());
         }
     }
+
 
     // Form edit activity
     public function edit($id)
@@ -66,31 +81,38 @@ class DailyActivityController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'tanggal'  => 'required|date',
-            'kegiatan' => 'required|string',
-            'foto'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tanggal'       => 'required|date',
+            'waktu_mulai'   => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+            'kegiatan'      => 'required|string',
+            'deskripsi'     => 'nullable|string',
+            'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
-            'tanggal.required' => 'Tanggal & waktu wajib diisi.',
-            'tanggal.date'     => 'Format tanggal tidak valid.',
-            'kegiatan.required' => 'Kegiatan wajib diisi.',
-            'foto.image'       => 'File harus berupa gambar.',
-            'foto.mimes'       => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
-            'foto.max'         => 'Ukuran foto maksimal 2MB.',
+            'tanggal.required'      => 'Tanggal wajib diisi.',
+            'waktu_mulai.required'  => 'Waktu mulai wajib diisi.',
+            'waktu_selesai.required' => 'Waktu selesai wajib diisi.',
+            'waktu_selesai.after'   => 'Waktu selesai harus setelah waktu mulai.',
+            'kegiatan.required'     => 'Kegiatan wajib diisi.',
+            'foto.image'            => 'File harus berupa gambar.',
+            'foto.mimes'            => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
+            'foto.max'              => 'Ukuran foto maksimal 2MB.',
         ]);
 
         $activity = DailyActivity::findOrFail($id);
 
         try {
             $data = [
-                'tanggal'  => $request->tanggal,
-                'kegiatan' => $request->kegiatan,
+                'tanggal'       => $request->tanggal,
+                'waktu_mulai'   => $request->waktu_mulai,
+                'waktu_selesai' => $request->waktu_selesai,
+                'kegiatan'      => $request->kegiatan,
+                'deskripsi'     => $request->deskripsi,
             ];
 
             if ($request->hasFile('foto')) {
                 if ($activity->foto && Storage::disk('public')->exists($activity->foto)) {
                     Storage::disk('public')->delete($activity->foto);
                 }
-
                 $fotoPath = $request->file('foto')->store('daily_activities', 'public');
                 $data['foto'] = $fotoPath;
             }
@@ -100,9 +122,10 @@ class DailyActivityController extends Controller
             return redirect()->route('siswa.activity.index')
                 ->with('success', 'Aktivitas berhasil diupdate');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menyimpan foto: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
+
 
 
     // Hapus activity

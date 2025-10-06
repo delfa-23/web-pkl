@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DashBoard Siswa | SyifaPKL</title>
+    <title>Dashboard Siswa | SyifaPKL</title>
 
     <!-- Fonts & Styles -->
     <link href="{{ asset('storage/assets/sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -114,44 +114,23 @@
 
                     <div class="row">
                         <!-- Card Tempat PKL -->
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Tempat PKL</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                {{ $jumlahTempat ?? 0 }}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-building fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card Daily Activity -->
-                        <div class="col-xl-6 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Daily
-                                                Activity</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                {{ $jumlahActivity ?? 0 }}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-xl-12 col-md-12 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Dashboard Siswa</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        Halo, Selamat beraktivitas di tempat PKL-mu.<br><br>Gunakan Menu di Samping Untuk Menginput Tempat PKL, Dan Menginput Daily Activity.
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-building fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                     </div>
                 </div>
                 <!-- End Page Content -->

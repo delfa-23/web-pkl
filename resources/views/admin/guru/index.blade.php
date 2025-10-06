@@ -24,7 +24,7 @@
         <i class="fas fa-chalkboard-teacher me-2"></i> Data Guru
       </h2>
       <a href="{{ route('admin.guru.create') }}" class="btn bg-brand text-white shadow">
-        <i class="fas fa-plus me-2"></i> Tambah Data
+        <i class="fas fa-plus me-2"></i> Tambah Data Guru
       </a>
     </div>
     <!-- Search -->

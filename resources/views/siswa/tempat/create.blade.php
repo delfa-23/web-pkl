@@ -65,8 +65,8 @@
         </div>
 
         <div>
-          <label class="block font-medium">Pembimbing Perusahaan</label>
-          <input type="text" name="pembimbing_perusahaan" placeholder="Masukkan nama pembimbing"
+          <label class="block font-medium">Instruktur Perusahaan</label>
+          <input type="text" name="instruktur_perusahaan" placeholder="Masukkan nama Instruktur Perusahaan"
                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">
         </div>
 

@@ -25,7 +25,7 @@
         <i class="fas fa-users me-2"></i> Data Siswa
       </h2>
       <a href="{{ route('admin.siswa.create') }}" class="btn bg-brand text-white shadow">
-        <i class="fas fa-plus me-2"></i> Tambah Siswa
+        <i class="fas fa-plus me-2"></i> Tambah Data Siswa
       </a>
     </div>
 

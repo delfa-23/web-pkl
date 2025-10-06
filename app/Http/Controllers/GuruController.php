@@ -20,34 +20,48 @@ class GuruController extends Controller
             return redirect('/')->with('error', 'Guru tidak ditemukan.');
         }
 
-        $query = Siswa::query();
+        // ambil siswa yang ada di tempat PKL milik guru ini
+        $query = Siswa::whereHas('tempats', function ($q) use ($guru) {
+            $q->where('guru_id', $guru->id);
+        });
 
-    if ($request->filled('nama')) {
-        $query->where('nama', 'like', '%' . $request->nama . '%');
+        // filter tambahan
+        if ($request->filled('nama')) {
+            $query->where('nama', 'like', '%' . $request->nama . '%');
+        }
+
+        if ($request->filled('jurusan')) {
+            $query->where('jurusan', $request->jurusan);
+        }
+
+        $semuaSiswa = $query->get();
+        $jumlahTempat = $semuaSiswa->count();
+
+        return view('guru.dashboard', compact('semuaSiswa', 'jumlahTempat', 'guru'));
     }
 
-    if ($request->filled('jurusan')) {
-        $query->where('jurusan', $request->jurusan);
-    }
-
-    $semuaSiswa = $query->get();
-    $jumlahTempat = $semuaSiswa->count();
-
-    return view('guru.dashboard', compact('semuaSiswa', 'jumlahTempat', 'guru'));
-
-
-    }
 
     public function showTempat($id)
     {
-        $siswa = Siswa::with('tempats')->findOrFail($id);
+        $loginId = session('login_id');
+        $guru = Guru::where('login_id', $loginId)->firstOrFail();
+
+        $siswa = Siswa::whereHas('tempats', function ($q) use ($guru) {
+            $q->where('guru_id', $guru->id);
+        })->with('tempats')->findOrFail($id);
 
         return view('guru.siswa.tempat', compact('siswa'));
     }
 
     public function showActivity($id)
     {
-        $siswa = Siswa::with('activities')->findOrFail($id);
+        $loginId = session('login_id');
+        $guru = Guru::where('login_id', $loginId)->firstOrFail();
+
+        $siswa = Siswa::whereHas('tempats', function ($q) use ($guru) {
+            $q->where('guru_id', $guru->id);
+        })->with('activities')->findOrFail($id);
+
         return view('guru.siswa.activity', compact('siswa'));
     }
 }

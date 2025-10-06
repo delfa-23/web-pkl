@@ -13,8 +13,10 @@ class TempatPkl extends Model
         'nama_perusahaan',
         'alamat_perusahaan',
         'telepon_perusahaan',
+        'instruktur_perusahaan',
         'pembimbing_perusahaan',
         'status',
+        'guru_id',
     ];
 
     public function login()
@@ -30,14 +32,14 @@ class TempatPkl extends Model
     public function siswas()
     {
         return $this->belongsToMany(Siswa::class, 'siswa_tempat', 'tempat_pkl_id', 'siswa_id')
-                    ->withPivot('status', 'jurusan')
-                    ->withTimestamps();
+            ->withPivot('status', 'jurusan')
+            ->withTimestamps();
     }
 
 
     public function getStatusLabelAttribute()
     {
-        return match($this->status) {
+        return match ($this->status) {
             'belum_terverifikasi' => 'Belum Terverifikasi',
             'proses' => 'Proses',
             'diterima' => 'Diterima',
@@ -45,5 +47,9 @@ class TempatPkl extends Model
             default => $this->status,
         };
     }
-}
 
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'guru_id');
+    }
+}

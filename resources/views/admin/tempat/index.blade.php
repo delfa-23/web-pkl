@@ -45,10 +45,6 @@
             </a>
         </div>
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         <!-- Search -->
         <form action="{{ route('admin.tempat.index') }}" method="GET" class="row g-2 mb-3">
             <div class="col-md-4">
@@ -71,6 +67,7 @@
                         <th>Nama Siswa</th>
                         <th>Jurusan</th>
                         <th>Perusahaan</th>
+                        <th>Pembimbing Perusahaan</th> <!-- kolom baru -->
                         <th>Alamat</th>
                         <th>No. Telp</th>
                         <th>Status</th>
@@ -94,6 +91,7 @@
                             </td>
 
                             <td>{{ $tempat->nama_perusahaan }}</td>
+                            <td>{{ $tempat->guru->nama ?? 'Belum ada pembimbing' }}</td> <!-- isi pembimbing -->
                             <td>{{ $tempat->alamat_perusahaan }}</td>
                             <td>{{ $tempat->telepon_perusahaan ?? '-' }}</td>
                             <td>
@@ -113,38 +111,79 @@
                                     class="btn btn-sm btn-outline-brand ms-2">
                                     <i class="fas fa-edit text-brand"></i>
                                 </a>
-
                             </td>
-                            <td>
+                            <td class="text-center">
                                 @foreach ($tempat->siswas as $siswa)
                                     <a href="{{ route('sertifikat.lihat', $siswa->id) }}" target="_blank"
-                                        class="btn btn-sm btn-info ms-2">
+                                        class="btn btn-sm bg-brand text-white rounded mb-1" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Lihat Sertifikat {{ $siswa->nama }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-
-                                    {{-- Download Sertifikat --}}
-                                    <a href="{{ route('sertifikat.download', $siswa->id) }}"
-                                        class="btn btn-sm btn-success ms-2">
-                                        <i class="fas fa-download"></i>
-                                    </a>
                                 @endforeach
-
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-4">
+                            <td colspan="10" class="text-center text-muted py-4">
                                 <i class="fas fa-info-circle"></i> Tidak Ada Data
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
-
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function deleteUser(id) {
+            Swal.fire({
+                title: 'Yakin?',
+                text: "Data Tidak Bisa Dikembalikan Setelah Dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            })
+        }
+    </script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            })
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('error') }}',
+            })
+        </script>
+    @endif
+    <script>
+        // Aktifkan semua tooltip
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+
 </body>
 
 </html>
