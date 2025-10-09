@@ -1,0 +1,1 @@
+SELECT id, nama, login_id FROM siswas;

@@ -31,32 +31,32 @@
         <thead class="table-light text-brand">
           <tr>
             <th>No</th>
+            <th>Nama Siswa</th>
             <th>Nama Perusahaan</th>
             <th>Alamat</th>
             <th>Status</th>
             <th>Jumlah Siswa</th>
-            <th>Nama Siswa</th>
           </tr>
         </thead>
         <tbody>
           @forelse($siswa->tempats as $index => $tempat)
           <tr>
-            <td>{{ $index+1 }}</td>
+              <td>{{ $index+1 }}</td>
+              <td>
+                @if($tempat->siswas->count())
+                  <ul class="mb-0 ps-3">
+                    @foreach($tempat->siswas as $s)
+                      <li>{{ $s->nama }} ({{ $s->jurusan }})</li>
+                    @endforeach
+                  </ul>
+                @else
+                  <em class="text-muted">Belum ada siswa</em>
+                @endif
+              </td>
             <td>{{ $tempat->nama_perusahaan }}</td>
             <td>{{ $tempat->alamat_perusahaan }}</td>
             <td>{{ $tempat->status_label }}</td>
             <td>{{ $tempat->siswas->count() }}</td>
-            <td>
-              @if($tempat->siswas->count())
-                <ul class="mb-0 ps-3">
-                  @foreach($tempat->siswas as $s)
-                    <li>{{ $s->nama }} ({{ $s->jurusan }})</li>
-                  @endforeach
-                </ul>
-              @else
-                <em class="text-muted">Belum ada siswa</em>
-              @endif
-            </td>
           </tr>
           @empty
           <tr>

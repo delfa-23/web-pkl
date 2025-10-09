@@ -67,6 +67,7 @@
                         <th>Nama Siswa</th>
                         <th>Jurusan</th>
                         <th>Perusahaan</th>
+                        <th>Instruktur Perusahaan</th>
                         <th>Pembimbing Perusahaan</th> <!-- kolom baru -->
                         <th>Alamat</th>
                         <th>No. Telp</th>
@@ -91,6 +92,7 @@
                             </td>
 
                             <td>{{ $tempat->nama_perusahaan }}</td>
+                            <td>{{ $tempat->instruktur_perusahaan ?? 'Belum ada instruktur' }}</td> <!-- isi pembimbing -->
                             <td>{{ $tempat->guru->nama ?? 'Belum ada pembimbing' }}</td> <!-- isi pembimbing -->
                             <td>{{ $tempat->alamat_perusahaan }}</td>
                             <td>{{ $tempat->telepon_perusahaan ?? '-' }}</td>
