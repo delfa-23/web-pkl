@@ -59,8 +59,11 @@ class SuratController extends Controller
     public function downloadPencarian($id)
     {
         $siswa = Siswa::findOrFail($id);
-        $pdf = PDF::loadView('surat.pengajuan', compact('siswa'));
-        return $pdf->download('pengajuan_' . $siswa->nama . '.pdf');
+
+    $pdf = Pdf::loadView('surat.pengajuan', compact('siswa'))
+              ->setPaper('A4', 'portrait'); // ukuran A4 tegak
+
+    return $pdf->download('pengajuan_' . $siswa->nama . '.pdf');
     }
 
     // ========================
