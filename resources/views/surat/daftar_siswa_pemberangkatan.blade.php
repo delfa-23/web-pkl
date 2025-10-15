@@ -42,11 +42,6 @@
             <td>{{ $siswa->kelas }} / {{ $siswa->jurusan }}</td>
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
-                <!-- Lihat Template -->
-                <a href="{{ route('surat.pemberangkatan', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-success" title="Lihat Template">
-                  <i class="fa-solid fa-eye"></i>
-                </a>
                 <!-- Download PDF -->
                 <a href="{{ route('surat.download_pemberangkatan', $siswa->id) }}"
                    class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">

@@ -13,7 +13,7 @@ class SuratController extends Controller
     // ========================
     public function daftarSiswaIzin()
     {
-        $siswas = Siswa::whereHas('tempats', function($q) {
+        $siswas = Siswa::whereHas('tempats', function ($q) {
             $q->where('siswa_tempat.status', 'proses'); // filter status di pivot
         })->get();
 
@@ -41,7 +41,7 @@ class SuratController extends Controller
     // ========================
     public function daftarSiswaPencarian()
     {
-        $siswas = Siswa::whereHas('tempats', function($q) {
+        $siswas = Siswa::whereHas('tempats', function ($q) {
             $q->where('siswa_tempat.status', 'proses');
         })->get();
 
@@ -60,23 +60,31 @@ class SuratController extends Controller
     {
         $siswa = Siswa::findOrFail($id);
 
-    $pdf = Pdf::loadView('surat.pengajuan', compact('siswa'))
-              ->setPaper('A4', 'portrait'); // ukuran A4 tegak
+        $pdf = \PDF::loadView('surat.pengajuan', compact('siswa'))
+            ->setPaper('A4', 'portrait')
+            ->setOptions([
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+            ])
+            ->setOption('margin-top', 40)    // jarak dari atas
+            ->setOption('margin-bottom', 40) // jarak dari bawah
+            ->setOption('margin-left', 30)   // jarak dari kiri
+            ->setOption('margin-right', 30); // jarak dari kanan
 
-    return $pdf->download('pengajuan_' . $siswa->nama . '.pdf');
+        return $pdf->download('pengajuan_' . $siswa->nama . '.pdf');
     }
 
     // ========================
     // Surat Pemberangkatan (status: diterima)
     // ========================
     public function daftarSiswaPemberangkatan()
-{
-    $siswas = Siswa::whereHas('tempats', function($q) {
-        $q->where('siswa_tempat.status', 'diterima');
-    })->get();
+    {
+        $siswas = Siswa::whereHas('tempats', function ($q) {
+            $q->where('siswa_tempat.status', 'diterima');
+        })->get();
 
-    return view('surat.daftar_siswa_pemberangkatan', compact('siswas'));
-}
+        return view('surat.daftar_siswa_pemberangkatan', compact('siswas'));
+    }
 
     public function showPemberangkatan($id)
     {
@@ -96,7 +104,7 @@ class SuratController extends Controller
     // ========================
     public function daftarSiswaKeterangan()
     {
-        $siswas = Siswa::whereHas('tempats', function($q) {
+        $siswas = Siswa::whereHas('tempats', function ($q) {
             $q->where('siswa_tempat.status', 'diterima');
         })->get();
 

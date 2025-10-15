@@ -5,58 +5,80 @@
     <meta charset="UTF-8">
     <title>Surat Pengantar Keberangkatan PKL</title>
     <style>
-        body {
-            font-family: "Times New Roman", serif;
-            margin: 15px;
-            /* dikurangi dari 40px */
-            line-height: 1.4;
-            /* sedikit dikurangi */
+        @page {
+            margin: 0cm;
         }
 
-        .surat {
-            page-break-inside: avoid;
-            page-break-before: avoid;
-            page-break-after: avoid;
-            break-inside: avoid;
-            /* CSS modern */
-            overflow: hidden;
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 10.5pt;
+            line-height: 1.25;
+            margin: 0;
+            padding: 0;
+        }
+
+        .kop img,
+        .footer img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content {
+            margin: 5px 60px 20px 60px;
+            text-align: justify;
+            line-height: 1.25;
         }
 
         h2 {
             text-align: center;
             text-decoration: underline;
             margin-bottom: 5px;
-            page-break-inside: avoid;
+            margin-top: 0;
         }
 
         .nomor {
             text-align: center;
             margin-bottom: 20px;
-            page-break-inside: avoid;
+        }
+
+        table {
+            width: 100%;
         }
 
         table td {
-            padding: 3px 8px;
+            padding: 2px 6px;
             vertical-align: top;
         }
 
         .footer {
-            margin-top: 30px;
-            /* dikurangi */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             text-align: center;
-            page-break-inside: avoid;
-            page-break-before: avoid;
-            page-break-after: avoid;
-            break-inside: avoid;
-            font-size: 0.9em;
-            /* font lebih kecil */
-            line-height: 1.3;
+        }
+
+        .ttd {
+            text-align: center;
+            margin-top: 25px;
         }
     </style>
 </head>
 
 <body>
-    <div class="surat">
+    @php
+        $kop = base64_encode(file_get_contents(public_path('assets/img/kop.png')));
+        $footer = base64_encode(file_get_contents(public_path('assets/img/footer.png')));
+    @endphp
+
+    <!-- Kop -->
+    <div class="kop">
+        <img src="data:image/png;base64,{{ $kop }}" alt="Kop Surat">
+    </div>
+
+    <!-- Isi Surat -->
+    <div class="content">
         <h2>SURAT PENGANTAR KEBERANGKATAN</h2>
         <p class="nomor">Nomor: ....../SMK-IT/AS-SYIFA/............/20....</p>
 
@@ -136,13 +158,18 @@
         </p>
         <p>Wassalamu’alaikum Wr. Wb.</p>
 
-        <div class="footer">
-            <p>.................................., ................. 2026</p>
-            <p>Kepala Sekolah<br>SMK-IT As-Syifa Boarding School</p>
+        <div class="ttd">
+            <p>Mengetahui,</p>
+            <p>Kepala SMK-IT As-Syifa Boarding School</p>
             <br><br><br>
-            <p><b>H. Agus Nur Purwanto, S.T.</b><br>
-                NIP. ........................................</p>
+            <p><b>H. AGUS NUR PURWANTO, S.T.</b></p>
+            <p>NIY. ...................................</p>
         </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <img src="data:image/png;base64,{{ $footer }}" alt="Footer Surat">
     </div>
 </body>
 

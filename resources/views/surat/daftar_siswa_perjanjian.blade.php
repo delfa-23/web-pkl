@@ -21,11 +21,7 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-semibold text-brand">
-<<<<<<< HEAD
         <i class="fas fa-file-alt me-2"></i> Daftar Siswa - Surat Perjanjian Kerjasama
-=======
-        <i class="fas fa-users"></i> Daftar Siswa - Surat Perjanjian Kerjasama
->>>>>>> 01b86c3d058bac3a47be60d7c43046ef401df5e0
       </h2>
     </div>
 
@@ -46,11 +42,6 @@
             <td>{{ $siswa->kelas }} / {{ $siswa->jurusan }}</td>
             <td class="text-center">
               <div class="d-flex justify-content-center gap-2">
-                <!-- Lihat Template -->
-                <a href="{{ route('surat.perjanjian', $siswa->id) }}"
-                   class="btn btn-sm btn-outline-success" title="Lihat Template">
-                  <i class="fa-solid fa-eye"></i>
-                </a>
                 <!-- Download PDF -->
                 <a href="{{ route('surat.download_perjanjian', $siswa->id) }}"
                    class="btn btn-sm text-white" style="background-color:#d5ad71;" title="Download PDF">
