@@ -92,7 +92,8 @@
                             </td>
 
                             <td>{{ $tempat->nama_perusahaan }}</td>
-                            <td>{{ $tempat->instruktur_perusahaan ?? 'Belum ada instruktur' }}</td> <!-- isi pembimbing -->
+                            <td>{{ $tempat->instruktur_perusahaan ?? 'Belum ada instruktur' }}</td>
+                            <!-- isi pembimbing -->
                             <td>{{ $tempat->guru->nama ?? 'Belum ada pembimbing' }}</td> <!-- isi pembimbing -->
                             <td>{{ $tempat->alamat_perusahaan }}</td>
                             <td>{{ $tempat->telepon_perusahaan ?? '-' }}</td>
@@ -116,10 +117,10 @@
                             </td>
                             <td class="text-center">
                                 @foreach ($tempat->siswas as $siswa)
-                                    <a href="{{ route('sertifikat.lihat', $siswa->id) }}" target="_blank"
-                                        class="btn btn-sm bg-brand text-white rounded mb-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="Lihat Sertifikat {{ $siswa->nama }}">
-                                        <i class="fas fa-eye"></i>
+                                    <a href="{{ route('sertifikat.download', $siswa->id) }}"
+                                        class="btn btn-sm btn-success rounded mb-1" data-bs-toggle="tooltip"
+                                        title="Download Sertifikat {{ $siswa->nama }}">
+                                        <i class="fas fa-download"></i>
                                     </a>
                                 @endforeach
                             </td>

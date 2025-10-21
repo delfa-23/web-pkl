@@ -47,7 +47,9 @@ class Siswa extends Model
 
     public function tempatAktif()
     {
-        return $this->tempats()->wherePivot('status', 'proses')->first();
+        return $this->tempats()
+            ->wherePivotIn('status', ['proses', 'diterima'])
+            ->first();
     }
 
     public function tempat()

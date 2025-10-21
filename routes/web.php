@@ -11,6 +11,7 @@ use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\admin\JurusanController;
+use App\Http\Controllers\ExportSuratController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\SuratController;
 use App\Models\Siswa;
@@ -183,5 +184,10 @@ Route::prefix('siswa/activity')->group(function () {
     Route::delete('/{id}/destroy', [DailyActivityController::class, 'destroy'])->name('siswa.activity.destroy');
 });
 
-Route::get('/sertifikat/lihat/{id}', [SertifikatController::class, 'lihat'])->name('sertifikat.lihat');
+
+Route::get('/surat/izin/{id}/word', [SuratController::class, 'exportSuratIzinOrtu'])->name('surat.word_izin');
+Route::get('/surat/export_pengajuan_pkl/{id}', [SuratController::class, 'exportSuratPengajuanPkl'])->name('surat.export_pengajuan_pkl');
+Route::get('/surat/export_pemberangkatan/{id}', [SuratController::class, 'exportSuratPemberangkatan'])->name('surat.export_pemberangkatan');
+Route::get('/surat/perjanjian/{id}/download', [SuratController::class, 'exportSuratPerjanjian'])->name('surat.download_perjanjian');
+
 Route::get('/sertifikat/download/{id}', [SertifikatController::class, 'download'])->name('sertifikat.download');
