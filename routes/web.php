@@ -22,18 +22,6 @@ use App\Models\Siswa;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/buat-admin', function () {
-    if (!Login::where('id_login', 'admin')->exists()) {
-        Login::create([
-            'id_login' => 'admin',
-            'password' => Hash::make('123'),
-            'role' => 'admin'
-        ]);
-        return 'Akun admin berhasil dibuat!';
-    }
-    return 'Akun admin sudah ada!';
-});
-
 /*
 |--------------------------------------------------------------------------
 | Auth Routes
