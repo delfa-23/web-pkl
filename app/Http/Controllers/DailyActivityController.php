@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use OpenAI\Laravel\Facades\OpenAI;
 use App\Models\DailyActivity;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class DailyActivityController extends Controller
@@ -37,20 +39,16 @@ class DailyActivityController extends Controller
             'kegiatan'      => 'required|string',
             'deskripsi'     => 'nullable|string',
             'foto'          => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ], [
-            'tanggal.required'      => 'Tanggal wajib diisi.',
-            'waktu_mulai.required'  => 'Waktu mulai wajib diisi.',
-            'waktu_selesai.required' => 'Waktu selesai wajib diisi.',
-            'waktu_selesai.after'   => 'Waktu selesai harus setelah waktu mulai.',
-            'kegiatan.required'     => 'Kegiatan wajib diisi.',
-            'foto.required'         => 'Foto wajib diupload.',
-            'foto.image'            => 'File harus berupa gambar.',
-            'foto.mimes'            => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
-            'foto.max'              => 'Ukuran foto maksimal 2MB.',
         ]);
 
         try {
             $fotoPath = $request->file('foto')->store('daily_activities', 'public');
+
+            // ===== AI RINGKASAN =====
+            $ringkasanAI = null;
+            if ($request->filled('deskripsi')) {
+                $ringkasanAI = $this->generateRingkasan($request->deskripsi);
+            }
 
             DailyActivity::create([
                 'login_id'      => session('login_id'),
@@ -59,13 +57,15 @@ class DailyActivityController extends Controller
                 'waktu_selesai' => $request->waktu_selesai,
                 'kegiatan'      => $request->kegiatan,
                 'deskripsi'     => $request->deskripsi,
+                'ringkasan_ai'  => $ringkasanAI,
                 'foto'          => $fotoPath,
             ]);
 
             return redirect()->route('siswa.activity.index')
                 ->with('success', 'Aktivitas berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menyimpan foto: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', $e->getMessage());
         }
     }
 
@@ -87,15 +87,6 @@ class DailyActivityController extends Controller
             'kegiatan'      => 'required|string',
             'deskripsi'     => 'nullable|string',
             'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ], [
-            'tanggal.required'      => 'Tanggal wajib diisi.',
-            'waktu_mulai.required'  => 'Waktu mulai wajib diisi.',
-            'waktu_selesai.required' => 'Waktu selesai wajib diisi.',
-            'waktu_selesai.after'   => 'Waktu selesai harus setelah waktu mulai.',
-            'kegiatan.required'     => 'Kegiatan wajib diisi.',
-            'foto.image'            => 'File harus berupa gambar.',
-            'foto.mimes'            => 'Format foto hanya boleh JPG, JPEG, atau PNG.',
-            'foto.max'              => 'Ukuran foto maksimal 2MB.',
         ]);
 
         $activity = DailyActivity::findOrFail($id);
@@ -109,12 +100,17 @@ class DailyActivityController extends Controller
                 'deskripsi'     => $request->deskripsi,
             ];
 
+            // ===== AI RINGKASAN =====
+            if ($request->filled('deskripsi') && $request->deskripsi !== $activity->deskripsi) {
+                $data['ringkasan_ai'] = $this->generateRingkasan($request->deskripsi);
+            }
+
             if ($request->hasFile('foto')) {
                 if ($activity->foto && Storage::disk('public')->exists($activity->foto)) {
                     Storage::disk('public')->delete($activity->foto);
                 }
-                $fotoPath = $request->file('foto')->store('daily_activities', 'public');
-                $data['foto'] = $fotoPath;
+                $data['foto'] = $request->file('foto')
+                    ->store('daily_activities', 'public');
             }
 
             $activity->update($data);
@@ -122,11 +118,42 @@ class DailyActivityController extends Controller
             return redirect()->route('siswa.activity.index')
                 ->with('success', 'Aktivitas berhasil diupdate');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
 
+    public function generateRingkasan(string $deskripsi): ?string
+    {
+        $apiKey = config('services.openai.key');
 
+        if (!$apiKey) {
+            return null;
+        }
+
+        $response = Http::withToken($apiKey)
+            ->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'Ringkas aktivitas siswa PKL menjadi 1 kalimat singkat dan formal.'
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $deskripsi
+                    ],
+                ],
+                'temperature' => 0.4,
+                'max_tokens' => 60,
+            ]);
+
+        if ($response->failed()) {
+            return null;
+        }
+
+        return $response->json('choices.0.message.content');
+    }
 
     // Hapus activity
     public function destroy($id)

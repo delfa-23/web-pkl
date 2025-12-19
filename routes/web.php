@@ -27,6 +27,7 @@ use App\Models\Siswa;
 | Auth Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -179,3 +180,6 @@ Route::get('/surat/export_pemberangkatan/{id}', [SuratController::class, 'export
 Route::get('/surat/perjanjian/{id}/download', [SuratController::class, 'exportSuratPerjanjian'])->name('surat.download_perjanjian');
 
 Route::get('/sertifikat/download/{id}', [SertifikatController::class, 'download'])->name('sertifikat.download');
+Route::get('/siswa/mutabaah', function () {
+    return view('siswa.mutabaah');
+})->name('siswa.mutabaah');

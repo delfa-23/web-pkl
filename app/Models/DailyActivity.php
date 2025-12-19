@@ -8,7 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class DailyActivity extends Model
 {
     use HasFactory;
-    protected $fillable = ['login_id', 'tanggal', 'waktu_mulai', 'waktu_selesai', 'kegiatan', 'deskripsi', 'foto'];
+    protected $fillable = [
+        'login_id',
+        'tanggal',
+        'waktu_mulai',
+        'waktu_selesai',
+        'kegiatan',
+        'deskripsi',
+        'ringkasan_ai',
+        'foto',
+    ];
 
     public function login()
     {

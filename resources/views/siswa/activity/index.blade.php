@@ -93,7 +93,20 @@
                             <td>{{ $a->kegiatan }}</td>
 
                             <!-- Deskripsi -->
-                            <td>{{ $a->deskripsi ?? '-' }}</td>
+                            <td>
+                                {{ $a->deskripsi }}
+
+                                @if ($a->ringkasan_ai)
+                                    <hr>
+                                    <ul class="mb-0">
+                                        @foreach (explode("\n", $a->ringkasan_ai) as $poin)
+                                            <li>{{ ltrim($poin, '- ') }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </td>
+
+
 
                             <!-- Foto -->
                             <td class="text-center">

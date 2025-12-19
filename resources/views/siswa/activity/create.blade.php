@@ -77,6 +77,8 @@
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d9a96]">{{ old('deskripsi') }}</textarea>
                 </div>
 
+                
+
                 <!-- Foto -->
                 <div>
                     <label for="foto" class="block font-medium">Foto (Wajib)</label>
