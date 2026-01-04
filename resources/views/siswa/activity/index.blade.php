@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Activity | SyifaPKL</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
@@ -29,50 +27,88 @@
 <body class="bg-light">
     <div class="container py-4">
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-semibold text-brand">
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            {{-- JUDUL --}}
+            <h2 class="fw-semibold text-brand mb-0">
                 <i class="fas fa-calendar-day me-2"></i> Daily Activity
             </h2>
-            <a href="{{ route('siswa.activity.create') }}" class="btn bg-brand text-white shadow">
-                <i class="fas fa-plus me-1"></i> Tambah Aktivitas
-            </a>
+
+            {{-- AKSI --}}
+            <div class="d-flex gap-2">
+
+                {{-- KEMBALI --}}
+                <a href="{{ route('siswa.dashboard') }}" class="btn bg-brand text-white">
+                    <i class="fas fa-arrow-left me-1"></i> Kembali
+                </a>
+
+                {{-- TAMBAH --}}
+                @if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima')
+                    <button class="btn btn-secondary" disabled>
+                        <i class="fas fa-lock me-1"></i> Tambah
+                    </button>
+                @else
+                    <a href="{{ route('siswa.activity.create') }}" class="btn bg-brand text-white">
+                        <i class="fas fa-plus me-1"></i> Tambah
+                    </a>
+                @endif
+
+            </div>
         </div>
 
-        <!-- Info Siswa & PKL -->
+
+        {{-- ALERT STATUS --}}
+        @if ($lastActivity)
+            @if ($lastActivity->status_verifikasi === 'pending')
+                <div class="alert alert-warning">
+                    <i class="fas fa-clock me-1"></i>
+                    Daily activity tanggal
+                    <strong>{{ \Carbon\Carbon::parse($lastActivity->tanggal)->format('d-m-Y') }}</strong>
+                    masih <strong>MENUNGGU VERIFIKASI</strong> pembimbing.
+                </div>
+            @elseif($lastActivity->status_verifikasi === 'ditolak')
+                <div class="alert alert-danger">
+                    <i class="fas fa-times-circle me-1"></i>
+                    Daily activity tanggal
+                    <strong>{{ \Carbon\Carbon::parse($lastActivity->tanggal)->format('d-m-Y') }}</strong>
+                    <strong>DITOLAK</strong>.
+                    Silakan edit data tersebut sebelum menambah aktivitas baru.
+                </div>
+            @endif
+        @endif
+
+        <!-- INFO PKL -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <h5 class="fw-bold text-brand mb-3"><i class="fas fa-user-graduate me-2"></i> Informasi PKL</h5>
+                <h5 class="fw-bold text-brand mb-3">
+                    <i class="fas fa-user-graduate me-2"></i> Informasi PKL
+                </h5>
                 <div class="row">
+                    <div class="col-md-6 mb-2"><strong>Nama Siswa:</strong> {{ $siswa->nama }}</div>
+                    <div class="col-md-6 mb-2"><strong>Jurusan:</strong> {{ $siswa->jurusan }}</div>
                     <div class="col-md-6 mb-2">
-                        <strong>Program Keahlian:</strong> {{ $siswa->jurusan ?? '-' }}
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <strong>Nama Siswa:</strong> {{ $siswa->nama }}
-                    </div>
-                    <div class="col-md-6 mb-2">
-                        <strong>Nama Perusahaan:</strong>
+                        <strong>Perusahaan:</strong>
                         {{ $siswa->tempats->first()->nama_perusahaan ?? '-' }}
                     </div>
                     <div class="col-md-6 mb-2">
-                        <strong>Nama Pembimbing:</strong>
+                        <strong>Pembimbing:</strong>
                         {{ $siswa->tempats->first()->guru->nama ?? '-' }}
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <!-- Table -->
+        <!-- TABLE -->
         <div class="table-responsive bg-white shadow rounded">
             <table class="table table-striped align-middle mb-0">
                 <thead class="table-light text-brand">
                     <tr>
                         <th>Tanggal</th>
-                        <th>Waktu Mulai</th>
-                        <th>Waktu Selesai</th>
+                        <th>Waktu</th>
                         <th>Kegiatan</th>
                         <th>Deskripsi</th>
+                        <th>Status</th>
                         <th>Foto</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -80,129 +116,76 @@
                 <tbody>
                     @forelse($activities as $a)
                         <tr>
-                            <!-- Tanggal -->
-                            <td>{{ date('d-m-Y', strtotime($a->tanggal)) }}</td>
+                            <td>{{ \Carbon\Carbon::parse($a->tanggal)->format('d-m-Y') }}</td>
 
-                            <!-- Waktu mulai -->
-                            <td>{{ date('H:i', strtotime($a->waktu_mulai)) }}</td>
+                            <td>{{ $a->waktu_mulai }} - {{ $a->waktu_selesai }}</td>
 
-                            <!-- Waktu selesai -->
-                            <td>{{ date('H:i', strtotime($a->waktu_selesai)) }}</td>
-
-                            <!-- Kegiatan -->
                             <td>{{ $a->kegiatan }}</td>
 
-                            <!-- Deskripsi -->
                             <td>
                                 {{ $a->deskripsi }}
 
-                                @if ($a->ringkasan_ai)
-                                    <hr>
-                                    <ul class="mb-0">
-                                        @foreach (explode("\n", $a->ringkasan_ai) as $poin)
-                                            <li>{{ ltrim($poin, '- ') }}</li>
-                                        @endforeach
-                                    </ul>
+                                {{-- CATATAN PEMBIMBING --}}
+                                @if ($a->catatan_pembina && $a->status_verifikasi !== 'pending')
+                                    <div class="alert alert-danger py-1 px-2 mt-2 mb-0">
+                                        <small>
+                                            <strong>Catatan Pembimbing:</strong><br>
+                                            {{ $a->catatan_pembina }}
+                                        </small>
+                                    </div>
                                 @endif
                             </td>
 
 
-
-                            <!-- Foto -->
-                            <td class="text-center">
-                                @if ($a->foto)
-                                    <img src="{{ asset('storage/' . $a->foto) }}" alt="Foto Aktivitas"
-                                        class="img-thumbnail" style="max-width: 100px;">
+                            {{-- STATUS --}}
+                            <td>
+                                @if ($a->status_verifikasi === 'pending')
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-clock me-1"></i> Pending
+                                    </span>
+                                @elseif ($a->status_verifikasi === 'diterima')
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i> Diterima
+                                    </span>
                                 @else
-                                    <span class="text-muted">Tidak ada foto</span>
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-times-circle me-1"></i> Ditolak
+                                    </span>
                                 @endif
                             </td>
 
-                            <!-- Aksi -->
+                            {{-- FOTO --}}
+                            <td>
+                                <img src="{{ asset('storage/' . $a->foto) }}" class="img-thumbnail"
+                                    style="max-width:90px">
+                            </td>
+
+                            {{-- AKSI --}}
                             <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <!-- Edit -->
+                                @if ($a->status_verifikasi === 'diterima')
+                                    <span class="text-success">
+                                        <i class="fas fa-lock me-1"></i> Terkunci
+                                    </span>
+                                @else
                                     <a href="{{ route('siswa.activity.edit', $a->id) }}"
-                                        class="btn btn-sm btn-outline-primary" title="Edit">
+                                        class="btn btn-sm btn-outline-primary" title="Edit aktivitas">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <!-- Delete -->
-                                    <form id="delete-form-{{ $a->id }}"
-                                        action="{{ route('siswa.activity.destroy', $a->id) }}" method="POST"
-                                        style="display:none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus"
-                                        onclick="deleteUser({{ $a->id }})">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                                @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="7" class="text-center text-muted py-4">
-                                <i class="fas fa-info-circle"></i> Belum ada aktivitas.
+                                Belum ada activity
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
-
-        </div>
-
-        <!-- Tombol kembali -->
-        <div class="mt-4">
-            <a href="{{ route('siswa.dashboard') }}" class="text-brand text-decoration-none">
-                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
-            </a>
         </div>
 
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function deleteUser(id) {
-            Swal.fire({
-                title: 'Yakin?',
-                text: "Data Tidak Bisa Dikembalikan Setelah Dihapus!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Delete!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + id).submit();
-                }
-            })
-        }
-    </script>
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: '{{ session('success') }}',
-                timer: 2000,
-                showConfirmButton: false
-            })
-        </script>
-    @endif
-
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '{{ session('error') }}',
-            })
-        </script>
-    @endif
 </body>
 
 </html>

@@ -136,12 +136,26 @@ Route::middleware(['cekrole:guru'])->group(function () {
         Route::get('/tempat/{id}', [TempatPklController::class, 'guruShow'])->name('guru.tempat.show');
     });
 
+    Route::post(
+        '/guru/activity/{id}/verifikasi',
+        [\App\Http\Controllers\DailyActivityController::class, 'verifikasi']
+    )->name('guru.activity.verifikasi');
+
+    Route::put(
+        '/pembimbing/activity/{id}/cancel',
+        [DailyActivityController::class, 'cancel']
+    )
+        ->name('pembimbing.activity.cancel');
+
     Route::get('/guru/activities', [\App\Http\Controllers\DailyActivityController::class, 'guruIndex'])
         ->name('guru.activity.index');
 
     // route yang sudah ada: lihat activity per siswa
     Route::get('/guru/siswa/{id}/activity', [\App\Http\Controllers\GuruController::class, 'showActivity'])
         ->name('guru.siswa.activity');
+
+    Route::get('/guru/daily-activity/export/{siswa}', [GuruController::class, 'exportDailyActivity'])
+        ->name('guru.daily.export');
 });
 
 /*

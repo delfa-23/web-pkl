@@ -17,6 +17,8 @@ class DailyActivity extends Model
         'deskripsi',
         'ringkasan_ai',
         'foto',
+        'status_verifikasi',
+        'catatan_pembina',
     ];
 
     public function login()

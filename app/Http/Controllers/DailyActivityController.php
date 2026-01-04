@@ -10,36 +10,84 @@ use Illuminate\Support\Facades\Storage;
 
 class DailyActivityController extends Controller
 {
-    // Tampilkan semua activity siswa
     public function index()
     {
         $siswa = \App\Models\Siswa::with(['tempats.guru'])
             ->where('login_id', session('login_id'))
             ->first();
 
-        $activities = \App\Models\DailyActivity::where('login_id', session('login_id'))->get();
+        $activities = DailyActivity::where('login_id', session('login_id'))
+            ->orderBy('tanggal', 'desc')
+            ->get();
 
-        return view('siswa.activity.index', compact('siswa', 'activities'));
+        // ambil daily activity terakhir
+        $lastActivity = DailyActivity::where('login_id', session('login_id'))
+            ->orderBy('tanggal', 'desc')
+            ->first();
+
+        return view('siswa.activity.index', compact(
+            'siswa',
+            'activities',
+            'lastActivity'
+        ));
     }
 
-
-    // Form tambah activity
     public function create()
     {
+        $lastActivity = DailyActivity::where('login_id', session('login_id'))
+            ->latest('tanggal')
+            ->first();
+
+        if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima') {
+            return redirect()->route('siswa.activity.index')
+                ->with(
+                    'error',
+                    'Daily activity tanggal ' .
+                        $lastActivity->tanggal .
+                        ' belum diterima pembina dan harus diperbaiki.'
+                );
+        }
+
         return view('siswa.activity.create');
     }
+
 
     // Simpan activity baru
     public function store(Request $request)
     {
+
+        $lastActivity = DailyActivity::where('login_id', session('login_id'))
+            ->latest('tanggal')
+            ->first();
+
+        if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima') {
+            return redirect()->back()
+                ->with('error', 'Masih ada daily activity yang belum diterima pembina.');
+        }
+
         $request->validate([
-            'tanggal'       => 'required|date',
+            'tanggal' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    $exists = DailyActivity::where('login_id', session('login_id'))
+                        ->whereDate('tanggal', $value)
+                        ->exists();
+
+                    if ($exists) {
+                        $fail('Daily activity untuk tanggal ini sudah ada. Hanya boleh 1 aktivitas per hari.');
+                    }
+                }
+            ],
             'waktu_mulai'   => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
             'kegiatan'      => 'required|string',
             'deskripsi'     => 'nullable|string',
             'foto'          => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'waktu_selesai.after' => 'Jam selesai harus lebih besar dari jam mulai.',
         ]);
+
 
         try {
             $fotoPath = $request->file('foto')->store('daily_activities', 'public');
@@ -59,6 +107,7 @@ class DailyActivityController extends Controller
                 'deskripsi'     => $request->deskripsi,
                 'ringkasan_ai'  => $ringkasanAI,
                 'foto'          => $fotoPath,
+                'status_verifikasi' => 'pending',
             ]);
 
             return redirect()->route('siswa.activity.index')
@@ -73,54 +122,77 @@ class DailyActivityController extends Controller
     // Form edit activity
     public function edit($id)
     {
-        $activity = DailyActivity::findOrFail($id);
+        $activity = DailyActivity::where('id', $id)
+            ->where('login_id', session('login_id'))
+            ->firstOrFail();
+
+        if ($activity->status_verifikasi === 'diterima') {
+            return redirect()
+                ->route('siswa.activity.index')
+                ->with('error', 'Aktivitas yang sudah diterima tidak bisa diedit.');
+        }
+
         return view('siswa.activity.edit', compact('activity'));
     }
 
-    // Update activity
+
     public function update(Request $request, $id)
     {
+        $activity = DailyActivity::where('id', $id)
+            ->where('login_id', session('login_id'))
+            ->firstOrFail();
+
+        // 🔒 kalau sudah diterima, stop
+        if ($activity->status_verifikasi === 'diterima') {
+            return back()->with('error', 'Aktivitas yang sudah diterima tidak bisa diubah.');
+        }
+
         $request->validate([
-            'tanggal'       => 'required|date',
+            'tanggal' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($id) {
+                    $exists = DailyActivity::where('login_id', session('login_id'))
+                        ->whereDate('tanggal', $value)
+                        ->where('id', '!=', $id)
+                        ->exists();
+
+                    if ($exists) {
+                        $fail('Daily activity untuk tanggal ini sudah ada. Tidak boleh duplikat.');
+                    }
+                }
+            ],
             'waktu_mulai'   => 'required|date_format:H:i',
             'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
             'kegiatan'      => 'required|string',
             'deskripsi'     => 'nullable|string',
             'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'waktu_selesai.after' => 'Jam selesai harus lebih besar dari jam mulai.',
         ]);
 
-        $activity = DailyActivity::findOrFail($id);
 
-        try {
-            $data = [
-                'tanggal'       => $request->tanggal,
-                'waktu_mulai'   => $request->waktu_mulai,
-                'waktu_selesai' => $request->waktu_selesai,
-                'kegiatan'      => $request->kegiatan,
-                'deskripsi'     => $request->deskripsi,
-            ];
+        $data = $request->only([
+            'tanggal',
+            'waktu_mulai',
+            'waktu_selesai',
+            'kegiatan',
+            'deskripsi',
+        ]);
 
-            // ===== AI RINGKASAN =====
-            if ($request->filled('deskripsi') && $request->deskripsi !== $activity->deskripsi) {
-                $data['ringkasan_ai'] = $this->generateRingkasan($request->deskripsi);
-            }
-
-            if ($request->hasFile('foto')) {
-                if ($activity->foto && Storage::disk('public')->exists($activity->foto)) {
-                    Storage::disk('public')->delete($activity->foto);
-                }
-                $data['foto'] = $request->file('foto')
-                    ->store('daily_activities', 'public');
-            }
-
-            $activity->update($data);
-
-            return redirect()->route('siswa.activity.index')
-                ->with('success', 'Aktivitas berhasil diupdate');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('daily_activities', 'public');
         }
+
+        // 🔴 INI YANG SEBELUMNYA BIKIN STUCK
+        $data['status_verifikasi'] = 'pending';
+        $data['catatan_pembimbing'] = null;
+
+        $activity->update($data);
+
+        return redirect()
+            ->route('siswa.activity.index')
+            ->with('success', 'Aktivitas berhasil diperbarui dan dikirim ulang untuk verifikasi.');
     }
 
     public function generateRingkasan(string $deskripsi): ?string
@@ -176,5 +248,42 @@ class DailyActivityController extends Controller
         $activities = DailyActivity::with('siswa')->latest()->get();
 
         return view('guru.activity.index', compact('activities'));
+    }
+
+    public function batalkan($id)
+    {
+        $activity = DailyActivity::findOrFail($id);
+
+        if ($activity->status_verifikasi !== 'diterima') {
+            return back()->with('error', 'Hanya aktivitas diterima yang bisa dibatalkan.');
+        }
+
+        $activity->update([
+            'status_verifikasi' => 'ditolak',
+            'catatan_pembina'   => 'Status diterima dibatalkan oleh pembimbing',
+        ]);
+
+        return back()->with('success', 'Status berhasil dibatalkan.');
+    }
+
+
+    public function verifikasi(Request $request, $id)
+    {
+        $activity = DailyActivity::findOrFail($id);
+
+        // Validasi
+        if ($request->status_verifikasi === 'ditolak' && !$request->catatan_pembina) {
+            return back()->with('error', 'Catatan wajib diisi jika menolak.');
+        }
+
+        // Update status
+        $activity->update([
+            'status_verifikasi' => $request->status_verifikasi,
+            'catatan_pembina'   => $request->status_verifikasi === 'ditolak'
+                ? $request->catatan_pembina
+                : null,
+        ]);
+
+        return back()->with('success', 'Status berhasil diperbarui');
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyActivity;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Guru;
+use App\Exports\DailyActivityExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GuruController extends Controller
 {
@@ -63,5 +66,18 @@ class GuruController extends Controller
         })->with('activities')->findOrFail($id);
 
         return view('guru.siswa.activity', compact('siswa'));
+    }
+
+    public function exportDailyActivity($siswaId)
+    {
+        $siswa = Siswa::findOrFail($siswaId);
+
+        // Ambil login_id yang sebenarnya
+        $loginId = $siswa->login_id;
+
+        return Excel::download(
+            new DailyActivityExport($loginId),
+            'daily-activity-' . str_replace(' ', '-', strtolower($siswa->nama)) . '.xlsx'
+        );
     }
 }
