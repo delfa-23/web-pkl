@@ -21,33 +21,20 @@ class DailyActivityController extends Controller
             ->get();
 
         // ambil daily activity terakhir
-        $lastActivity = DailyActivity::where('login_id', session('login_id'))
+        $unverifiedActivities = DailyActivity::where('login_id', session('login_id'))
+            ->whereIn('status_verifikasi', ['pending', 'ditolak'])
             ->orderBy('tanggal', 'desc')
-            ->first();
+            ->get();
 
         return view('siswa.activity.index', compact(
             'siswa',
             'activities',
-            'lastActivity'
+            'unverifiedActivities'
         ));
     }
 
     public function create()
     {
-        $lastActivity = DailyActivity::where('login_id', session('login_id'))
-            ->latest('tanggal')
-            ->first();
-
-        if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima') {
-            return redirect()->route('siswa.activity.index')
-                ->with(
-                    'error',
-                    'Daily activity tanggal ' .
-                        $lastActivity->tanggal .
-                        ' belum diterima pembina dan harus diperbaiki.'
-                );
-        }
-
         return view('siswa.activity.create');
     }
 
@@ -55,16 +42,6 @@ class DailyActivityController extends Controller
     // Simpan activity baru
     public function store(Request $request)
     {
-
-        $lastActivity = DailyActivity::where('login_id', session('login_id'))
-            ->latest('tanggal')
-            ->first();
-
-        if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima') {
-            return redirect()->back()
-                ->with('error', 'Masih ada daily activity yang belum diterima pembina.');
-        }
-
         $request->validate([
             'tanggal' => [
                 'required',
@@ -88,33 +65,30 @@ class DailyActivityController extends Controller
             'waktu_selesai.after' => 'Jam selesai harus lebih besar dari jam mulai.',
         ]);
 
-
         try {
             $fotoPath = $request->file('foto')->store('daily_activities', 'public');
 
-            // ===== AI RINGKASAN =====
             $ringkasanAI = null;
             if ($request->filled('deskripsi')) {
                 $ringkasanAI = $this->generateRingkasan($request->deskripsi);
             }
 
             DailyActivity::create([
-                'login_id'      => session('login_id'),
-                'tanggal'       => $request->tanggal,
-                'waktu_mulai'   => $request->waktu_mulai,
-                'waktu_selesai' => $request->waktu_selesai,
-                'kegiatan'      => $request->kegiatan,
-                'deskripsi'     => $request->deskripsi,
-                'ringkasan_ai'  => $ringkasanAI,
-                'foto'          => $fotoPath,
+                'login_id'          => session('login_id'),
+                'tanggal'           => $request->tanggal,
+                'waktu_mulai'       => $request->waktu_mulai,
+                'waktu_selesai'     => $request->waktu_selesai,
+                'kegiatan'          => $request->kegiatan,
+                'deskripsi'         => $request->deskripsi,
+                'ringkasan_ai'      => $ringkasanAI,
+                'foto'              => $fotoPath,
                 'status_verifikasi' => 'pending',
             ]);
 
             return redirect()->route('siswa.activity.index')
                 ->with('success', 'Aktivitas berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

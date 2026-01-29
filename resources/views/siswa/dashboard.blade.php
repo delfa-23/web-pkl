@@ -10,6 +10,7 @@
     <link href="{{ asset('storage/assets/sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
     <link href="{{ asset('storage/assets/sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="https://smkit.assyifa.sch.id/wp-content/uploads/2023/08/Logo-SMKIT-Fix-1.png" rel="shortcut icon">
 </head>
 
 <body id="page-top">
@@ -121,6 +122,39 @@
                     <h1 class="h3 mb-4 text-gray-800">Dashboard Siswa</h1>
 
                     <div class="row">
+
+                        <!-- Card Ucapan Semangat PKL -->
+                        <div class="col-xl-12 col-md-12 mb-4">
+                            <div class="card shadow border-left-success">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+
+                                        <!-- FOTO KIRI -->
+                                        <div class="col-12 col-md-3 text-center mb-3 mb-md-0">
+                                            <img src="{{ asset('storage/assets/img/pkl.png') }}"
+                                                 class="img-fluid rounded"
+                                                 style="max-height:150px; object-fit:contain;">
+                                        </div>
+
+                                        <!-- TEKS TENGAH -->
+                                        <div class="col-12 col-md-6 text-center">
+                                            <h3 class="font-weight-bold text-success mb-0">
+                                                💪 Semangat PKL! VISTARA
+                                            </h3>
+                                        </div>
+
+                                        <!-- FOTO KANAN -->
+                                        <div class="col-12 col-md-3 text-center mt-3 mt-md-0">
+                                            <img src="{{ asset('storage/assets/img/qboy.jpg') }}"
+                                                 class="img-fluid rounded"
+                                                 style="max-height:150px; object-fit:contain;">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Card Tempat PKL -->
                         <div class="col-xl-12 col-md-12 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -128,10 +162,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Dashboard Siswa</div>
+                                                Dashboard Siswa
+                                            </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                Halo, Selamat beraktivitas di tempat PKL-mu.<br><br>Gunakan Menu di
-                                                Samping Untuk Menginput Tempat PKL, Dan Menginput Daily Activity.
+                                                Halo, Selamat beraktivitas di tempat PKL-mu.<br><br>
+                                                Gunakan Menu di Samping Untuk Menginput Tempat PKL, Dan Menginput Daily Activity.
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -141,9 +176,11 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- End Page Content -->
+
             </div>
         </div>
     </div>

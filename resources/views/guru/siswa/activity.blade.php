@@ -56,6 +56,7 @@
                             <th>Tanggal</th>
                             <th>Nama Siswa</th>
                             <th>Kegiatan</th>
+                            <th>Deskripsi</th>
                             <th>Foto</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -77,6 +78,8 @@
                                         </div>
                                     @endif
                                 </td>
+
+                                <td style="max-width:400px;">{{ $a->deskripsi }}</td>
 
                                 <td>
                                     @if ($a->foto)

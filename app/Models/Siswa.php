@@ -2,59 +2,54 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
-    use HasFactory;
-
     protected $table = 'siswas';
-
-    protected $fillable = [
-        'login_id',
-        'nama',
-        'nis',
-        'nisn',
-        'telepon',
-        'kelas',
-        'jurusan',
-        'status',
-        'kehadiran',
-        'nama_orangtua',
-        'telepon_orangtua',
-        'alamat',
-        'tempat_lahir',
-        'tanggal_lahir',
-    ];
 
     public function login()
     {
         return $this->belongsTo(Login::class, 'login_id', 'id');
     }
 
-    public function tempatPkl()
+    protected $fillable = [
+        'login_id',
+        'nama',
+        'nis',
+        'nisn',
+        'password',
+        'kelas',
+        'jurusan',
+        'telepon',
+        'alamat',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'nama_orangtua',
+        'telepon_orangtua',
+    ];
+
+    public function setPasswordAttribute($value)
     {
-        return $this->hasOne(TempatPKL::class, 'siswa_id', 'id');
+        $this->attributes['password'] = bcrypt($value);
     }
 
+    // relasi ke tabel pivot siswa_tempat
     public function tempats()
     {
-        return $this->belongsToMany(TempatPkl::class, 'siswa_tempat', 'siswa_id', 'tempat_pkl_id')
-            ->withPivot('status', 'jurusan')
-            ->withTimestamps();
+        return $this->belongsToMany(
+            TempatPkl::class,
+            'siswa_tempat',
+            'siswa_id',
+            'tempat_pkl_id'
+        )->withPivot('status');
     }
 
+    // tempat PKL yang aktif
     public function tempatAktif()
     {
         return $this->tempats()
-            ->wherePivotIn('status', ['proses', 'diterima'])
-            ->first();
-    }
-
-    public function tempat()
-    {
-        return $this->hasOne(TempatPkl::class, 'siswa_id');
+            ->wherePivotIn('status', ['proses', 'diterima']);
     }
 
     public function activities()
@@ -62,15 +57,8 @@ class Siswa extends Model
         return $this->hasMany(DailyActivity::class, 'login_id', 'login_id');
     }
 
-    public function guru()
+    public function getGuruAttribute()
     {
-        return $this->hasOneThrough(
-            Guru::class,      // model tujuan
-            TempatPkl::class, // model perantara
-            'id',             // foreign key TempatPkl di tabel `tempat_pkls`
-            'id',             // foreign key Guru
-            'id',             // local key Siswa
-            'guru_id'         // key guru di TempatPkl
-        );
+        return optional($this->tempatAktif->first())->guru;
     }
 }

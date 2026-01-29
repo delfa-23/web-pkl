@@ -15,6 +15,6 @@ class Login extends Model
     ];
     public function siswa()
     {
-        return $this->hasOne(Siswa::class, 'login_id', 'id');
+        return $this->hasOne(Siswa::class, 'login_id', 'id', 'guru_id');
     }
 }

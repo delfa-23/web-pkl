@@ -11,6 +11,7 @@ use App\Http\Controllers\DailyActivityController;
 use App\Http\Controllers\TempatPklController;
 use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\admin\JurusanController;
+use App\Http\Controllers\AdminDailyActivityController;
 use App\Http\Controllers\ExportSuratController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\SuratController;
@@ -66,8 +67,8 @@ Route::middleware(['cekrole:admin'])->group(function () {
         Route::put('/{id}/update', [TempatPKLController::class, 'adminUpdate'])->name('admin.tempat.update');
     });
 
-
-
+    Route::get('/daily', [AdminDailyActivityController::class, 'index'])
+    ->name('admin.daily');
 
     // CRUD Program Keahlian
     Route::prefix('admin/jurusan')->group(function () {

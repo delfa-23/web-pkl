@@ -44,38 +44,36 @@
                 </a>
 
                 {{-- TAMBAH --}}
-                @if ($lastActivity && $lastActivity->status_verifikasi !== 'diterima')
-                    <button class="btn btn-secondary" disabled>
-                        <i class="fas fa-lock me-1"></i> Tambah
-                    </button>
-                @else
-                    <a href="{{ route('siswa.activity.create') }}" class="btn bg-brand text-white">
-                        <i class="fas fa-plus me-1"></i> Tambah
-                    </a>
-                @endif
+                <a href="{{ route('siswa.activity.create') }}" class="btn bg-brand text-white">
+                    <i class="fas fa-plus me-1"></i> Tambah
+                </a>
 
             </div>
         </div>
 
 
         {{-- ALERT STATUS --}}
-        @if ($lastActivity)
-            @if ($lastActivity->status_verifikasi === 'pending')
-                <div class="alert alert-warning">
-                    <i class="fas fa-clock me-1"></i>
-                    Daily activity tanggal
-                    <strong>{{ \Carbon\Carbon::parse($lastActivity->tanggal)->format('d-m-Y') }}</strong>
-                    masih <strong>MENUNGGU VERIFIKASI</strong> pembimbing.
-                </div>
-            @elseif($lastActivity->status_verifikasi === 'ditolak')
-                <div class="alert alert-danger">
-                    <i class="fas fa-times-circle me-1"></i>
-                    Daily activity tanggal
-                    <strong>{{ \Carbon\Carbon::parse($lastActivity->tanggal)->format('d-m-Y') }}</strong>
-                    <strong>DITOLAK</strong>.
-                    Silakan edit data tersebut sebelum menambah aktivitas baru.
-                </div>
-            @endif
+        @if ($unverifiedActivities->count())
+            <div class="alert alert-warning">
+                <strong>{{ $unverifiedActivities->count() }}</strong> daily activity belum diterima pembimbing:
+                <ul class="mb-0 mt-2">
+                    @foreach ($unverifiedActivities as $activity)
+                        <li>
+                            {{ \Carbon\Carbon::parse($activity->tanggal)->format('d-m-Y') }}
+                            —
+                            @if ($activity->status_verifikasi === 'pending')
+                                <span class="badge bg-warning text-dark">MENUNGGU</span>
+                            @else
+                                <span class="badge bg-danger">DITOLAK</span>
+                                <a href="{{ route('siswa.activity.edit', $activity->id) }}"
+                                    class="ms-1 text-decoration-underline">
+                                    Perbaiki
+                                </a>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <!-- INFO PKL -->
@@ -94,6 +92,41 @@
                     <div class="col-md-6 mb-2">
                         <strong>Pembimbing:</strong>
                         {{ $siswa->tempats->first()->guru->nama ?? '-' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-1">Total Jurnal Terisi</h6>
+                        <h3 class="fw-bold text-brand mb-0">
+                            {{ $activities->count() }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-1">Sudah Diterima</h6>
+                        <h3 class="fw-bold text-success mb-0">
+                            {{ $activities->where('status_verifikasi', 'diterima')->count() }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-1">Belum Diterima</h6>
+                        <h3 class="fw-bold text-warning mb-0">
+                            {{ $unverifiedActivities->count() }}
+                        </h3>
                     </div>
                 </div>
             </div>

@@ -1,1 +1,3 @@
-SELECT id, nama, login_id FROM siswas;
+UPDATE towers
+SET status_sertifikat = 'belum'
+WHERE status_sertifikat IS NULL;
